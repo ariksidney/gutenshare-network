@@ -18,6 +18,7 @@
     <modules>
         <module>gutenshare-web</module>
         <module>gutenshare-core</module>
+        <module>gutenshare-frontend</module>
     </modules>
 
     <dependencyManagement>
