@@ -19,6 +19,7 @@
         <module>gutenshare-web</module>
         <module>gutenshare-core</module>
         <module>gutenshare-frontend</module>
+        <module>gutenshare-docker</module>
     </modules>
 
     <dependencyManagement>
