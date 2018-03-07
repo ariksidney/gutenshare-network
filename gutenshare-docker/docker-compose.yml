@@ -1,0 +1,28 @@
+version: '3.0'
+
+services:
+
+  gutendb:
+    image: postgres:latest
+    container_name: gutendb
+    hostname: gutendb
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=examplePw123
+      - POSTGRES_USER=gutenshare
+      - POsTGRES_DB=gutendb
+      - PGDATA=pgdata
+    volumes:
+      - guten-data:/var/lib/postgresql/data/pgdata
+      #- ./database/my-postgres.conf:/etc/postgresql/postgresql.conf
+
+volumes:
+  guten-data:
+
+# usage: [sudo] docker-compose up [-d]
+# db server will be running on 'localhost:5432'
+# log into container: [sudo] docker exec -it gutendb /bin/bash
+
+# sample config in container at
+# /usr/share/postgresql/postgresql.conf.sample
