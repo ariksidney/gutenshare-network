@@ -1,23 +1,74 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div>
-  <img alt="gutenshare logo" src="../assets/img/gutenshare_logo.svg">
-  <h1>
-    Welcome to the {{ title }}!
-  </h1>
-</div>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+</nav>
 
-<app-user></app-user>
+<main role="main">
 
-<h2>Some Angular links </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="display-3">{{ title }}</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <p class="lead">
+            The premier document sharing platform<br>
+            By Students, for Students
+          </p>
+          <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more »</a></p>
+        </div>
+        <div class="col-md-6">
+        </div>
+      </div>
+    </div>
+  </div>
 
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <app-user></app-user>
+      </div>
+      <div class="col-md-6">
+        <h2>Some dev links </h2>
+        <ul>
+          <li>
+            <h3><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Angular tutorial</a></h3>
+          </li>
+          <li>
+            <h3><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">Angular CLI</a></h3>
+          </li>
+          <li>
+            <h3><a target="_blank" rel="noopener" href="https://hub.docker.com/_/postgres/">Postgres docker</a></h3>
+          </li>
+          <li>
+            <h3><a target="_blank" rel="noopener" href="https://spring.io/docs">Spring docs</a></h3>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr>
+
+  </div>
+
+</main>
+
+<footer class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <img width="450" height="150" alt="gutenshare logo" src="../assets/img/gutenshare_logo.svg">
+      </div>
+      <div class="col-md-6">
+        <h3>Group04 GmbH</h3>
+        <p>gutenshare network</p>
+        <ul class="list-inline">
+          <li class="list-inline-item">Alex</li>
+          <li class="list-inline-item">Alicia</li>
+          <li class="list-inline-item">Arik</li>
+          <li class="list-inline-item">Louis</li>
+          <li class="list-inline-item">Kaspar</li>
+        </ul>
+      </div>
+    </div>
+</footer>

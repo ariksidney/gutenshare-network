@@ -1,9 +1,20 @@
-<h2>This is a sample component checking out Arik's /api/user</h2>
+<h2>This is a sample component calling the backend /api/user</h2>
 
-<ul>
-  <li *ngFor="let user of users">
-    username: {{user.username}}<br>
-    name: {{user.name}}, surname: {{user.surname}}<br>
-    mail: {{user.mail}}
-  </li>
-</ul>
+<table class="table">
+  <thead>
+  <tr>
+    <th scope="col">Username</th>
+    <th scope="col">First Name</th>
+    <th scope="col">Last Name</th>
+    <th scope="col">E-Mail</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let user of users">
+    <td>{{user.username}}</td>
+    <td>{{user.surname}}</td>
+    <td>{{user.name}}</td>
+    <td>{{user.mail}}</td>
+  </tr>
+  </tbody>
+</table>
