@@ -1,0 +1,7 @@
+.document_tag_line {
+  margin-bottom: 0.4em;
+}
+
+.document_tag_line * {
+  margin-right: 0.4em;
+}
