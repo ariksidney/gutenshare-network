@@ -5,6 +5,7 @@ import com.group4.core.Document;
 import com.group4.core.User;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.Entity;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +14,14 @@ import java.util.List;
 @RequestMapping("/api/document")
 public class DocumentController {
 
-    @PostMapping(value = "/{docName}")
-    public @ResponseBody String addNewWorker(@RequestBody String jsonString) {
+    @PostMapping(value = "/create")
+    public @ResponseBody String createDocument(@RequestBody String jsonString) {
+
+        System.out.println(jsonString);
 
         try {
             Document doc = parseToDocument(jsonString);
-            System.out.println("success.......");
         } catch (IOException e) {
-            System.out.println("erroe.........");
             e.printStackTrace();
         }
 
