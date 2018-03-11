@@ -1,8 +1,17 @@
 package com.group4.core;
 
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Document {
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private long id;
     private String name;
     private String type;
     private String description;
@@ -49,5 +58,12 @@ public class Document {
 
     public void setTags(String[] tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "Document [id=%d, name='%s', type='%s']",
+                id, name, type);
     }
 }

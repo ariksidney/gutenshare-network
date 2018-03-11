@@ -1,5 +1,8 @@
 package com.group4.core;
 
+import javax.persistence.Entity;
+
+@Entity
 public class User {
 
     private String name;
