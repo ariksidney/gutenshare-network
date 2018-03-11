@@ -1,6 +1,6 @@
-export interface Document {
+export class Document {
   name: string;
-  type: DocumentType;
+  type: string;
   tags: string[];
   description: string;
   storageUrl: string;

@@ -1,5 +1,7 @@
-import {Component, OnInit, Pipe, PipeTransform} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {DocumentService} from "./document.service";
+import {Document} from './document';
 
 @Component({
   selector: 'app-create-document',
@@ -9,25 +11,36 @@ import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angul
 export class CreateDocumentComponent implements OnInit {
 
   documentTypes: String[];
-
   createDocumentForm: FormGroup;
-  post:any;                     // A property for our submitted form
-  name:string = '';
-  type:string = '';
-  description:string = '';
+  documentType: String;
 
   requiredAlert:string = "This field is required";
   descriptionAlert:string = "5 to 500 characters required";
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private documentService: DocumentService
+  ) {
     this.documentTypes = ['Summary', 'Book', 'Transcript', 'Exercise'];
     this.createForm();
   }
 
-  addPost(post) {
-    this.name = post.name;
-    this.type = post.type;
-    this.description = post.description;
+  ngOnInit() {
+  }
+
+  setDocumentType(n : number) {
+    this.documentType = this.documentTypes[n];
+  }
+
+  doPost(post) {
+    let doc = new Document();
+    doc.name = post.name;
+    doc.type = post.type;
+    doc.tags = post.tags;
+    doc.description = post.description;
+    doc.storageUrl = "test.com";
+
+    this.documentService.addDocument(doc).subscribe(resp => console.log(resp));
   }
 
   createForm() {
@@ -41,14 +54,11 @@ export class CreateDocumentComponent implements OnInit {
   }
 
   addTag() {
-    <FormArray>this.createDocumentForm.get('tags').push(new FormControl());
+    (this.createDocumentForm.get('tags') as FormArray).push(new FormControl());
   }
 
   removeTag(i : number) {
-    <FormArray>this.createDocumentForm.get('tags').removeAt(i);
-  }
-
-  ngOnInit() {
+    (this.createDocumentForm.get('tags') as FormArray).removeAt(i);
   }
 
 }

@@ -8,7 +8,8 @@ import { AppComponent } from './app.component';
 import { UserComponent } from "./user/user.component";
 
 import { UserService } from './user/user.service';
-import {CreateDocumentComponent} from './create-document/create-document.component'
+import {CreateDocumentComponent} from './create-document/create-document.component';
+import { DocumentService } from './create-document/document.service'
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import {CreateDocumentComponent} from './create-document/create-document.compone
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService],
+  providers: [UserService, DocumentService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

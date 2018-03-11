@@ -5,3 +5,7 @@
 .document_tag_line * {
   margin-right: 0.4em;
 }
+
+.hidden {
+  display: none;
+}
