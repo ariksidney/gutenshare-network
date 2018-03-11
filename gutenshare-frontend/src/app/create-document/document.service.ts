@@ -20,7 +20,7 @@ export class DocumentService {
 
   addDocument (document : Document): Observable<Document> {
     //return this.http.post<Document>("http://ptsv2.com/t/ur6ek-1520706514/post", JSON.stringify(document), httpOptions.headers)
-    return this.http.post<Document>("/api/document/test", JSON.stringify(document), httpOptions.headers)
+    return this.http.post<Document>("/api/document/create", JSON.stringify(document), httpOptions)
       .pipe(
         catchError(this.handleError)
       );
