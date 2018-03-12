@@ -4,5 +4,8 @@ export class Document {
   tags: string[];
   description: string;
   storageUrl: string;
+  school: string;
+  department: string;
+  course: string;
 }
 

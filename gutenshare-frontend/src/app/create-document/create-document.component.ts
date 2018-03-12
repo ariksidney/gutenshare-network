@@ -126,6 +126,9 @@ export class CreateDocumentComponent implements OnInit {
     doc.tags = post.tags;
     doc.description = post.description;
     doc.storageUrl = "test.com";
+    doc.school = post.school;
+    doc.department = post.department;
+    doc.course = post.course;
 
     this.documentService.addDocument(doc).subscribe(resp => console.log(resp));
   }
@@ -137,6 +140,9 @@ export class CreateDocumentComponent implements OnInit {
       description : [null, Validators.compose([
         Validators.required, Validators.minLength(5), Validators.maxLength(500)])],
       tags : this.fb.array([new FormControl()]),
+      school : [null, Validators.required],
+      department : [null, Validators.required],
+      course : [null, Validators.required]
     });
   }
 
