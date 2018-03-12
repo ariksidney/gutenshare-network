@@ -53,14 +53,16 @@
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">School</label>
     <div class="col-sm-5">
-      <!--todo ngmodel cannot be combined with formcontrols? but if ngModel is removed, pipe is not working-->
-      <input #textfilterInput ngModel class="form-control" id="" placeholder="ZHAW, UZH, ETHZ">
+      <!--todo: ngmodel cannot be combined with formcontrols? but if ngModel is removed, pipe is not working-->
+      <!--todo: dry: textfilterInput.value=''...-->
+      <!--todo: understand difference between formcontrols and data bindings-->
+      <input #filterTextInput ngModel class="form-control" id="" placeholder="ZHAW, UZH, ETHZ">
 
       <div *ngIf="activeSchool" class="document_course_line">
         <label class="col-sm-3 col-form-label">Institution</label>
         <div class="col-sm-9" class="btn-group" role="group">
           <button type="button" class="btn btn-outline-secondary">{{activeSchool.name}}</button>
-          <button (click)="resetSchool()" type="button" class="btn btn-outline-secondary">x</button>
+          <button (click)="resetSchool(); filterTextInput.value=''" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
 
@@ -68,15 +70,17 @@
         <label class="col-sm-3 col-form-label">Department</label>
         <div class="col-sm-9" class="btn-group" role="group">
           <button type="button" class="btn btn-outline-secondary">{{activeDepartment.name}}</button>
-          <button (click)="resetDepartment()" type="button" class="btn btn-outline-secondary">x</button>
+          <button (click)="resetDepartment(); filterTextInput.value=''" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
 
       <div *ngIf="activeSchool && activeDepartment && !activeCourse" class="document_course_line">
         <label class="document_course_line col-sm-12 col-form-label">Create Course</label>
         <div class="document_course_line">
-          <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id="" placeholder="Haftpflichtrecht">
-          <button (click)="createCourse(newCourse.value)" type="button" class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
+          <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id=""
+                 placeholder="Haftpflichtrecht">
+          <button (click)="createCourse(newCourse.value); filterTextInput.value=''" type="button"
+                  class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
         </div>
       </div>
 
@@ -84,35 +88,35 @@
         <label class="col-sm-3 col-form-label">Course</label>
         <div class="col-sm-9" class="btn-group" role="group">
           <button type="button" class="btn btn-outline-secondary">{{activeCourse}}</button>
-          <button (click)="resetCourse()" type="button" class="btn btn-outline-secondary">x</button>
+          <button (click)="resetCourse(); filterTextInput.value=''" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
     </div>
 
     <div class="col-sm-5">
       <ul *ngIf="!activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let school of schools | textFilter: textfilterInput.value"
+        <li *ngFor="let school of schools | textFilter: 'name' : filterTextInput.value"
             (mouseover)="mOver=school" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==school}"
-            (click)="pickSchool(school)"
+            (click)="pickSchool(school); filterTextInput.value=''"
             class="list-group-item">
           {{school.name}}
         </li>
       </ul>
       <ul *ngIf="activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let department of activeSchool.departments"
+        <li *ngFor="let department of activeSchool.departments | textFilter: 'name' : filterTextInput.value"
             (mouseover)="mOver=department" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==department}"
-            (click)="pickDepartment(department)"
+            (click)="pickDepartment(department); filterTextInput.value=''"
             class="list-group-item">
           {{department.name}}
         </li>
       </ul>
       <ul *ngIf="activeSchool && activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let course of activeDepartment.courses"
+        <li *ngFor="let course of activeDepartment.courses | textFilter: null : filterTextInput.value"
             (mouseover)="mOver=course" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==course}"
-            (click)="pickCourse(course)"
+            (click)="pickCourse(course); filterTextInput.value=''"
             class="list-group-item">
           {{course}}
         </li>
@@ -141,5 +145,5 @@
 </form>
 
 <p>Form value: {{ createDocumentForm.value | json }}</p>
-<p>Pipe output: {{ schools | textFilter: 'z' }}</p>
+<p>Pipe output: {{ schools | textFilter: 'name' : 'zh' }}</p>
 
