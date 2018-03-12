@@ -11,11 +11,14 @@ import { UserService } from './user/user.service';
 import {CreateDocumentComponent} from './create-document/create-document.component';
 import { DocumentService } from './create-document/document.service'
 
+import { TextfilterPipe } from './pipes/textfilter.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
-    CreateDocumentComponent
+    CreateDocumentComponent,
+    TextfilterPipe
   ],
   imports: [
     BrowserModule,
