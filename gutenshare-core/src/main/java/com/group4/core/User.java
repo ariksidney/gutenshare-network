@@ -1,61 +1,101 @@
 package com.group4.core;
 
+import com.google.common.base.Preconditions;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "T_USER")
 public class User {
 
-    private String name;
-    private String surname;
-    private String mail;
+    @Id
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "surname", nullable = false)
+    private String surname;
+
+    @Column(name = "mail", nullable = false)
+    private String mail;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
-    public User(String name, String surname, String mail, String username, String password) {
-        this.name = name;
-        this.surname = surname;
-        this.mail = mail;
-        this.username = username;
-        this.password = password;
+    public User() {
+        // FOR JPA
+    }
+
+    public User(UserBuilder builder) {
+        this.username = Preconditions.checkNotNull(builder.username);
+        this.name = Preconditions.checkNotNull(builder.name);
+        this.surname = Preconditions.checkNotNull(builder.surname);
+        this.mail = Preconditions.checkNotNull(builder.mail);
+        this.password = Preconditions.checkNotNull(builder.password);
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getSurname() {
         return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public String getMail() {
         return mail;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+
+    public static class UserBuilder {
+
+        private String username;
+        private String name;
+        private String surname;
+        private String mail;
+        private String password;
+
+        public UserBuilder setUsername(String username) {
+            this.username = username;
+            return this;
+        }
+
+        public UserBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public UserBuilder setSurname(String surname) {
+            this.surname = surname;
+            return this;
+        }
+
+        public UserBuilder setMail(String mail) {
+            this.mail = mail;
+            return this;
+        }
+
+        public UserBuilder setPassword(String pw) {
+            this.password = pw;
+            return this;
+        }
+
+        public User build() {
+            return new User(this);
+        }
     }
+
 }
