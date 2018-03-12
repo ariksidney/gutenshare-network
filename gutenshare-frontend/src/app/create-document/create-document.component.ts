@@ -13,6 +13,63 @@ export class CreateDocumentComponent implements OnInit {
   documentTypes: String[];
   createDocumentForm: FormGroup;
   documentType: String;
+  schools = [
+    {
+      'name': 'zhaw',
+      'departments': [
+        {
+          'name': 'School of Engineering',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        },
+        {
+          'name': 'School of Economics',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        },
+        {
+          'name': 'School of Law',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        }
+      ]
+    },
+    {
+      'name': 'ethz',
+      'departments': [
+        {
+          'name': 'Physics',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        },
+        {
+          'name': 'Chemistry',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        },
+        {
+          'name': 'Biology',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        }
+      ]
+    },
+    {
+      'name': 'UZH',
+      'departments': [
+        {
+          'name': 'DüSe',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        },
+        {
+          'name': 'Linguistik',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        },
+        {
+          'name': 'Mathematik',
+          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
+        }
+      ]
+    },
+  ];
+
+  activeSchool: any = null;
+  activeDepartment: any = null;
+  activeCourse: any = null;
 
   requiredAlert:string = "This field is required";
   descriptionAlert:string = "5 to 500 characters required";
@@ -26,6 +83,36 @@ export class CreateDocumentComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  pickSchool(school: any) {
+    this.activeSchool = school;
+  }
+
+  pickDepartment(department: any) {
+    this.activeDepartment = department;
+  }
+
+  pickCourse(course: any) {
+    this.activeCourse = course;
+  }
+
+  createCourse(course: string) {
+    this.activeCourse = course;
+  }
+
+  resetSchool() {
+    this.activeSchool = null;
+    this.resetDepartment();
+  }
+
+  resetDepartment() {
+    this.activeDepartment = null;
+    this.resetCourse();
+  }
+
+  resetCourse() {
+    this.activeCourse = null;
   }
 
   setDocumentType(n : number) {
