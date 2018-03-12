@@ -56,8 +56,8 @@
       <!--todo: ngmodel cannot be combined with formcontrols? but if ngModel is removed, pipe is not working-->
       <!--todo: dry: textfilterInput.value=''...-->
       <!--todo: understand difference between formcontrols and data bindings-->
-      <input #filterTextInput ngModel class="form-control" id="" placeholder="ZHAW, UZH, ETHZ">
-
+      <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
+      <input #filterTextInput (keyup)="0" class="form-control" id="" placeholder="ZHAW, UZH, ETHZ">
       <div *ngIf="activeSchool" class="document_course_line">
         <label class="col-sm-3 col-form-label">Institution</label>
         <div class="col-sm-9" class="btn-group" role="group">
