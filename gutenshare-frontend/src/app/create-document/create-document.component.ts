@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit} from '@angular/core';
 import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DocumentService} from "./document.service";
 import {Document} from './document';
@@ -87,32 +87,34 @@ export class CreateDocumentComponent implements OnInit {
 
   pickSchool(school: any) {
     this.activeSchool = school;
+    this.createDocumentForm.value.school = this.activeSchool.name;
   }
 
   pickDepartment(department: any) {
     this.activeDepartment = department;
+    this.createDocumentForm.value.department = this.activeDepartment.name;
   }
 
   pickCourse(course: any) {
     this.activeCourse = course;
-  }
-
-  createCourse(course: string) {
-    this.activeCourse = course;
+    this.createDocumentForm.value.course = this.activeCourse;
   }
 
   resetSchool() {
     this.activeSchool = null;
+    this.createDocumentForm.value.school = null;
     this.resetDepartment();
   }
 
   resetDepartment() {
     this.activeDepartment = null;
+    this.createDocumentForm.value.department = null;
     this.resetCourse();
   }
 
   resetCourse() {
     this.activeCourse = null;
+    this.createDocumentForm.value.course = null;
   }
 
   setDocumentType(n : number) {
@@ -137,12 +139,12 @@ export class CreateDocumentComponent implements OnInit {
     this.createDocumentForm = this.fb.group({
       name : [null, Validators.required],
       type : [null, Validators.required],
+      school : [null],
       description : [null, Validators.compose([
         Validators.required, Validators.minLength(5), Validators.maxLength(500)])],
       tags : this.fb.array([new FormControl()]),
-      school : [null, Validators.required],
-      department : [null, Validators.required],
-      course : [null, Validators.required]
+      department : [null],
+      course : [null]
     });
   }
 

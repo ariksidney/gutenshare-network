@@ -61,7 +61,7 @@
       <div *ngIf="activeSchool" class="document_course_line">
         <label class="col-sm-3 col-form-label">Institution</label>
         <div class="col-sm-9" class="btn-group" role="group">
-          <button type="button" class="btn btn-outline-secondary">{{activeSchool.name}}</button>
+          <input [value]="activeSchool.name" type="button" class="btn btn-outline-secondary">
           <button (click)="resetSchool(); filterTextInput.value=''" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
@@ -79,7 +79,7 @@
         <div class="document_course_line">
           <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id=""
                  placeholder="Haftpflichtrecht">
-          <button (click)="createCourse(newCourse.value); filterTextInput.value=''" type="button"
+          <button (click)="pickCourse(newCourse.value); filterTextInput.value=''" type="button"
                   class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
         </div>
       </div>
