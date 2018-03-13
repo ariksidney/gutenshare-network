@@ -1,0 +1,35 @@
+@import '~sass/variables';
+
+.document_tag_line {
+  margin-bottom: 0.4em;
+}
+
+.document_tag_line * {
+  margin-right: 0.4em;
+}
+
+.document_course_line {
+  margin-top: 0.4em;
+}
+
+.hidden {
+  display: none;
+}
+
+.list-scroll {
+  max-height: 10em;
+  overflow: auto;
+}
+
+.list-scroll .list-group-item {
+  padding: 0.3em;
+  padding-left: 1em;
+}
+
+.block-inline {
+  display: inline-block;
+}
+
+.no-align {
+  vertical-align: unset;
+}
