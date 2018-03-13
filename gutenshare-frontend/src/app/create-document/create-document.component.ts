@@ -1,13 +1,14 @@
-import {Component, Input, OnChanges, OnInit} from '@angular/core';
-import {FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {DocumentService} from "./document.service";
-import {Document} from './document';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DocumentService } from "./document.service";
+import { Document } from './document';
 
 @Component({
   selector: 'app-create-document',
   templateUrl: './create-document.component.html',
   styleUrls: ['./create-document.component.css']
 })
+
 export class CreateDocumentComponent implements OnInit {
 
   documentTypes: String[];

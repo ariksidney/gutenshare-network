@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { ErrorObservable } from "rxjs/observable/ErrorObservable";
 import { catchError } from "rxjs/operators";
-import {Document} from "./document";
+import { Document } from "./document";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -14,7 +14,6 @@ const httpOptions = {
 
 @Injectable()
 export class DocumentService {
-
 
   constructor(private http: HttpClient) { }
 
@@ -43,4 +42,3 @@ export class DocumentService {
   };
 
 }
-
