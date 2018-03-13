@@ -6,7 +6,7 @@ import { Document } from './document';
 @Component({
   selector: 'app-create-document',
   templateUrl: './create-document.component.html',
-  styleUrls: ['./create-document.component.css']
+  styleUrls: ['./create-document.component.scss']
 })
 
 export class CreateDocumentComponent implements OnInit {
