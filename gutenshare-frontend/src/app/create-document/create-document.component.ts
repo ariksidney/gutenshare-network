@@ -11,9 +11,6 @@ import { Document } from './document';
 
 export class CreateDocumentComponent implements OnInit {
 
-  documentTypes: String[];
-  createDocumentForm: FormGroup;
-  documentType: String;
   schools = [
     {
       'name': 'zhaw',
@@ -68,9 +65,13 @@ export class CreateDocumentComponent implements OnInit {
     },
   ];
 
+  documentTypes: string[];
+  createDocumentForm: FormGroup;
+  documentType: string;
   activeSchool: any = null;
   activeDepartment: any = null;
-  activeCourse: any = null;
+  activeCourse: string = null;
+  filterTextInput: string = '';
 
   requiredAlert:string = "This field is required";
   descriptionAlert:string = "5 to 500 characters required";
@@ -79,82 +80,103 @@ export class CreateDocumentComponent implements OnInit {
     private fb: FormBuilder,
     private documentService: DocumentService
   ) {
-    this.documentTypes = ['Summary', 'Book', 'Transcript', 'Exercise'];
-    this.createForm();
+    this.documentTypes = ['Summary', 'Book', 'Transcript', 'Exercise', 'Exam'];
+    this.initializeForm();
   }
 
   ngOnInit() {
   }
 
-  pickSchool(school: any) {
+  pickSchool(school: any): void {
     this.activeSchool = school;
-    this.createDocumentForm.value.school = this.activeSchool.name;
+    this.createDocumentForm.get('school').setValue(school.name);
+    this.filterTextInput = '';
   }
 
-  pickDepartment(department: any) {
+  pickDepartment(department: any): void {
     this.activeDepartment = department;
-    this.createDocumentForm.value.department = this.activeDepartment.name;
+    this.createDocumentForm.get('department').setValue(department.name);
+    this.filterTextInput = '';
   }
 
-  pickCourse(course: any) {
+  pickCourse(course: any): void {
     this.activeCourse = course;
-    this.createDocumentForm.value.course = this.activeCourse;
+    this.createDocumentForm.get('course').setValue(course);
+    this.filterTextInput = '';
   }
 
-  resetSchool() {
+  resetSchool(): void {
     this.activeSchool = null;
-    this.createDocumentForm.value.school = null;
+    this.createDocumentForm.get('school').setValue(null);
     this.resetDepartment();
   }
 
-  resetDepartment() {
+  resetDepartment(): void {
     this.activeDepartment = null;
-    this.createDocumentForm.value.department = null;
+    this.createDocumentForm.get('department').setValue(null);
     this.resetCourse();
   }
 
-  resetCourse() {
+  resetCourse(): void {
     this.activeCourse = null;
-    this.createDocumentForm.value.course = null;
+    this.createDocumentForm.get('course').setValue(null);
+    this.filterTextInput = '';
   }
 
-  setDocumentType(n : number) {
+  setDocumentType(n : number): void {
     this.documentType = this.documentTypes[n];
   }
 
-  doPost(post) {
+  postDocument(post): void {
     let doc = new Document();
     doc.name = post.name;
     doc.type = post.type;
-    doc.tags = post.tags;
+    doc.tags = this.pruneArray(post.tags);
     doc.description = post.description;
     doc.storageUrl = "test.com";
     doc.school = post.school;
     doc.department = post.department;
-    doc.course = post.course;
+    doc.course = post.department;
 
-    this.documentService.addDocument(doc).subscribe(resp => console.log(resp));
+    console.log(post);
+    console.log(doc);
+    // this.documentService.addDocument(doc).subscribe(resp => console.log(resp));
   }
 
-  createForm() {
+  initializeForm():void {
     this.createDocumentForm = this.fb.group({
       name : [null, Validators.required],
       type : [null, Validators.required],
-      school : [null],
-      description : [null, Validators.compose([
-        Validators.required, Validators.minLength(5), Validators.maxLength(500)])],
-      tags : this.fb.array([new FormControl()]),
-      department : [null],
-      course : [null]
+      school: [null],
+      department: [null],
+      course: [null],
+      description : [null, Validators.compose([Validators.maxLength(500)])],
+      tags : this.fb.array([new FormControl()])
     });
   }
 
-  addTag() {
+  addTag(): void {
     (this.createDocumentForm.get('tags') as FormArray).push(new FormControl());
   }
 
-  removeTag(i : number) {
+  removeTag(i : number): void {
     (this.createDocumentForm.get('tags') as FormArray).removeAt(i);
+  }
+
+  pruneArray(array: string[]): string[] {
+
+    let arrayCleaned: string[] = [];
+
+    if (array == null || array == undefined || array.length == 0) {
+      return arrayCleaned;
+    }
+
+    for (let i = 0; i < array.length; i++) {
+      if (array[i] != null && array[i] != undefined && array[i] != '') {
+        arrayCleaned.push(array[i]);
+      }
+    }
+    return arrayCleaned;
   }
 
 }

@@ -1,6 +1,6 @@
 <h2>Create a new Document</h2>
 
-<form [formGroup]="createDocumentForm" (ngSubmit)="doPost(createDocumentForm.value)">
+<form [formGroup]="createDocumentForm" (ngSubmit)="postDocument(createDocumentForm.value)">
   <div class="form-group row">
     <label for="document_name_input" class="col-sm-2 col-form-label">Name</label>
     <div class="col-sm-10">
@@ -14,26 +14,25 @@
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Type</label>
     <div class="col-sm-10">
-      <div class='form-check form-check-inline btn-group btn-group-toggle' data-toggle="buttons"
+      <div class='form-check form-check-inline'
            *ngFor="let docType of documentTypes, let n = index">
         <label class="btn btn-outline-secondary" [ngClass]="{'btn-outline-secondary': docType!=documentType,
         'btn-secondary': docType===documentType}" [for]='"documenttype_radio_"+docType'>
-        <input
-          (click)="setDocumentType(n)"
-          class='form-check-input hidden'
-          name='type'
-          formControlName="type"
-          type='radio'
-          [id]='"documenttype_radio_"+docType'
-          [value]="docType"
-          autocomplete="off"
-        />
+          <input
+            (click)="setDocumentType(n)"
+            class='form-check-input hidden'
+            name='type'
+            formControlName="type"
+            type='radio'
+            [id]='"documenttype_radio_"+docType'
+            [value]="docType"
+            autocomplete="off"
+          />
           {{docType}}
         </label>
       </div>
     </div>
   </div>
-
 
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Tags</label>
@@ -49,20 +48,17 @@
     </div>
   </div>
 
-
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">School</label>
     <div class="col-sm-5">
-      <!--todo: ngmodel cannot be combined with formcontrols? but if ngModel is removed, pipe is not working-->
-      <!--todo: dry: textfilterInput.value=''...-->
-      <!--todo: understand difference between formcontrols and data bindings-->
       <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
-      <input #filterTextInput (keyup)="0" class="form-control" id="" placeholder="ZHAW, UZH, ETHZ">
+      <input [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
+             placeholder="ZHAW, UZH, ETHZ">
       <div *ngIf="activeSchool" class="document_course_line">
         <label class="col-sm-3 col-form-label">Institution</label>
         <div class="col-sm-9" class="btn-group" role="group">
           <input [value]="activeSchool.name" type="button" class="btn btn-outline-secondary">
-          <button (click)="resetSchool(); filterTextInput.value=''" type="button" class="btn btn-outline-secondary">x</button>
+          <button (click)="resetSchool()" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
 
@@ -70,7 +66,7 @@
         <label class="col-sm-3 col-form-label">Department</label>
         <div class="col-sm-9" class="btn-group" role="group">
           <button type="button" class="btn btn-outline-secondary">{{activeDepartment.name}}</button>
-          <button (click)="resetDepartment(); filterTextInput.value=''" type="button" class="btn btn-outline-secondary">x</button>
+          <button (click)="resetDepartment()" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
 
@@ -79,7 +75,7 @@
         <div class="document_course_line">
           <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id=""
                  placeholder="Haftpflichtrecht">
-          <button (click)="pickCourse(newCourse.value); filterTextInput.value=''" type="button"
+          <button (click)="pickCourse(newCourse.value)" type="button"
                   class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
         </div>
       </div>
@@ -88,41 +84,41 @@
         <label class="col-sm-3 col-form-label">Course</label>
         <div class="col-sm-9" class="btn-group" role="group">
           <button type="button" class="btn btn-outline-secondary">{{activeCourse}}</button>
-          <button (click)="resetCourse(); filterTextInput.value=''" type="button" class="btn btn-outline-secondary">x</button>
+          <button (click)="resetCourse()" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
     </div>
 
+    <!--todo: mouseOver css class solution not ver pretty-->
     <div class="col-sm-5">
       <ul *ngIf="!activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let school of schools | textFilter: 'name' : filterTextInput.value"
+        <li *ngFor="let school of schools | textFilter: 'name' : filterTextInput"
             (mouseover)="mOver=school" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==school}"
-            (click)="pickSchool(school); filterTextInput.value=''"
+            (click)="pickSchool(school)"
             class="list-group-item">
           {{school.name}}
         </li>
       </ul>
       <ul *ngIf="activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let department of activeSchool.departments | textFilter: 'name' : filterTextInput.value"
+        <li *ngFor="let department of activeSchool.departments | textFilter: 'name' : filterTextInput"
             (mouseover)="mOver=department" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==department}"
-            (click)="pickDepartment(department); filterTextInput.value=''"
+            (click)="pickDepartment(department)"
             class="list-group-item">
           {{department.name}}
         </li>
       </ul>
       <ul *ngIf="activeSchool && activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let course of activeDepartment.courses | textFilter: null : filterTextInput.value"
+        <li *ngFor="let course of activeDepartment.courses | textFilter: null : filterTextInput"
             (mouseover)="mOver=course" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==course}"
-            (click)="pickCourse(course); filterTextInput.value=''"
+            (click)="pickCourse(course)"
             class="list-group-item">
           {{course}}
         </li>
       </ul>
     </div>
-
   </div>
 
   <div class="form-group row">
@@ -141,7 +137,6 @@
       'btn-outline-error': !createDocumentForm.valid}" [disabled]="!createDocumentForm.valid">Submit</button>
     </div>
   </div>
-
 </form>
 
 <p>Form value: {{ createDocumentForm.value | json }}</p>
