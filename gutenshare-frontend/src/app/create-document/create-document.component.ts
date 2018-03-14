@@ -72,6 +72,7 @@ export class CreateDocumentComponent implements OnInit {
   activeDepartment: any = null;
   activeCourse: string = null;
   filterTextInput: string = '';
+  fileName: string = 'Choose file...';
 
   requiredAlert:string = "This field is required";
   descriptionAlert:string = "5 to 500 characters required";
