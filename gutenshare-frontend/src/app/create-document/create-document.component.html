@@ -1,13 +1,21 @@
-<h2>Create a new Document</h2>
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-3">Upload your documents.</h1>
+    <p class="lead">
+      Contribute by sharing<br>
+      Benefit from contributions
+    </p>
+  </div>
+</div>
 
+<div class="container">
 <form [formGroup]="createDocumentForm" (ngSubmit)="postDocument(createDocumentForm.value)">
 
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">File</label>
     <div class="col-sm-10">
       <div class="custom-file">
-        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fileName" type="file"
-               class="custom-file-input" id="file_upload_input">
+        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fileName" type="file" class="custom-file-input" id="file_upload_input">
         <label class="custom-file-label" for="file_upload_input">{{fileName}}</label>
       </div>
     </div>
@@ -26,17 +34,17 @@
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Type</label>
     <div class="col-sm-10">
-      <div class="form-check form-check-inline"
+      <div class='form-check form-check-inline'
            *ngFor="let docType of documentTypes, let n = index">
         <label class="btn btn-outline-secondary" [ngClass]="{'btn-outline-secondary': docType!=documentType,
-        'btn-secondary': docType===documentType}" [for]="'documenttype_radio_'+docType">
+        'btn-secondary': docType===documentType}" [for]='"documenttype_radio_"+docType'>
           <input
             (click)="setDocumentType(n)"
-            class="form-check-input hidden"
-            name="type"
+            class='form-check-input hidden'
+            name='type'
             formControlName="type"
-            type="radio"
-            [id]="'documenttype_radio_'+docType"
+            type='radio'
+            [id]='"documenttype_radio_"+docType'
             [value]="docType"
             autocomplete="off"
           />
@@ -51,7 +59,7 @@
     <div formArrayName="tags" class="col-sm-10">
       <div class="form-inline document_tag_line" *ngFor="let tag of createDocumentForm.get('tags').controls;
       let i = index; let isLast = last;">
-        <input [formControlName]="i" type="text" class="col-sm-9 form-control" [placeholder]="'Tag ' + (i+1)">
+        <input [formControlName]="i" type="text" class="col-sm-9 form-control" [placeholder]='"Tag " + (i+1)'>
         <button (click)="removeTag(i)" type="button" [disabled]="i==0"
                 class="col-sm-1 btn btn-outline-secondary">-</button>
         <button *ngIf="isLast" (click)="addTag()"
@@ -85,8 +93,7 @@
       <div *ngIf="activeSchool && activeDepartment && !activeCourse" class="document_course_line">
         <label class="document_course_line col-sm-12 col-form-label">Create Course</label>
         <div class="document_course_line">
-          <!--todo: template variable needed?-->
-          <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control"
+          <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id=""
                  placeholder="Haftpflichtrecht">
           <button (click)="pickCourse(newCourse.value)" type="button"
                   class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
@@ -151,5 +158,5 @@
     </div>
   </div>
 </form>
-
 <p>Form value: {{ createDocumentForm.value | json }}</p>
+</div>
