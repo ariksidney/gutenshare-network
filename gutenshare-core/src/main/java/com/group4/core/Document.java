@@ -52,8 +52,8 @@ public class Document {
         return filetype;
     }
 
-    public void storeFile(String title, DocumentStoreRepository documentStoreRepository) {
-        this.pathToFile = documentStoreRepository.storeDocument(title, this, this.inputStream).toString();
+    public void storeFile(String title, DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
+        this.pathToFile = documentStoreRepositoryInterface.storeDocument(this, this.inputStream).toString();
     }
 
     public String createFilename() {

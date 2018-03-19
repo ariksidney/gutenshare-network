@@ -1,7 +1,7 @@
 package com.group4.gutenshareweb.infrastructure.storage;
 
 import com.group4.core.Document;
-import com.group4.core.DocumentStoreRepository;
+import com.group4.core.DocumentStoreRepositoryInterface;
 import org.springframework.core.io.FileSystemResource;
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-public class FilesystemDocumentStorageRepository implements DocumentStoreRepository {
+public class FilesystemDocumentStorageRepository implements DocumentStoreRepositoryInterface {
 
     private Path contentPath;
 
@@ -20,7 +20,7 @@ public class FilesystemDocumentStorageRepository implements DocumentStoreReposit
     }
 
     @Override
-    public Path storeDocument(String title, Document document, InputStream inputStream) {
+    public Path storeDocument(Document document, InputStream inputStream) {
         Path fileToCreate = buildFilePath(this.contentPath, document.createFilename());
         try {
             Files.copy(inputStream, fileToCreate, StandardCopyOption.REPLACE_EXISTING);

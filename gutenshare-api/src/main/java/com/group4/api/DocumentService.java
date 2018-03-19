@@ -1,8 +1,8 @@
 package com.group4.api;
 
 import com.group4.core.Document;
-import com.group4.core.DocumentJpaRepository;
-import com.group4.core.DocumentStoreRepository;
+import com.group4.core.DocumentJpaRepositoryInterface;
+import com.group4.core.DocumentStoreRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -12,17 +12,22 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class DocumentService {
 
-    private final DocumentStoreRepository documentStoreRepository;
-    private final DocumentJpaRepository documentJpaRepository;
+    private final DocumentStoreRepositoryInterface documentStoreRepositoryInterface;
+    private final DocumentJpaRepositoryInterface documentJpaRepositoryInterface;
 
     @Autowired
-    public DocumentService(DocumentStoreRepository documentStoreRepository, DocumentJpaRepository documentJpaRepository) {
-        this.documentStoreRepository = documentStoreRepository;
-        this.documentJpaRepository = documentJpaRepository;
+    public DocumentService(DocumentStoreRepositoryInterface documentStoreRepositoryInterface, DocumentJpaRepositoryInterface documentJpaRepositoryInterface) {
+        this.documentStoreRepositoryInterface = documentStoreRepositoryInterface;
+        this.documentJpaRepositoryInterface = documentJpaRepositoryInterface;
     }
 
-    public void storeNewDocument(String title, Document document) {
-        document.storeFile(title, this.documentStoreRepository);
-        this.documentJpaRepository.save(document);
+    public void storeNewDocument(String title, DocumentDto documentDto) {
+        Document document = new Document.DocumentBuilder()
+                .setTitle(documentDto.getTitle())
+                .setFiletype(documentDto.getFiletype())
+                .setInputStream(documentDto.getDocumentStream())
+                .build();
+        document.storeFile(title, this.documentStoreRepositoryInterface);
+        this.documentJpaRepositoryInterface.save(document);
     }
 }

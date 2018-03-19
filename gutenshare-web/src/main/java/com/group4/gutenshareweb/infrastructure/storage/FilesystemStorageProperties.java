@@ -1,9 +1,9 @@
 package com.group4.gutenshareweb.infrastructure.storage;
 
-import com.sun.istack.internal.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.validation.annotation.Validated;
+import javax.validation.constraints.NotNull;
 
 @ConfigurationProperties(value = "content-repo")
 @Validated

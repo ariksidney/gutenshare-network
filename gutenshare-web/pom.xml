@@ -26,10 +26,6 @@
     <dependencies>
         <dependency>
             <groupId>com.group4</groupId>
-            <artifactId>gutenshare-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.group4</groupId>
             <artifactId>gutenshare-api</artifactId>
         </dependency>
 
@@ -73,6 +69,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
     </dependencies>
 
