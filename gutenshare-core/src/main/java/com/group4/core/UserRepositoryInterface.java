@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(propagation = Propagation.MANDATORY)
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepositoryInterface extends JpaRepository<User, Integer> {
 
     @Query("select u from User u where u.username = :username")
     User findByUsername(@Param("username") String username);

@@ -1,7 +1,7 @@
 package com.group4.api;
 
 import com.group4.core.User;
-import com.group4.core.UserRepository;
+import com.group4.core.UserRepositoryInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -13,19 +13,19 @@ import java.util.List;
 @Transactional(propagation = Propagation.REQUIRES_NEW)
 public class UserService {
 
-    private final UserRepository userRepository;
+    private final UserRepositoryInterface userRepositoryInterface;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserService(UserRepositoryInterface userRepositoryInterface) {
+        this.userRepositoryInterface = userRepositoryInterface;
     }
 
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        return userRepositoryInterface.findAll();
     }
 
     public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepositoryInterface.findByUsername(username);
     }
 
 }
