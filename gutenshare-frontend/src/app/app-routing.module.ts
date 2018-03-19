@@ -3,9 +3,10 @@ import { RouterModule, Routes }  from '@angular/router';
 
 import { HomeComponent } from "./home/home.component";
 import { CreateDocumentComponent } from "./create-document/create-document.component";
-import { UserComponent } from "./user/user.component";
 import { LoginComponent } from "./login/login.component";
 import { SignupComponent } from "./signup/signup.component";
+import { ProfileComponent } from "./profile/profile.component";
+import { SettingsComponent } from "./settings/settings.component";
 
 
 const appRoutes: Routes = [
@@ -29,7 +30,8 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'upload', component: CreateDocumentComponent },
-  { path: 'profile', component: UserComponent },
+  { path: 'profile', component: ProfileComponent },
+  { path: 'settings', component: SettingsComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: HomeComponent }
 ];

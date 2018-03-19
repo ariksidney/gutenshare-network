@@ -1,0 +1,89 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-3">Settings.</h1>
+    <p class="lead">
+      bla<br>
+      bla
+    </p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <form>
+        <div class="form-group row">
+          <label for="file_upload_input">
+            <img class="avatar" src="https://www.fillmurray.com/300/400">
+          </label>
+          <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fileName" type="file" class="hidden"
+                 id="file_upload_input">
+          <p>Click image to change it.<br>
+          {{ fileName }}</p>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-8">
+      <form>
+        <div class="form-group row">
+          <h3>User Details</h3>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-3 col-form-label">Username</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="BigA">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-3 col-form-label">First Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Aristotle">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-3 col-form-label">Last Name</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="" placeholder="Of Stagira">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-3 col-form-label">Email</label>
+          <div class="col-sm-9">
+            <input type="email" class="form-control" id="" placeholder="aristotle@gutenshare.network">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9 offset-sm-3">
+            <button type="submit" class="btn btn-outline-secondary">Save</button>
+          </div>
+        </div>
+        <div class="form-group row">
+          <h3>Change Password</h3>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-3 col-form-label">Current Password</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="" placeholder="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-3 col-form-label">New Password</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="" placeholder="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="" class="col-sm-3 col-form-label">Repeat Password</label>
+          <div class="col-sm-9">
+            <input type="password" class="form-control" id="" placeholder="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-9 offset-sm-3">
+            <button type="submit" class="btn btn-outline-secondary">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

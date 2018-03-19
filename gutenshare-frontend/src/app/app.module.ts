@@ -9,6 +9,8 @@ import { CreateDocumentComponent } from './create-document/create-document.compo
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { ProfileComponent } from './profile/profile.component';
+import { SettingsComponent } from './settings/settings.component';
 
 import { DocumentService } from './create-document/document.service'
 import { UserService } from './user/user.service';
@@ -26,7 +28,9 @@ import { AppRoutingModule } from "./app-routing.module";
     TextfilterPipe,
     HomeComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ProfileComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
