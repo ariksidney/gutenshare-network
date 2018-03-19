@@ -18,8 +18,8 @@
           </label>
           <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fileName" type="file" class="hidden"
                  id="file_upload_input">
-          <p>Click image to change it.<br>
-          {{ fileName }}</p>
+          <p>Click image to change it.</p>
+          <p *ngIf="fileName">New Image:<br>{{ fileName }}</p>
         </div>
       </form>
     </div>
