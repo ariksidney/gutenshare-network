@@ -18,6 +18,7 @@ import { UserService } from './user/user.service';
 import { TextfilterPipe } from './pipes/textfilter.pipe';
 
 import { AppRoutingModule } from "./app-routing.module";
+import { DocumentBrowserComponent } from './document-browser/document-browser.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { AppRoutingModule } from "./app-routing.module";
     LoginComponent,
     SignupComponent,
     ProfileComponent,
-    SettingsComponent
+    SettingsComponent,
+    DocumentBrowserComponent
   ],
   imports: [
     BrowserModule,
