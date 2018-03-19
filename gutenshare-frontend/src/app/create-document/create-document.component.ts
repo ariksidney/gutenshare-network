@@ -128,6 +128,14 @@ export class CreateDocumentComponent implements OnInit {
     this.documentType = this.documentTypes[n];
   }
 
+  setFile(event): void {
+    console.log(event);
+    if(event.target.files.length == 1) {
+      let file = event.target.files[0];
+      this.createDocumentForm.get('file').setValue(file);
+    }
+  }
+
   postDocument(post): void {
     let doc = new Document();
     doc.name = post.name;
@@ -138,10 +146,15 @@ export class CreateDocumentComponent implements OnInit {
     doc.school = post.school;
     doc.department = post.department;
     doc.course = post.department;
+    doc.file = post.file;
 
-    console.log(post);
-    console.log(doc);
-    // this.documentService.addDocument(doc).subscribe(resp => console.log(resp));
+    let payload = new FormData();
+    payload.append('Title', post.name);
+    payload.append('File', post.file);
+
+    this.documentService.addDocument(payload).subscribe(
+      resp => console.log(resp),
+    );
   }
 
   initializeForm():void {
@@ -152,7 +165,8 @@ export class CreateDocumentComponent implements OnInit {
       department: [null],
       course: [null],
       description : [null, Validators.compose([Validators.maxLength(500)])],
-      tags : this.fb.array([new FormControl()])
+      tags : this.fb.array([new FormControl()]),
+      file : [null, Validators.required]
     });
   }
 

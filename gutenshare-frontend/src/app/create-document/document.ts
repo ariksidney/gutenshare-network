@@ -8,5 +8,6 @@ export class Document {
   school: string;
   department: string;
   course: string;
+  file: File;
 
 }
