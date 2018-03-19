@@ -149,8 +149,8 @@ export class CreateDocumentComponent implements OnInit {
     doc.file = post.file;
 
     let payload = new FormData();
-    payload.append('Title', post.name);
-    payload.append('File', post.file);
+    payload.append('title', post.name);
+    payload.append('document', post.file);
 
     this.documentService.addDocument(payload).subscribe(
       resp => console.log(resp),

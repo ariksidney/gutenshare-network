@@ -20,7 +20,7 @@ export class DocumentService {
   addDocument (document : FormData) {
     // let body = new URLSearchParams();
     // body.set('title', document.name);
-    return this.http.post<FormData>("toilet/post", document)
+    return this.http.post<FormData>("/api/document", document)
       .pipe(
         catchError(this.handleError)
       );
