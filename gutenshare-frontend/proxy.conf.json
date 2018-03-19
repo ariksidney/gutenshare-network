@@ -4,5 +4,12 @@
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": false
+  },
+  "/toilet/*": {
+    "target": "http://ptsv2.com/t/nax0l-1521393896",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true,
+    "pathRewrite": {"^/toilet" : ""}
   }
 }

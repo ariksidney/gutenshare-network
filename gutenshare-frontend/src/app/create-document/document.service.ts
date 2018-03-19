@@ -7,8 +7,7 @@ import { Document } from "./document";
 
 const httpOptions = {
   headers: new HttpHeaders({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    'Content-Type': 'application/x-www-form-urlencoded'
   })
 };
 
@@ -17,9 +16,11 @@ export class DocumentService {
 
   constructor(private http: HttpClient) { }
 
-  addDocument (document : Document): Observable<Document> {
-    //return this.http.post<Document>("http://ptsv2.com/t/ur6ek-1520706514/post", JSON.stringify(document), httpOptions.headers)
-    return this.http.post<Document>("/api/document/create", JSON.stringify(document), httpOptions)
+  // addDocument (document : Document): Observable<Document> {
+  addDocument (document : FormData) {
+    // let body = new URLSearchParams();
+    // body.set('title', document.name);
+    return this.http.post<FormData>("toilet/post", document)
       .pipe(
         catchError(this.handleError)
       );
@@ -33,12 +34,14 @@ export class DocumentService {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
       console.error(
-        `Backend returned code ${error.status}, ` +
-        `body was: ${error.error}`);
+        `Backend returned code ${error.status}
+        Error Message:
+        ${error.message}`);
+      console.log(error);
     }
     // return an ErrorObservable with a user-facing error message
     return new ErrorObservable(
-      'Something bad happened; please try again later.');
+      'Something bad happened. handleError was called.');
   };
 
 }
