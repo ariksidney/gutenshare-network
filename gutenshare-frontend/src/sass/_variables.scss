@@ -1,13 +1,10 @@
 /* Define project wide variables here and then import them wherever needed. */
 
-/* example of variable usage for the less savy sassers
-$test-color: #222222;
-
-h1 {
-  color: $test-color;
-}
-*/
-
 $font-grey-default: rgba(0, 0, 0, 0.5) ;
 $font-grey-hover: rgba(0, 0, 0, 0.7) ;
 $font-grey-active: rgba(0, 0, 0, 0.9) ;
+
+$background-grey-dark: #6c757d;
+$background-grey: #bbbbbb;
+$background-grey-light: #e9ecef;
+$background-grey-lighter: #f8f9fa;

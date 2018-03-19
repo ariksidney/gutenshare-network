@@ -1,3 +1,5 @@
+@import '../sass/variables';
+
 .nav-item:hover {
   text-decoration: underline;
 }
@@ -29,4 +31,36 @@ footer {
 
 .serif {
   font-family: serif;
+}
+
+// todo: style dropdown as list
+// makes dropdown menu active on hover rather than click
+@media (min-width: 979px) {
+  ul.navbar-nav li.dropdown:hover > div.dropdown-menu {
+    display: block;
+  }
+}
+
+.dropdown-menu {
+  top: 2.2em;
+  border: none;
+  box-shadow: 3px 3px 15px $background-grey;
+}
+
+a.dropdown-item {
+  color: $font-grey-default;
+}
+
+a.dropdown-item.active {
+  background-color: inherit;
+  color: $font-grey-default;
+}
+
+a.dropdown-item:hover {
+  background-color: $background-grey-lighter;
+  color: $font-grey-hover;
+}
+
+a.dropdown-item.active {
+  color: $font-grey-active;
 }
