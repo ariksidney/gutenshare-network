@@ -15,11 +15,9 @@
         <div class="form-group">
           <label for="">Institution</label>
           <select multiple class="form-control" id="">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option *ngFor="let school of schools">
+              {{ school.name }}
+            </option>
           </select>
         </div>
       </form>
@@ -29,11 +27,9 @@
         <div class="form-group">
           <label for="">Department</label>
           <select multiple class="form-control" id="">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option *ngFor="let department of schools | extractDepartments">
+              {{ department }}
+            </option>
           </select>
         </div>
       </form>
@@ -43,11 +39,9 @@
         <div class="form-group">
           <label for="">Course</label>
           <select multiple class="form-control" id="">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
+            <option *ngFor="let course of schools | extractCourses">
+              {{ course }}
+            </option>
           </select>
         </div>
       </form>

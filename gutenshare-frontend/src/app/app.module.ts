@@ -16,6 +16,8 @@ import { DocumentService } from './create-document/document.service'
 import { UserService } from './user/user.service';
 
 import { TextfilterPipe } from './pipes/textfilter.pipe';
+import { ExtractDepartmentPipe } from "./pipes/extract-departments.pipe";
+import { ExtractCoursesPipe } from "./pipes/extract-courses.pipe";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { DocumentBrowserComponent } from './document-browser/document-browser.component';
@@ -27,6 +29,8 @@ import { DocumentBrowserComponent } from './document-browser/document-browser.co
     UserComponent,
     CreateDocumentComponent,
     TextfilterPipe,
+    ExtractDepartmentPipe,
+    ExtractCoursesPipe,
     HomeComponent,
     LoginComponent,
     SignupComponent,
