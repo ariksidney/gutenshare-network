@@ -1,7 +1,8 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DocumentService } from "./document.service";
-import { Document } from './document';
+import { SCHOOLS, DOCUMENT_TYPES } from '../mock-data/mock-data';
+
 
 @Component({
   selector: 'app-create-document',
@@ -11,61 +12,9 @@ import { Document } from './document';
 
 export class CreateDocumentComponent implements OnInit {
 
-  schools = [
-    {
-      'name': 'zhaw',
-      'departments': [
-        {
-          'name': 'School of Engineering',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        },
-        {
-          'name': 'School of Economics',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        },
-        {
-          'name': 'School of Law',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        }
-      ]
-    },
-    {
-      'name': 'ethz',
-      'departments': [
-        {
-          'name': 'Physics',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        },
-        {
-          'name': 'Chemistry',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        },
-        {
-          'name': 'Biology',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        }
-      ]
-    },
-    {
-      'name': 'UZH',
-      'departments': [
-        {
-          'name': 'DüSe',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        },
-        {
-          'name': 'Linguistik',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        },
-        {
-          'name': 'Mathematik',
-          'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
-        }
-      ]
-    },
-  ];
 
-  documentTypes: string[];
+  schools: any[] = SCHOOLS;
+  documentTypes: string[] = DOCUMENT_TYPES;
   createDocumentForm: FormGroup;
   documentType: string;
   activeSchool: any = null;
@@ -81,7 +30,6 @@ export class CreateDocumentComponent implements OnInit {
     private fb: FormBuilder,
     private documentService: DocumentService
   ) {
-    this.documentTypes = ['Summary', 'Book', 'Transcript', 'Exercise', 'Exam'];
     this.initializeForm();
   }
 
@@ -129,7 +77,6 @@ export class CreateDocumentComponent implements OnInit {
   }
 
   setFile(event): void {
-    console.log(event);
     if(event.target.files.length == 1) {
       let file = event.target.files[0];
       this.createDocumentForm.get('file').setValue(file);
@@ -137,17 +84,6 @@ export class CreateDocumentComponent implements OnInit {
   }
 
   postDocument(post): void {
-    let doc = new Document();
-    doc.name = post.name;
-    doc.type = post.type;
-    doc.tags = this.pruneArray(post.tags);
-    doc.description = post.description;
-    doc.storageUrl = "test.com";
-    doc.school = post.school;
-    doc.department = post.department;
-    doc.course = post.department;
-    doc.file = post.file;
-
     let payload = new FormData();
     payload.append('title', post.name);
     payload.append('document', post.file);
@@ -160,7 +96,7 @@ export class CreateDocumentComponent implements OnInit {
   initializeForm():void {
     this.createDocumentForm = this.fb.group({
       name : [null, Validators.required],
-      type : [null, Validators.required],
+      type : [null],
       school: [null],
       department: [null],
       course: [null],

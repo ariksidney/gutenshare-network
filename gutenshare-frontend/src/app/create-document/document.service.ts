@@ -16,11 +16,8 @@ export class DocumentService {
 
   constructor(private http: HttpClient) { }
 
-  // addDocument (document : Document): Observable<Document> {
-  addDocument (document : FormData) {
-    // let body = new URLSearchParams();
-    // body.set('title', document.name);
-    return this.http.post<FormData>("/api/document", document)
+  addDocument (payload : FormData) {
+    return this.http.post<FormData>("/api/document", payload)
       .pipe(
         catchError(this.handleError)
       );
