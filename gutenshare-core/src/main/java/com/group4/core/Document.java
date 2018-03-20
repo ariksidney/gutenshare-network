@@ -2,13 +2,12 @@ package com.group4.core;
 
 import com.google.common.base.Preconditions;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "T_DOCUMENT")
@@ -27,7 +26,19 @@ public class Document {
     @Column(name = "filetype", nullable = false)
     private String filetype;
 
+    @Column(name = "upload_date", nullable = false)
+    private LocalDateTime uploadDate;
+
     private transient InputStream inputStream;
+
+    @ManyToMany(cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    })
+    @JoinTable(name = "T_TAG_DOCUMENTS",
+            joinColumns = @JoinColumn(name = "document_id", referencedColumnName = "document_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"))
+    private List<Tag> tags;
 
     protected Document() {
         // For JPA
@@ -37,6 +48,8 @@ public class Document {
         this.id = IdGenerator.timeBasedUUID().toString();
         this.title = Preconditions.checkNotNull(documentBuilder.title);
         this.filetype = Preconditions.checkNotNull(documentBuilder.filetype);
+        this.uploadDate = LocalDateTime.now();
+        this.tags = documentBuilder.tags;
         this.inputStream = documentBuilder.inputStream;
     }
 
@@ -52,7 +65,7 @@ public class Document {
         return filetype;
     }
 
-    public void storeFile(String title, DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
+    public void storeFile(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
         this.pathToFile = documentStoreRepositoryInterface.storeDocument(this, this.inputStream).toString();
     }
 
@@ -63,6 +76,7 @@ public class Document {
     public static class DocumentBuilder {
         private String title;
         private String filetype;
+        private List<Tag> tags;
         private InputStream inputStream;
 
         public DocumentBuilder setTitle(String title) {
@@ -72,6 +86,11 @@ public class Document {
 
         public DocumentBuilder setFiletype(String filetype) {
             this.filetype = filetype;
+            return this;
+        }
+
+        public DocumentBuilder setTags(List<Tag> tags) {
+            this.tags = tags;
             return this;
         }
 
