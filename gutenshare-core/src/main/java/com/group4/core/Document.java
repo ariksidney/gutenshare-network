@@ -35,7 +35,7 @@ public class Document {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "T_TAG_DOCUMENTS",
+    @JoinTable(name = "T_TAG_DOCUMENT",
             joinColumns = @JoinColumn(name = "document_id", referencedColumnName = "document_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"))
     private List<Tag> tags;
