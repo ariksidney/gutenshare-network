@@ -10,6 +10,8 @@ CREATE TABLE T_USER (
 CREATE TABLE T_DOCUMENT (
   document_id       VARCHAR(64) NOT NULL,
   title             VARCHAR(64) NOT NULL,
+  documenttype      VARCHAR(64) NOT NULL,
+  description       VARCHAR(500) NOT NULL,
   path_to_file      VARCHAR(200) NOT NULL,
   filetype          VARCHAR(20) NOT NULL,
   upload_date       TIMESTAMP NOT NULL,

@@ -23,8 +23,11 @@ public class Document {
     @Column(name = "path_to_file", nullable = false)
     private String pathToFile;
 
+    @Column(name = "documenttype", nullable = false)
+    private String documentType;
+
     @Column(name = "filetype", nullable = false)
-    private String filetype;
+    private String fileType;
 
     @Column(name = "upload_date", nullable = false)
     private LocalDateTime uploadDate;
@@ -40,6 +43,8 @@ public class Document {
             inverseJoinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"))
     private List<Tag> tags;
 
+    private String description;
+
     protected Document() {
         // For JPA
     }
@@ -47,9 +52,11 @@ public class Document {
     Document(DocumentBuilder documentBuilder) {
         this.id = IdGenerator.timeBasedUUID().toString();
         this.title = Preconditions.checkNotNull(documentBuilder.title);
-        this.filetype = Preconditions.checkNotNull(documentBuilder.filetype);
+        this.documentType = Preconditions.checkNotNull(documentBuilder.documentType);
+        this.fileType = Preconditions.checkNotNull(documentBuilder.fileType);
         this.uploadDate = LocalDateTime.now();
         this.tags = documentBuilder.tags;
+        this.description = documentBuilder.description;
         this.inputStream = documentBuilder.inputStream;
     }
 
@@ -61,22 +68,33 @@ public class Document {
         return Paths.get(pathToFile);
     }
 
-    public String getFiletype() {
-        return filetype;
+    public String getFileType() {
+        return fileType;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void storeFile(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
-        this.pathToFile = documentStoreRepositoryInterface.storeDocument(this, this.inputStream).toString();
+        this.pathToFile = documentStoreRepositoryInterface.storeDocument(
+                this, this.inputStream).toString();
     }
 
     public String createFilename() {
-        return String.format(String.format("%s.%s", this.id.substring(0, 8), this.filetype));
+        return String.format(String.format("%s.%s", this.id.substring(0, 8), this.fileType));
     }
 
     public static class DocumentBuilder {
         private String title;
-        private String filetype;
+        private String documentType;
+        private String fileType;
         private List<Tag> tags;
+        private String description;
         private InputStream inputStream;
 
         public DocumentBuilder setTitle(String title) {
@@ -84,13 +102,23 @@ public class Document {
             return this;
         }
 
-        public DocumentBuilder setFiletype(String filetype) {
-            this.filetype = filetype;
+        public DocumentBuilder setDocumentType(String documentType) {
+            this.documentType = documentType;
+            return this;
+        }
+
+        public DocumentBuilder setFileType(String fileType) {
+            this.fileType = fileType;
             return this;
         }
 
         public DocumentBuilder setTags(List<Tag> tags) {
             this.tags = tags;
+            return this;
+        }
+
+        public DocumentBuilder setDescription(String description) {
+            this.description = description;
             return this;
         }
 

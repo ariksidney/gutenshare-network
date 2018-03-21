@@ -90,6 +90,8 @@ export class CreateDocumentComponent implements OnInit {
     this.pruneArray(post.tags).forEach(tag => {
       payload.append('tags', tag);
     });
+    payload.append('documenttype', post.type.toLowerCase());
+    payload.append('description', post.description);
 
     this.documentService.addDocument(payload).subscribe(
       resp => console.log(resp),
@@ -99,7 +101,7 @@ export class CreateDocumentComponent implements OnInit {
   initializeForm():void {
     this.createDocumentForm = this.fb.group({
       name : [null, Validators.required],
-      type : [null],
+      type : [null, Validators.required],
       school: [null],
       department: [null],
       course: [null],

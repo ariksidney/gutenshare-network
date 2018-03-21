@@ -25,10 +25,16 @@ public class DocumentController {
     }
 
     @PostMapping
-    public HttpStatus storeDocument(@RequestParam("title") String title, @RequestParam("tags") Optional<List<String>>
-            tags, @RequestParam("document") MultipartFile document) throws IOException {
-        String type = FilenameUtils.getExtension(document.getOriginalFilename());
-        DocumentDto documentDto = new DocumentDto(title, type, tags, document.getInputStream());
+    public HttpStatus storeDocument(
+            @RequestParam("title") String title,
+            @RequestParam("documenttype") String documentType,
+            @RequestParam("tags") Optional<List<String>> tags,
+            @RequestParam("description") String description,
+            @RequestParam("document") MultipartFile document
+    ) throws IOException {
+
+        String fileType = FilenameUtils.getExtension(document.getOriginalFilename());
+        DocumentDto documentDto = new DocumentDto(title, documentType, fileType, tags, description, document.getInputStream());
         documentService.storeNewDocument(documentDto);
         return HttpStatus.CREATED;
     }

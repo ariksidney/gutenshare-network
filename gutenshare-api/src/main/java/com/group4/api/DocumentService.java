@@ -33,9 +33,11 @@ public class DocumentService {
         }
         Document document = new Document.DocumentBuilder()
                 .setTitle(documentDto.getTitle())
-                .setFiletype(documentDto.getFiletype())
+                .setDocumentType(documentDto.getDocumentType())
+                .setFileType(documentDto.getFileType())
                 .setInputStream(documentDto.getDocumentStream())
                 .setTags(tags)
+                .setDescription(documentDto.getDescription())
                 .build();
         document.storeFile(this.documentStoreRepositoryInterface);
         this.documentJpaRepositoryInterface.save(document);
