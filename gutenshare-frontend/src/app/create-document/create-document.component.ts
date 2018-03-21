@@ -87,6 +87,7 @@ export class CreateDocumentComponent implements OnInit {
     let payload = new FormData();
     payload.append('title', post.name);
     payload.append('document', post.file);
+    payload.append('tags', JSON.stringify(this.pruneArray(post.tags)));
 
     this.documentService.addDocument(payload).subscribe(
       resp => console.log(resp),
@@ -122,12 +123,17 @@ export class CreateDocumentComponent implements OnInit {
       return arrayCleaned;
     }
 
-    for (let i = 0; i < array.length; i++) {
-      if (array[i] != null && array[i] != undefined && array[i] != '') {
-        arrayCleaned.push(array[i]);
+    array.forEach(tag => {
+      if (tag != undefined && tag != null && tag.trim() != '') {
+        arrayCleaned.push(tag.trim().toUpperCase());
       }
-    }
-    return arrayCleaned;
+    });
+
+    return arrayCleaned.filter((tag, index, arrayCleaned) => {
+      if (arrayCleaned.indexOf(tag) == index) {
+        return tag;
+      }
+    });
   }
 
 }
