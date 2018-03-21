@@ -87,7 +87,9 @@ export class CreateDocumentComponent implements OnInit {
     let payload = new FormData();
     payload.append('title', post.name);
     payload.append('document', post.file);
-    payload.append('tags', JSON.stringify(this.pruneArray(post.tags)));
+    this.pruneArray(post.tags).forEach(tag => {
+      payload.append('tags', tag);
+    });
 
     this.documentService.addDocument(payload).subscribe(
       resp => console.log(resp),
