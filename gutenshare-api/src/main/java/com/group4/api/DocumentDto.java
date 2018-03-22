@@ -8,6 +8,9 @@ public class DocumentDto {
 
     private String title;
     private String documentType;
+    private String school;
+    private String department;
+    private String course;
     private String fileType;
     private Optional<List<String>> tags;
     private String description;
@@ -16,14 +19,19 @@ public class DocumentDto {
     public DocumentDto(
             String title,
             String documentType,
+            String school,
+            String department,
+            String course,
             String fileType,
             Optional<List<String>> tags,
             String description,
             InputStream documentStream
     ) {
-
         this.title = title;
         this.documentType = documentType;
+        this.school = school;
+        this.department = department;
+        this.course = course;
         this.fileType = fileType;
         this.tags = tags;
         this.description = description;
@@ -36,6 +44,18 @@ public class DocumentDto {
 
     public String getDocumentType() {
         return documentType;
+    }
+
+    public String getSchool() {
+        return school;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getCourse() {
+        return course;
     }
 
     public String getFileType() {

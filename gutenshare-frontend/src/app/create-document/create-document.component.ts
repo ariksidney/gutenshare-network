@@ -50,6 +50,7 @@ export class CreateDocumentComponent implements OnInit {
 
   pickCourse(course: any): void {
     this.activeCourse = course;
+    // todo: what if course too long?
     this.createDocumentForm.get('course').setValue(course);
     this.filterTextInput = '';
   }
@@ -85,13 +86,30 @@ export class CreateDocumentComponent implements OnInit {
 
   postDocument(post): void {
     let payload = new FormData();
+
     payload.append('title', post.name);
-    payload.append('document', post.file);
-    this.pruneArray(post.tags).forEach(tag => {
-      payload.append('tags', tag);
-    });
     payload.append('documenttype', post.type.toLowerCase());
-    payload.append('description', post.description);
+    payload.append('document', post.file);
+
+    let prunedTags: string[] = this.pruneArray(post.tags);
+    if (prunedTags.length > 0) {
+      prunedTags.forEach(tag => {
+        payload.append('tags', tag);
+      });
+    }
+
+    if (post.description) {
+      payload.append('description', post.description);
+    }
+    if (post.school) {
+      payload.append('school', post.school);
+    }
+    if (post.department) {
+      payload.append('department', post.department);
+    }
+    if (post.course) {
+      payload.append('course', post.course);
+    }
 
     this.documentService.addDocument(payload).subscribe(
       resp => console.log(resp),
@@ -102,12 +120,13 @@ export class CreateDocumentComponent implements OnInit {
     this.createDocumentForm = this.fb.group({
       name : [null, Validators.required],
       type : [null, Validators.required],
+      file : [null, Validators.required],
       school: [null],
       department: [null],
+      // todo: max course length if you set it yourself?
       course: [null],
-      description : [null, Validators.compose([Validators.maxLength(500)])],
-      tags : this.fb.array([new FormControl()]),
-      file : [null, Validators.required]
+      description : [null, Validators.maxLength(500)],
+      tags : this.fb.array([new FormControl()])
     });
   }
 

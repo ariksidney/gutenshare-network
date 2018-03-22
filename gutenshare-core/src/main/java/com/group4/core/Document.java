@@ -26,6 +26,15 @@ public class Document {
     @Column(name = "documenttype", nullable = false)
     private String documentType;
 
+    @Column(name = "school", nullable = true)
+    private String school;
+
+    @Column(name = "department", nullable = true)
+    private String department;
+
+    @Column(name = "course", nullable = true)
+    private String course;
+
     @Column(name = "filetype", nullable = false)
     private String fileType;
 
@@ -43,6 +52,7 @@ public class Document {
             inverseJoinColumns = @JoinColumn(name = "tag_name", referencedColumnName = "name"))
     private List<Tag> tags;
 
+    @Column(name = "description", nullable = true)
     private String description;
 
     protected Document() {
@@ -53,6 +63,9 @@ public class Document {
         this.id = IdGenerator.timeBasedUUID().toString();
         this.title = Preconditions.checkNotNull(documentBuilder.title);
         this.documentType = Preconditions.checkNotNull(documentBuilder.documentType);
+        this.school = documentBuilder.school;
+        this.department = documentBuilder.department;
+        this.course = documentBuilder.course;
         this.fileType = Preconditions.checkNotNull(documentBuilder.fileType);
         this.uploadDate = LocalDateTime.now();
         this.tags = documentBuilder.tags;
@@ -76,6 +89,18 @@ public class Document {
         return documentType;
     }
 
+    public String getSchool() {
+        return school;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public String getCourse() {
+        return course;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -92,6 +117,9 @@ public class Document {
     public static class DocumentBuilder {
         private String title;
         private String documentType;
+        private String school;
+        private String department;
+        private String course;
         private String fileType;
         private List<Tag> tags;
         private String description;
@@ -104,6 +132,21 @@ public class Document {
 
         public DocumentBuilder setDocumentType(String documentType) {
             this.documentType = documentType;
+            return this;
+        }
+
+        public DocumentBuilder setSchool(String school) {
+            this.school = school;
+            return this;
+        }
+
+        public DocumentBuilder setDepartment(String department) {
+            this.department = department;
+            return this;
+        }
+
+        public DocumentBuilder setCourse(String course) {
+            this.course = course;
             return this;
         }
 
