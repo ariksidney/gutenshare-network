@@ -28,11 +28,11 @@ public class DocumentController {
     public HttpStatus storeDocument(
             @RequestParam("title") String title,
             @RequestParam("documenttype") String documentType,
-            @RequestParam("school") String school,
-            @RequestParam("department") String department,
-            @RequestParam("course") String course,
+            @RequestParam("school") Optional<String> school,
+            @RequestParam("department") Optional<String> department,
+            @RequestParam("course") Optional<String> course,
             @RequestParam("tags") Optional<List<String>> tags,
-            @RequestParam("description") String description,
+            @RequestParam("description") Optional<String> description,
             @RequestParam("document") MultipartFile document
     ) throws IOException {
 
