@@ -49,33 +49,29 @@ public class DocumentService {
         return tags;
     }
 
-    private String getSchool(DocumentDto documentDto) {
-        String school = null;
+    private School getSchool(DocumentDto documentDto) {
+        School school = null;
         if (documentDto.getSchool().isPresent()) {
-            // ToDo: remove .getName() and return school object instead
-            school = new School.SchoolBuilder().setName(documentDto.getSchool().get()).build().getName();
+            school = new School.SchoolBuilder().setName(documentDto.getSchool().get()).build();
         }
 
         return school;
     }
 
-    private String getDepartment(DocumentDto documentDto) {
-        String department = null;
+    private Department getDepartment(DocumentDto documentDto) {
+        Department department = null;
         if (documentDto.getDepartment().isPresent()) {
-            // ToDo: remove .getName() and return department object instead
-            department = new Department.DepartmentBuilder().setName(documentDto.getDepartment().get()).build().getName();
+            department = new Department.DepartmentBuilder().setName(documentDto.getDepartment().get()).build();
         }
 
         return department;
     }
 
-    private String getCourse(DocumentDto documentDto) {
-        String course = null;
+    private Course getCourse(DocumentDto documentDto) {
+        Course course = null;
         if (documentDto.getCourse().isPresent()) {
-            // ToDo: remove .getName() and return course object instead
-            course = new Course.CourseBuilder().setName(documentDto.getCourse().get()).build().getName();
+            course = new Course.CourseBuilder().setName(documentDto.getCourse().get()).build();
         }
-
         return course;
     }
 

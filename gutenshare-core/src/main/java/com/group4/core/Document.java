@@ -26,14 +26,17 @@ public class Document {
     @Column(name = "documenttype", nullable = false)
     private String documentType;
 
-    @Column(name = "school", nullable = true)
-    private String school;
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "school_id")
+    private School school;
 
-    @Column(name = "department", nullable = true)
-    private String department;
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "department_id")
+    private Department department;
 
-    @Column(name = "course", nullable = true)
-    private String course;
+    @ManyToOne(cascade = {CascadeType.MERGE})
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @Column(name = "filetype", nullable = false)
     private String fileType;
@@ -89,15 +92,15 @@ public class Document {
         return documentType;
     }
 
-    public String getSchool() {
+    public School getSchool() {
         return school;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public String getCourse() {
+    public Course getCourse() {
         return course;
     }
 
@@ -117,9 +120,9 @@ public class Document {
     public static class DocumentBuilder {
         private String title;
         private String documentType;
-        private String school;
-        private String department;
-        private String course;
+        private School school;
+        private Department department;
+        private Course course;
         private String fileType;
         private List<Tag> tags;
         private String description;
@@ -135,17 +138,17 @@ public class Document {
             return this;
         }
 
-        public DocumentBuilder setSchool(String school) {
+        public DocumentBuilder setSchool(School school) {
             this.school = school;
             return this;
         }
 
-        public DocumentBuilder setDepartment(String department) {
+        public DocumentBuilder setDepartment(Department department) {
             this.department = department;
             return this;
         }
 
-        public DocumentBuilder setCourse(String course) {
+        public DocumentBuilder setCourse(Course course) {
             this.course = course;
             return this;
         }
