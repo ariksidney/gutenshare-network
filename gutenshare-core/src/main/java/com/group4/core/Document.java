@@ -26,15 +26,15 @@ public class Document {
     @Column(name = "documenttype", nullable = false)
     private String documentType;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "school_id")
     private School school;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "course_id")
     private Course course;
 
@@ -67,8 +67,8 @@ public class Document {
         this.title = Preconditions.checkNotNull(documentBuilder.title);
         this.documentType = Preconditions.checkNotNull(documentBuilder.documentType);
         this.school = documentBuilder.school;
-        this.department = documentBuilder.department;
         this.course = documentBuilder.course;
+        this.department = documentBuilder.department;
         this.fileType = Preconditions.checkNotNull(documentBuilder.fileType);
         this.uploadDate = LocalDateTime.now();
         this.tags = documentBuilder.tags;
