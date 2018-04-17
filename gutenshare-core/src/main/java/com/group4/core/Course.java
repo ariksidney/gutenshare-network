@@ -37,8 +37,7 @@ public class Course {
         if (this == o) return true;
         if (!(o instanceof Course)) return false;
         Course course = (Course) o;
-        return Objects.equals(courseId, course.courseId) &&
-                Objects.equals(getName(), course.getName());
+        return Objects.equals(getName(), course.getName());
     }
 
     @Override

@@ -97,11 +97,11 @@ public class DocumentService {
     private Course getCourse(DocumentDto documentDto) {
         Course course = null;
         if (documentDto.getCourse().isPresent()) {
-            String courseName = documentDto.getCourse().get();
+            String courseName = documentDto.getCourse().get().toLowerCase();
             if (this.courseJpaRepositoryInterface.existsByName(courseName)) {
                 course = this.courseJpaRepositoryInterface.getByName(courseName);
             } else {
-                course = new Course.CourseBuilder().setName(documentDto.getCourse().get()).build();
+                course = new Course.CourseBuilder().setName(courseName).build();
             }
         }
         return course;
