@@ -24,7 +24,8 @@ public class Document {
     private String pathToFile;
 
     @Column(name = "documenttype", nullable = false)
-    private String documentType;
+    @Enumerated(EnumType.STRING)
+    private DocumentType documentType;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "school_id")
@@ -34,7 +35,7 @@ public class Document {
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "course_id")
     private Course course;
 
@@ -88,7 +89,7 @@ public class Document {
         return fileType;
     }
 
-    public String getDocumentType() {
+    public DocumentType getDocumentType() {
         return documentType;
     }
 
@@ -119,7 +120,7 @@ public class Document {
 
     public static class DocumentBuilder {
         private String title;
-        private String documentType;
+        private DocumentType documentType;
         private School school;
         private Department department;
         private Course course;
@@ -133,7 +134,7 @@ public class Document {
             return this;
         }
 
-        public DocumentBuilder setDocumentType(String documentType) {
+        public DocumentBuilder setDocumentType(DocumentType documentType) {
             this.documentType = documentType;
             return this;
         }

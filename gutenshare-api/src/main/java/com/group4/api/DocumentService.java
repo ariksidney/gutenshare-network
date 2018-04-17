@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -35,7 +36,7 @@ public class DocumentService {
     public void storeNewDocument(DocumentDto documentDto) {
         Document document = new Document.DocumentBuilder()
                 .setTitle(documentDto.getTitle())
-                .setDocumentType(documentDto.getDocumentType())
+                .setDocumentType(checkDocumentType(documentDto.getDocumentType()))
                 .setSchool(getSchool(documentDto))
                 .setCourse(getCourse(documentDto))
                 .setDepartment(getDepartment(documentDto))
@@ -46,6 +47,15 @@ public class DocumentService {
                 .build();
         document.storeFile(this.documentStoreRepositoryInterface);
         this.documentJpaRepositoryInterface.save(document);
+    }
+
+    private DocumentType checkDocumentType(String documentType) {
+        boolean containsType = Arrays.stream(DocumentType.values()).anyMatch((t) -> t.name().equals(documentType));
+        if (containsType) {
+            return DocumentType.valueOf(documentType);
+        } else {
+            throw new IllegalArgumentException("Invalid document type");
+        }
     }
 
     private List<Tag> getTags(DocumentDto documentDto) {
