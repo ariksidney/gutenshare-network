@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -16,21 +16,30 @@ public class DocumentService {
 
     private final DocumentStoreRepositoryInterface documentStoreRepositoryInterface;
     private final DocumentJpaRepositoryInterface documentJpaRepositoryInterface;
+    private final SchoolJpaRepositoryInterface schoolJpaRepositoryInterface;
+    private final CourseJpaRepositoryInterface courseJpaRepositoryInterface;
+    private final DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface;
 
     @Autowired
     public DocumentService(DocumentStoreRepositoryInterface documentStoreRepositoryInterface,
-                           DocumentJpaRepositoryInterface documentJpaRepositoryInterface) {
+                           DocumentJpaRepositoryInterface documentJpaRepositoryInterface,
+                           SchoolJpaRepositoryInterface schoolJpaRepositoryInterface,
+                           CourseJpaRepositoryInterface courseJpaRepositoryInterface,
+                           DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface) {
         this.documentStoreRepositoryInterface = documentStoreRepositoryInterface;
         this.documentJpaRepositoryInterface = documentJpaRepositoryInterface;
+        this.schoolJpaRepositoryInterface = schoolJpaRepositoryInterface;
+        this.courseJpaRepositoryInterface = courseJpaRepositoryInterface;
+        this.departmentJpaRepositoryInterface = departmentJpaRepositoryInterface;
     }
 
     public void storeNewDocument(DocumentDto documentDto) {
         Document document = new Document.DocumentBuilder()
                 .setTitle(documentDto.getTitle())
-                .setDocumentType(documentDto.getDocumentType())
+                .setDocumentType(checkDocumentType(documentDto.getDocumentType()))
                 .setSchool(getSchool(documentDto))
-                .setDepartment(getDepartment(documentDto))
                 .setCourse(getCourse(documentDto))
+                .setDepartment(getDepartment(documentDto))
                 .setFileType(documentDto.getFileType())
                 .setInputStream(documentDto.getDocumentStream())
                 .setTags(getTags(documentDto))
@@ -38,6 +47,15 @@ public class DocumentService {
                 .build();
         document.storeFile(this.documentStoreRepositoryInterface);
         this.documentJpaRepositoryInterface.save(document);
+    }
+
+    private DocumentType checkDocumentType(String documentType) {
+        boolean containsType = Arrays.stream(DocumentType.values()).anyMatch((t) -> t.name().equals(documentType));
+        if (containsType) {
+            return DocumentType.valueOf(documentType);
+        } else {
+            throw new IllegalArgumentException("Invalid document type");
+        }
     }
 
     private List<Tag> getTags(DocumentDto documentDto) {
@@ -49,33 +67,43 @@ public class DocumentService {
         return tags;
     }
 
-    private String getSchool(DocumentDto documentDto) {
-        String school = null;
+    private School getSchool(DocumentDto documentDto) {
+        School school = null;
         if (documentDto.getSchool().isPresent()) {
-            // ToDo: remove .getName() and return school object instead
-            school = new School.SchoolBuilder().setName(documentDto.getSchool().get()).build().getName();
+            String schoolName = documentDto.getSchool().get();
+            if (this.schoolJpaRepositoryInterface.existsByName(schoolName)) {
+                school = this.schoolJpaRepositoryInterface.getByName(schoolName);
+            } else {
+                throw new IllegalArgumentException("School is not yet registered");
+            }
         }
 
         return school;
     }
 
-    private String getDepartment(DocumentDto documentDto) {
-        String department = null;
+    private Department getDepartment(DocumentDto documentDto) {
+        Department department = null;
         if (documentDto.getDepartment().isPresent()) {
-            // ToDo: remove .getName() and return department object instead
-            department = new Department.DepartmentBuilder().setName(documentDto.getDepartment().get()).build().getName();
+            String deptName = documentDto.getDepartment().get();
+            if (this.departmentJpaRepositoryInterface.existsByName(deptName)) {
+                department = this.departmentJpaRepositoryInterface.getByName(deptName);
+            } else {
+                department = new Department.DepartmentBuilder().setName(documentDto.getDepartment().get()).build();
+            }
         }
-
         return department;
     }
 
-    private String getCourse(DocumentDto documentDto) {
-        String course = null;
+    private Course getCourse(DocumentDto documentDto) {
+        Course course = null;
         if (documentDto.getCourse().isPresent()) {
-            // ToDo: remove .getName() and return course object instead
-            course = new Course.CourseBuilder().setName(documentDto.getCourse().get()).build().getName();
+            String courseName = documentDto.getCourse().get().toLowerCase();
+            if (this.courseJpaRepositoryInterface.existsByName(courseName)) {
+                course = this.courseJpaRepositoryInterface.getByName(courseName);
+            } else {
+                course = new Course.CourseBuilder().setName(courseName).build();
+            }
         }
-
         return course;
     }
 

@@ -24,16 +24,20 @@ public class Document {
     private String pathToFile;
 
     @Column(name = "documenttype", nullable = false)
-    private String documentType;
+    @Enumerated(EnumType.STRING)
+    private DocumentType documentType;
 
-    @Column(name = "school", nullable = true)
-    private String school;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "school_id")
+    private School school;
 
-    @Column(name = "department", nullable = true)
-    private String department;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @JoinColumn(name = "department_id")
+    private Department department;
 
-    @Column(name = "course", nullable = true)
-    private String course;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "course_id")
+    private Course course;
 
     @Column(name = "filetype", nullable = false)
     private String fileType;
@@ -64,8 +68,8 @@ public class Document {
         this.title = Preconditions.checkNotNull(documentBuilder.title);
         this.documentType = Preconditions.checkNotNull(documentBuilder.documentType);
         this.school = documentBuilder.school;
-        this.department = documentBuilder.department;
         this.course = documentBuilder.course;
+        this.department = documentBuilder.department;
         this.fileType = Preconditions.checkNotNull(documentBuilder.fileType);
         this.uploadDate = LocalDateTime.now();
         this.tags = documentBuilder.tags;
@@ -85,19 +89,19 @@ public class Document {
         return fileType;
     }
 
-    public String getDocumentType() {
+    public DocumentType getDocumentType() {
         return documentType;
     }
 
-    public String getSchool() {
+    public School getSchool() {
         return school;
     }
 
-    public String getDepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public String getCourse() {
+    public Course getCourse() {
         return course;
     }
 
@@ -116,10 +120,10 @@ public class Document {
 
     public static class DocumentBuilder {
         private String title;
-        private String documentType;
-        private String school;
-        private String department;
-        private String course;
+        private DocumentType documentType;
+        private School school;
+        private Department department;
+        private Course course;
         private String fileType;
         private List<Tag> tags;
         private String description;
@@ -130,22 +134,22 @@ public class Document {
             return this;
         }
 
-        public DocumentBuilder setDocumentType(String documentType) {
+        public DocumentBuilder setDocumentType(DocumentType documentType) {
             this.documentType = documentType;
             return this;
         }
 
-        public DocumentBuilder setSchool(String school) {
+        public DocumentBuilder setSchool(School school) {
             this.school = school;
             return this;
         }
 
-        public DocumentBuilder setDepartment(String department) {
+        public DocumentBuilder setDepartment(Department department) {
             this.department = department;
             return this;
         }
 
-        public DocumentBuilder setCourse(String course) {
+        public DocumentBuilder setCourse(Course course) {
             this.course = course;
             return this;
         }
