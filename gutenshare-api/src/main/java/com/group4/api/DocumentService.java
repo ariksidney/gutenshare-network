@@ -56,11 +56,22 @@ public class DocumentService {
         if (document == null) {
             return Optional.empty();
         } else {
-            return Optional.of(getDto(document));
+            return Optional.of(getDeliverDto(document));
         }
     }
 
-    private DeliverDocumentDto getDto(Document document) {
+    public Optional<List<DocumentDto>> getDocumentsFromSearchQuery(String query) {
+        List<Document> documents = this.documentJpaRepositoryInterface.findAllBySearchQuery(query);
+        if (documents == null) {
+            return Optional.empty();
+        } else {
+            List<DocumentDto> documentDtos = new ArrayList<>();
+            documents.forEach(document -> documentDtos.add(getDto(document)));
+            return Optional.of(documentDtos);
+        }
+    }
+
+    private DeliverDocumentDto getDeliverDto(Document document) {
         return new DeliverDocumentDto(document.getTitle(),
                 document.getDocumentType().toString(),
                 Optional.of(document.getSchool().toString()),
@@ -70,6 +81,17 @@ public class DocumentService {
                 Optional.of(document.getTags().stream().map(Object::toString).collect(Collectors.toList())),
                 Optional.of(document.getDescription()),
                 document.getContent(this.documentStoreRepositoryInterface));
+    }
+
+    private DocumentDto getDto(Document document) {
+        return new DocumentDto(document.getTitle(),
+                document.getDocumentType().toString(),
+                Optional.of(document.getSchool().toString()),
+                Optional.of(document.getDepartment().toString()),
+                Optional.of(document.getCourse().toString()),
+                document.getFileType(),
+                Optional.of(document.getTags().stream().map(Object::toString).collect(Collectors.toList())),
+                Optional.of(document.getDescription()));
     }
 
     private DocumentType checkDocumentType(String documentType) {
