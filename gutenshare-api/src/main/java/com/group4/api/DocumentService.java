@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -33,7 +35,7 @@ public class DocumentService {
         this.departmentJpaRepositoryInterface = departmentJpaRepositoryInterface;
     }
 
-    public void storeNewDocument(DocumentDto documentDto) {
+    public void storeNewDocument(CreateDocumentDto documentDto) {
         Document document = new Document.DocumentBuilder()
                 .setTitle(documentDto.getTitle())
                 .setDocumentType(checkDocumentType(documentDto.getDocumentType()))
@@ -41,12 +43,33 @@ public class DocumentService {
                 .setCourse(getCourse(documentDto))
                 .setDepartment(getDepartment(documentDto))
                 .setFileType(documentDto.getFileType())
-                .setInputStream(documentDto.getDocumentStream())
+                .setInputStream(documentDto.getInputStream())
                 .setTags(getTags(documentDto))
                 .setDescription(getDescription(documentDto))
                 .build();
         document.storeFile(this.documentStoreRepositoryInterface);
         this.documentJpaRepositoryInterface.save(document);
+    }
+
+    public Optional<DeliverDocumentDto> getDocumentById(String documentId) {
+        Document document = this.documentJpaRepositoryInterface.getById(documentId);
+        if (document == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(getDto(document));
+        }
+    }
+
+    private DeliverDocumentDto getDto(Document document) {
+        return new DeliverDocumentDto(document.getTitle(),
+                document.getDocumentType().toString(),
+                Optional.of(document.getSchool().toString()),
+                Optional.of(document.getDepartment().toString()),
+                Optional.of(document.getCourse().toString()),
+                document.getFileType(),
+                Optional.of(document.getTags().stream().map(Object::toString).collect(Collectors.toList())),
+                Optional.of(document.getDescription()),
+                document.getContent(this.documentStoreRepositoryInterface));
     }
 
     private DocumentType checkDocumentType(String documentType) {
@@ -63,7 +86,6 @@ public class DocumentService {
         if (documentDto.getTags().isPresent()) {
             documentDto.getTags().get().forEach(tag -> tags.add(new Tag.TagBuilder().setName(tag).build()));
         }
-
         return tags;
     }
 

@@ -1,6 +1,5 @@
 package com.group4.api;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,7 +13,6 @@ public class DocumentDto {
     private String fileType;
     private Optional<List<String>> tags;
     private Optional<String> description;
-    private InputStream documentStream;
 
     public DocumentDto(
             String title,
@@ -24,8 +22,7 @@ public class DocumentDto {
             Optional<String> course,
             String fileType,
             Optional<List<String>> tags,
-            Optional<String> description,
-            InputStream documentStream
+            Optional<String> description
     ) {
         this.title = title;
         this.documentType = documentType;
@@ -35,7 +32,6 @@ public class DocumentDto {
         this.fileType = fileType;
         this.tags = tags;
         this.description = description;
-        this.documentStream = documentStream;
     }
 
     public String getTitle() {
@@ -68,9 +64,5 @@ public class DocumentDto {
 
     public Optional<String> getDescription() {
         return description;
-    }
-
-    public InputStream getDocumentStream() {
-        return documentStream;
     }
 }
