@@ -72,7 +72,8 @@ public class DocumentService {
     }
 
     private DeliverDocumentDto getDeliverDto(Document document) {
-        return new DeliverDocumentDto(document.getTitle(),
+        return new DeliverDocumentDto(document.getId(),
+                document.getTitle(),
                 document.getDocumentType().toString(),
                 Optional.of(document.getSchool().toString()),
                 Optional.of(document.getDepartment().toString()),
@@ -84,7 +85,9 @@ public class DocumentService {
     }
 
     private DocumentDto getDto(Document document) {
-        return new DocumentDto(document.getTitle(),
+        return new DocumentDto(
+                document.getId(),
+                document.getTitle(),
                 document.getDocumentType().toString(),
                 Optional.of(document.getSchool().toString()),
                 Optional.of(document.getDepartment().toString()),

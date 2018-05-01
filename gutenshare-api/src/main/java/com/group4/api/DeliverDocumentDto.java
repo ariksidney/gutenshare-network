@@ -7,10 +7,10 @@ public class DeliverDocumentDto extends DocumentDto {
 
     private byte[] documentAsBytes;
 
-    public DeliverDocumentDto(String title, String documentType, Optional<String> school, Optional<String>
+    public DeliverDocumentDto(String id, String title, String documentType, Optional<String> school, Optional<String>
             department, Optional<String> course, String fileType, Optional<List<String>> tags, Optional<String>
             description, byte[] documentAsBytes) {
-        super(title, documentType, school, department, course, fileType, tags, description);
+        super(id, title, documentType, school, department, course, fileType, tags, description);
         this.documentAsBytes = documentAsBytes;
     }
 

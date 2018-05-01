@@ -77,6 +77,10 @@ public class Document {
         this.inputStream = documentBuilder.inputStream;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }

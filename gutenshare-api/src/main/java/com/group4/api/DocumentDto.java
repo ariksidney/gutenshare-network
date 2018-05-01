@@ -5,6 +5,7 @@ import java.util.Optional;
 
 public class DocumentDto {
 
+    private String id;
     private String title;
     private String documentType;
     private Optional<String> school;
@@ -15,6 +16,7 @@ public class DocumentDto {
     private Optional<String> description;
 
     public DocumentDto(
+            String id,
             String title,
             String documentType,
             Optional<String> school,
@@ -24,6 +26,7 @@ public class DocumentDto {
             Optional<List<String>> tags,
             Optional<String> description
     ) {
+        this.id = id;
         this.title = title;
         this.documentType = documentType;
         this.school = school;
@@ -32,6 +35,10 @@ public class DocumentDto {
         this.fileType = fileType;
         this.tags = tags;
         this.description = description;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {

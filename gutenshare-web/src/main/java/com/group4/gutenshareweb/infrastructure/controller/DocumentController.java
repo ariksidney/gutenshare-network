@@ -37,6 +37,7 @@ public class DocumentController {
 
         String fileType = FilenameUtils.getExtension(document.getOriginalFilename());
         CreateDocumentDto documentDto = new CreateDocumentDto(
+                "",
                 title,
                 documentType,
                 school,
