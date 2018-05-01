@@ -77,6 +77,10 @@ public class Document {
         this.inputStream = documentBuilder.inputStream;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -105,6 +109,10 @@ public class Document {
         return course;
     }
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -112,6 +120,10 @@ public class Document {
     public void storeFile(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
         this.pathToFile = documentStoreRepositoryInterface.storeDocument(
                 this, this.inputStream).toString();
+    }
+
+    public byte[] getContent(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
+        return documentStoreRepositoryInterface.getDocument(this);
     }
 
     public String createFilename() {

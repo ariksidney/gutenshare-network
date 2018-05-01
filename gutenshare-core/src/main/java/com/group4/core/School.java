@@ -59,5 +59,10 @@ public class School {
             return new School(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
 

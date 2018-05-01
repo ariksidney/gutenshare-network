@@ -1,13 +1,12 @@
 package com.group4.gutenshareweb.infrastructure.controller;
 
-import com.group4.api.DocumentDto;
+import com.group4.api.CreateDocumentDto;
+import com.group4.api.DeliverDocumentDto;
 import com.group4.api.DocumentService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -37,7 +36,8 @@ public class DocumentController {
     ) throws IOException {
 
         String fileType = FilenameUtils.getExtension(document.getOriginalFilename());
-        DocumentDto documentDto = new DocumentDto(
+        CreateDocumentDto documentDto = new CreateDocumentDto(
+                "",
                 title,
                 documentType,
                 school,
@@ -50,5 +50,12 @@ public class DocumentController {
         );
         documentService.storeNewDocument(documentDto);
         return HttpStatus.CREATED;
+    }
+
+    @GetMapping(value = "/{documentId}")
+    public ResponseEntity<DeliverDocumentDto> getDocumentById(@PathVariable String documentId) {
+        Optional<DeliverDocumentDto> deliverableDocument = documentService.getDocumentById(documentId);
+        return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

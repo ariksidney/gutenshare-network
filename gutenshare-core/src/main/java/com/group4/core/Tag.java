@@ -44,4 +44,9 @@ public class Tag {
             return new Tag(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
