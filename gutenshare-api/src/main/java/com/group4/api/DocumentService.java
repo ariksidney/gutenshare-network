@@ -93,6 +93,7 @@ public class DocumentService {
                 document.getFileType(),
                 Optional.of(document.getTags().stream().map(Object::toString).collect(Collectors.toList())),
                 Optional.of(document.getDescription()),
+                document.getUploadDate(),
                 document.getContent(this.documentStoreRepositoryInterface));
     }
 

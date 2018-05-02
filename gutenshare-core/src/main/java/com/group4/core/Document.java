@@ -117,6 +117,10 @@ public class Document {
         return description;
     }
 
+    public LocalDateTime getUploadDate() {
+        return uploadDate;
+    }
+
     public void storeFile(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
         this.pathToFile = documentStoreRepositoryInterface.storeDocument(
                 this, this.inputStream).toString();
