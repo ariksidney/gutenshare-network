@@ -71,6 +71,18 @@ public class DocumentService {
         }
     }
 
+    public Optional<List<DocumentDto>> getDocumentsFromBrowse(String school, String dep, String course) {
+        List<Document> documents = this.documentJpaRepositoryInterface.findBySchoolAndDeptAndCourse(school,
+                dep, course);
+        if (documents.isEmpty()) {
+            return Optional.empty();
+        } else {
+            List<DocumentDto> documentDtos = new ArrayList<>();
+            documents.forEach(document -> documentDtos.add(getDto(document)));
+            return Optional.of(documentDtos);
+        }
+    }
+
     private DeliverDocumentDto getDeliverDto(Document document) {
         return new DeliverDocumentDto(document.getId(),
                 document.getTitle(),
@@ -162,5 +174,6 @@ public class DocumentService {
 
         return description;
     }
+
 
 }
