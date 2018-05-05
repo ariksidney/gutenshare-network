@@ -21,18 +21,21 @@ public class DocumentService {
     private final SchoolJpaRepositoryInterface schoolJpaRepositoryInterface;
     private final CourseJpaRepositoryInterface courseJpaRepositoryInterface;
     private final DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface;
+    private final CommentJpaRepositoryInterface commentJpaRepositoryInterface;
 
     @Autowired
     public DocumentService(DocumentStoreRepositoryInterface documentStoreRepositoryInterface,
                            DocumentJpaRepositoryInterface documentJpaRepositoryInterface,
                            SchoolJpaRepositoryInterface schoolJpaRepositoryInterface,
                            CourseJpaRepositoryInterface courseJpaRepositoryInterface,
-                           DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface) {
+                           DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface,
+                           CommentJpaRepositoryInterface commentJpaRepositoryInterface) {
         this.documentStoreRepositoryInterface = documentStoreRepositoryInterface;
         this.documentJpaRepositoryInterface = documentJpaRepositoryInterface;
         this.schoolJpaRepositoryInterface = schoolJpaRepositoryInterface;
         this.courseJpaRepositoryInterface = courseJpaRepositoryInterface;
         this.departmentJpaRepositoryInterface = departmentJpaRepositoryInterface;
+        this.commentJpaRepositoryInterface = commentJpaRepositoryInterface;
     }
 
     public void storeNewDocument(CreateDocumentDto documentDto) {
@@ -53,10 +56,11 @@ public class DocumentService {
 
     public Optional<DeliverDocumentDto> getDocumentById(String documentId) {
         Document document = this.documentJpaRepositoryInterface.getById(documentId);
+        List<Comment> comments = this.commentJpaRepositoryInterface.findAllByDocument(document);
         if (document == null) {
             return Optional.empty();
         } else {
-            return Optional.of(getDeliverDto(document));
+            return Optional.of(getDeliverDto(document, comments));
         }
     }
 
@@ -83,7 +87,7 @@ public class DocumentService {
         }
     }
 
-    private DeliverDocumentDto getDeliverDto(Document document) {
+    private DeliverDocumentDto getDeliverDto(Document document, List<Comment> comments) {
         return new DeliverDocumentDto(document.getId(),
                 document.getTitle(),
                 document.getDocumentType().toString(),
@@ -94,6 +98,7 @@ public class DocumentService {
                 Optional.of(document.getTags().stream().map(Object::toString).collect(Collectors.toList())),
                 Optional.of(document.getDescription()),
                 document.getUploadDate(),
+                comments,
                 document.getContent(this.documentStoreRepositoryInterface));
     }
 

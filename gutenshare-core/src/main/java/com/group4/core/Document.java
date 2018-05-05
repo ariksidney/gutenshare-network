@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_DOCUMENT")
@@ -143,6 +144,7 @@ public class Document {
         private String fileType;
         private List<Tag> tags;
         private String description;
+        private Set<Comment> comments;
         private InputStream inputStream;
 
         public DocumentBuilder setTitle(String title) {
