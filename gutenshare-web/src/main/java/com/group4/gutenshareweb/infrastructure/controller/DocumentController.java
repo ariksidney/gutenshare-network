@@ -1,5 +1,6 @@
 package com.group4.gutenshareweb.infrastructure.controller;
 
+import com.group4.api.CommentAndRateService;
 import com.group4.api.CreateDocumentDto;
 import com.group4.api.DeliverDocumentDto;
 import com.group4.api.DocumentService;
@@ -18,9 +19,11 @@ import java.util.Optional;
 public class DocumentController {
 
     private final DocumentService documentService;
+    private final CommentAndRateService commentAndRateService;
 
-    public DocumentController(DocumentService documentService) {
+    public DocumentController(DocumentService documentService, CommentAndRateService commentAndRateService) {
         this.documentService = documentService;
+        this.commentAndRateService = commentAndRateService;
     }
 
     @PostMapping
@@ -55,6 +58,16 @@ public class DocumentController {
     @GetMapping(value = "/{documentId}")
     public ResponseEntity<DeliverDocumentDto> getDocumentById(@PathVariable String documentId) {
         Optional<DeliverDocumentDto> deliverableDocument = documentService.getDocumentById(documentId);
+        return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping(value = "/comment")
+    public ResponseEntity<DeliverDocumentDto> addComment(@RequestParam("documentid") String documentId,
+                                                         @RequestParam("comment") String comment,
+                                                         @RequestParam("user") String username) {
+        Optional<DeliverDocumentDto> deliverableDocument = commentAndRateService.addComment(documentId, comment,
+                username);
         return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
