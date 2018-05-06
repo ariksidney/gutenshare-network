@@ -1,5 +1,7 @@
 package com.group4.api;
 
+import com.group4.core.User;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +16,7 @@ public class DocumentDto {
     private String fileType;
     private Optional<List<String>> tags;
     private Optional<String> description;
+    private User user;
 
     public DocumentDto(
             String id,
@@ -24,7 +27,8 @@ public class DocumentDto {
             Optional<String> course,
             String fileType,
             Optional<List<String>> tags,
-            Optional<String> description
+            Optional<String> description,
+            User user
     ) {
         this.id = id;
         this.title = title;
@@ -35,6 +39,7 @@ public class DocumentDto {
         this.fileType = fileType;
         this.tags = tags;
         this.description = description;
+        this.user = user;
     }
 
     public String getId() {
@@ -71,5 +76,9 @@ public class DocumentDto {
 
     public Optional<String> getDescription() {
         return description;
+    }
+
+    public String getUser() {
+        return user.getUsername();
     }
 }
