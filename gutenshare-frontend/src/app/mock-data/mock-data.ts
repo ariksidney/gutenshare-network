@@ -60,7 +60,7 @@ export const DOCUMENTS: any[] = [
     "school": "ZHAW",
     "department": "School of engineering",
     "course": "psit3",
-    "fileType": "pdf",
+    "fileType": "docx",
     "tags": [],
     "description": "desc",
     "rating": 4,
@@ -78,7 +78,7 @@ export const DOCUMENTS: any[] = [
     "course": "psit3",
     "fileType": "pdf",
     "tags": [],
-    "description": "desc",
+    "description": "xml",
     "rating": 3,
     "comments": [],
     "user": "Kaspar"

@@ -26,13 +26,23 @@ export class DocumentBrowserComponent implements OnInit {
 
     this.currentSearchCriteria = sortCriteria;
 
-    if (!this.sortReverse)
-    {
-      this.documents.sort((a,b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? -1 : 1));
+    if (sortCriteria == "rating") {
+      if (!this.sortReverse)
+      {
+        this.documents.sort((a,b) => 0 - (a[sortCriteria] > b[sortCriteria] ? -1 : 1));
+      }
+      else
+      {
+        this.documents.sort((a,b) => 0 - (a[sortCriteria] > b[sortCriteria] ? 1 : -1));
+      }
     }
-    else
-    {
-      this.documents.sort((a,b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? 1 : -1));
+    else {
+      if (!this.sortReverse) {
+        this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? -1 : 1));
+      }
+      else {
+        this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? 1 : -1));
+      }
     }
   }
 

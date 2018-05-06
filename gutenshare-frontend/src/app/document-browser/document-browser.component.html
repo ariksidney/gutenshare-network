@@ -68,8 +68,8 @@
             <i class="fas fa-arrow-alt-circle-up" *ngIf="sortReverse == true"></i>
           </span>
         </th>
-        <th scope="col" (click)="changeSortingCriteria('numberOfDownloads')">#Downloads
-          <span *ngIf="currentSearchCriteria == 'numberOfDownloads' && documents.length > 0">
+        <th scope="col" (click)="changeSortingCriteria('fileType')">File type
+          <span *ngIf="currentSearchCriteria == 'fileType' && documents.length > 0">
             <i class="fas fa-arrow-alt-circle-down"  *ngIf="sortReverse == false"></i>
             <i class="fas fa-arrow-alt-circle-up" *ngIf="sortReverse == true"></i>
           </span>
