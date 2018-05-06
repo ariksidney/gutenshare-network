@@ -79,7 +79,8 @@ public class CommentAndRateService {
                 document.getUploadDate(),
                 comments,
                 rating,
-                document.getContent(documentStoreRepositoryInterface));
+                document.getContent(documentStoreRepositoryInterface),
+                document.getUser());
     }
 
     private Integer calcAvg(List<Rating> ratings) {

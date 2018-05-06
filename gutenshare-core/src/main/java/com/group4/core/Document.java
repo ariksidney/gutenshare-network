@@ -46,6 +46,10 @@ public class Document {
     @Column(name = "upload_date", nullable = false)
     private LocalDateTime uploadDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private User user;
+
     private transient InputStream inputStream;
 
     @ManyToMany(cascade = {
@@ -76,6 +80,7 @@ public class Document {
         this.tags = documentBuilder.tags;
         this.description = documentBuilder.description;
         this.inputStream = documentBuilder.inputStream;
+        this.user = documentBuilder.user;
     }
 
     public String getId() {
@@ -122,6 +127,10 @@ public class Document {
         return uploadDate;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void storeFile(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
         this.pathToFile = documentStoreRepositoryInterface.storeDocument(
                 this, this.inputStream).toString();
@@ -146,6 +155,7 @@ public class Document {
         private String description;
         private Set<Comment> comments;
         private InputStream inputStream;
+        private User user;
 
         public DocumentBuilder setTitle(String title) {
             this.title = title;
@@ -189,6 +199,11 @@ public class Document {
 
         public DocumentBuilder setInputStream(InputStream inputStream) {
             this.inputStream = inputStream;
+            return this;
+        }
+
+        public DocumentBuilder setUser(User user) {
+            this.user = user;
             return this;
         }
 

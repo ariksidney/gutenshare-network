@@ -35,23 +35,20 @@ public class DocumentController {
             @RequestParam("course") Optional<String> course,
             @RequestParam("tags") Optional<List<String>> tags,
             @RequestParam("description") Optional<String> description,
-            @RequestParam("document") MultipartFile document
+            @RequestParam("document") MultipartFile document,
+            @RequestParam("user") String username
     ) throws IOException {
-
         String fileType = FilenameUtils.getExtension(document.getOriginalFilename());
-        CreateDocumentDto documentDto = new CreateDocumentDto(
-                "",
-                title,
+        documentService.storeNewDocument(title,
                 documentType,
                 school,
                 department,
                 course,
-                fileType,
                 tags,
                 description,
-                document.getInputStream()
-        );
-        documentService.storeNewDocument(documentDto);
+                document.getInputStream(),
+                username,
+                fileType);
         return HttpStatus.CREATED;
     }
 

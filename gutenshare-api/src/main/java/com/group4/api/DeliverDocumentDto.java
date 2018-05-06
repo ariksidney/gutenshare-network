@@ -1,6 +1,7 @@
 package com.group4.api;
 
 import com.group4.core.Comment;
+import com.group4.core.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,8 +16,8 @@ public class DeliverDocumentDto extends DocumentDto {
 
     public DeliverDocumentDto(String id, String title, String documentType, Optional<String> school, Optional<String>
             department, Optional<String> course, String fileType, Optional<List<String>> tags, Optional<String>
-            description, LocalDateTime uploadDate, List<Comment> comments, Integer rating,byte[] documentAsBytes) {
-        super(id, title, documentType, school, department, course, fileType, tags, description);
+            description, LocalDateTime uploadDate, List<Comment> comments, Integer rating, byte[] documentAsBytes, User user) {
+        super(id, title, documentType, school, department, course, fileType, tags, description, user);
         this.documentAsBytes = documentAsBytes;
         this.uploadDate = uploadDate;
         this.comments = comments;

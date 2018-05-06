@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,6 +24,7 @@ public class DocumentService {
     private final DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface;
     private final CommentJpaRepositoryInterface commentJpaRepositoryInterface;
     private final RatingJpaRepositoryInterface ratingJpaRepositoryInterface;
+    private final UserRepositoryInterface userRepositoryInterface;
 
     @Autowired
     public DocumentService(DocumentStoreRepositoryInterface documentStoreRepositoryInterface,
@@ -31,7 +33,8 @@ public class DocumentService {
                            CourseJpaRepositoryInterface courseJpaRepositoryInterface,
                            DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface,
                            CommentJpaRepositoryInterface commentJpaRepositoryInterface,
-                           RatingJpaRepositoryInterface ratingJpaRepositoryInterface) {
+                           RatingJpaRepositoryInterface ratingJpaRepositoryInterface,
+                           UserRepositoryInterface userRepositoryInterface) {
         this.documentStoreRepositoryInterface = documentStoreRepositoryInterface;
         this.documentJpaRepositoryInterface = documentJpaRepositoryInterface;
         this.schoolJpaRepositoryInterface = schoolJpaRepositoryInterface;
@@ -39,6 +42,7 @@ public class DocumentService {
         this.departmentJpaRepositoryInterface = departmentJpaRepositoryInterface;
         this.commentJpaRepositoryInterface = commentJpaRepositoryInterface;
         this.ratingJpaRepositoryInterface = ratingJpaRepositoryInterface;
+        this.userRepositoryInterface = userRepositoryInterface;
     }
 
     public void storeNewDocument(CreateDocumentDto documentDto) {
@@ -104,7 +108,8 @@ public class DocumentService {
                 document.getUploadDate(),
                 comments,
                 avgRating,
-                document.getContent(this.documentStoreRepositoryInterface));
+                document.getContent(this.documentStoreRepositoryInterface),
+                document.getUser());
     }
 
     private DocumentDto getDto(Document document) {
@@ -117,7 +122,8 @@ public class DocumentService {
                 Optional.of(document.getCourse().toString()),
                 document.getFileType(),
                 Optional.of(document.getTags().stream().map(Object::toString).collect(Collectors.toList())),
-                Optional.of(document.getDescription()));
+                Optional.of(document.getDescription()),
+                document.getUser());
     }
 
     private DocumentType checkDocumentType(String documentType) {
@@ -187,8 +193,48 @@ public class DocumentService {
     }
 
     private Integer calcAvg(List<Rating> ratings) {
+        if (ratings.isEmpty()) {
+            return 0;
+        }
         return Math.toIntExact(Math.round(ratings.stream().mapToInt(rating -> rating.getRating()).average()
                 .getAsDouble()));
     }
 
+    public void storeNewDocument(String title, String documentType, Optional<String> school,
+                                                         Optional<String> department, Optional<String> course,
+                                                         Optional<List<String>> tags, Optional<String>
+                                                                 description, InputStream documentIs, String username,
+                                                         String fileType) {
+        User user = userRepositoryInterface.findByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("username does not exist");
+        }
+        CreateDocumentDto documentDto = new CreateDocumentDto(
+                "",
+                title,
+                documentType,
+                school,
+                department,
+                course,
+                fileType,
+                tags,
+                description,
+                documentIs,
+                user
+        );
+        Document document = new Document.DocumentBuilder()
+                .setTitle(documentDto.getTitle())
+                .setDocumentType(checkDocumentType(documentDto.getDocumentType()))
+                .setSchool(getSchool(documentDto))
+                .setCourse(getCourse(documentDto))
+                .setDepartment(getDepartment(documentDto))
+                .setFileType(documentDto.getFileType())
+                .setInputStream(documentDto.getInputStream())
+                .setTags(getTags(documentDto))
+                .setDescription(getDescription(documentDto))
+                .setUser(user)
+                .build();
+        document.storeFile(this.documentStoreRepositoryInterface);
+        this.documentJpaRepositoryInterface.save(document);
+    }
 }
