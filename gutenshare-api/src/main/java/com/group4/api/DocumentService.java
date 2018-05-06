@@ -22,6 +22,7 @@ public class DocumentService {
     private final CourseJpaRepositoryInterface courseJpaRepositoryInterface;
     private final DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface;
     private final CommentJpaRepositoryInterface commentJpaRepositoryInterface;
+    private final RatingJpaRepositoryInterface ratingJpaRepositoryInterface;
 
     @Autowired
     public DocumentService(DocumentStoreRepositoryInterface documentStoreRepositoryInterface,
@@ -29,13 +30,15 @@ public class DocumentService {
                            SchoolJpaRepositoryInterface schoolJpaRepositoryInterface,
                            CourseJpaRepositoryInterface courseJpaRepositoryInterface,
                            DepartmentJpaRepositoryInterface departmentJpaRepositoryInterface,
-                           CommentJpaRepositoryInterface commentJpaRepositoryInterface) {
+                           CommentJpaRepositoryInterface commentJpaRepositoryInterface,
+                           RatingJpaRepositoryInterface ratingJpaRepositoryInterface) {
         this.documentStoreRepositoryInterface = documentStoreRepositoryInterface;
         this.documentJpaRepositoryInterface = documentJpaRepositoryInterface;
         this.schoolJpaRepositoryInterface = schoolJpaRepositoryInterface;
         this.courseJpaRepositoryInterface = courseJpaRepositoryInterface;
         this.departmentJpaRepositoryInterface = departmentJpaRepositoryInterface;
         this.commentJpaRepositoryInterface = commentJpaRepositoryInterface;
+        this.ratingJpaRepositoryInterface = ratingJpaRepositoryInterface;
     }
 
     public void storeNewDocument(CreateDocumentDto documentDto) {
@@ -57,10 +60,11 @@ public class DocumentService {
     public Optional<DeliverDocumentDto> getDocumentById(String documentId) {
         Document document = this.documentJpaRepositoryInterface.getById(documentId);
         List<Comment> comments = this.commentJpaRepositoryInterface.findAllByDocument(document);
+        Integer avgRating = calcAvg(ratingJpaRepositoryInterface.findAllByDocument(document));
         if (document == null) {
             return Optional.empty();
         } else {
-            return Optional.of(getDeliverDto(document, comments));
+            return Optional.of(getDeliverDto(document, comments, avgRating));
         }
     }
 
@@ -87,7 +91,7 @@ public class DocumentService {
         }
     }
 
-    private DeliverDocumentDto getDeliverDto(Document document, List<Comment> comments) {
+    private DeliverDocumentDto getDeliverDto(Document document, List<Comment> comments, Integer avgRating) {
         return new DeliverDocumentDto(document.getId(),
                 document.getTitle(),
                 document.getDocumentType().toString(),
@@ -99,6 +103,7 @@ public class DocumentService {
                 Optional.of(document.getDescription()),
                 document.getUploadDate(),
                 comments,
+                avgRating,
                 document.getContent(this.documentStoreRepositoryInterface));
     }
 
@@ -181,5 +186,9 @@ public class DocumentService {
         return description;
     }
 
+    private Integer calcAvg(List<Rating> ratings) {
+        return Math.toIntExact(Math.round(ratings.stream().mapToInt(rating -> rating.getRating()).average()
+                .getAsDouble()));
+    }
 
 }

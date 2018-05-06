@@ -71,4 +71,14 @@ public class DocumentController {
         return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PostMapping(value = "/rating")
+    public ResponseEntity<DeliverDocumentDto> addReview(@RequestParam("documentid") String documentId,
+                                                        @RequestParam("rating") Integer rating,
+                                                        @RequestParam("user") String username) {
+        Optional<DeliverDocumentDto> deliverableDocument = commentAndRateService.addRating(documentId, rating,
+                username);
+        return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
 }

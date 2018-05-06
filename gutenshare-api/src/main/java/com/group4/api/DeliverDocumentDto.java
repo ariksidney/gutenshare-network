@@ -11,20 +11,18 @@ public class DeliverDocumentDto extends DocumentDto {
     private byte[] documentAsBytes;
     private LocalDateTime uploadDate;
     private List<Comment> comments;
+    private Integer rating;
 
     public DeliverDocumentDto(String id, String title, String documentType, Optional<String> school, Optional<String>
             department, Optional<String> course, String fileType, Optional<List<String>> tags, Optional<String>
-                                      description, LocalDateTime uploadDate, List<Comment> comments, byte[]
-            documentAsBytes) {
+            description, LocalDateTime uploadDate, List<Comment> comments, Integer rating,byte[] documentAsBytes) {
         super(id, title, documentType, school, department, course, fileType, tags, description);
         this.documentAsBytes = documentAsBytes;
         this.uploadDate = uploadDate;
         this.comments = comments;
+        this.rating = rating;
     }
 
-    public byte[] getDocumentAsBytes() {
-        return documentAsBytes;
-    }
 
     public LocalDateTime getUploadDate() {
         return uploadDate;
@@ -32,5 +30,13 @@ public class DeliverDocumentDto extends DocumentDto {
 
     public List<Comment> getComments() {
         return comments;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public byte[] getDocumentAsBytes() {
+        return documentAsBytes;
     }
 }
