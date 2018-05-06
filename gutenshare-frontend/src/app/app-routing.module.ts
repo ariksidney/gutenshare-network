@@ -8,6 +8,7 @@ import { SignupComponent } from "./signup/signup.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { DocumentBrowserComponent } from "./document-browser/document-browser.component";
+import {DocumentDetailComponent} from "./document-detail/document-detail.component";
 
 
 const appRoutes: Routes = [
@@ -34,6 +35,7 @@ const appRoutes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'browse', component: DocumentBrowserComponent },
+  { path: 'detail/:id', component: DocumentDetailComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: HomeComponent }
 ];

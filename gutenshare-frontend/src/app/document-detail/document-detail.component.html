@@ -1,0 +1,78 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-3">Document details.</h1>
+  </div>
+</div>
+
+<div class="container">
+  <h3> {{ specificDocument.title }} </h3>
+
+  <p> by {{ specificDocument.user }}, {{ specificDocument.uploadDate }} </p>
+
+  <h5>Download </h5>
+  <a href="#"> {{specificDocument.downloadLink }}</a>
+
+  <h5>More details</h5>
+
+  <table class="table">
+    <tr>
+      <th scope="col">Description: </th>
+      <td scope="col">{{ specificDocument.description }}</td>
+    </tr>
+    <tr>
+      <th scope="col">School: </th>
+      <td scope="col">{{ specificDocument.school }}</td>
+    </tr>
+    <tr>
+      <th scope="col">Departement: </th>
+      <td scope="col">{{ specificDocument.department }}</td>
+    </tr>
+    <tr>
+      <th scope="col">Course: </th>
+      <td scope="col">{{ specificDocument.course }}</td>
+    </tr>
+    <tr>
+      <th scope="col">Tags: </th>
+      <td scope="col">
+        <span class="badge badge-secondary badge-tag" *ngFor="let tag of specificDocument.tags">
+          {{ tag }}
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <h5>Rating</h5>
+  <div *ngIf="userGaveRating == false">
+    <span *ngFor="let rating of ratingsForDocumentDetail">
+      <i *ngIf="rating.status == 'ratingActive'" (click)=calculateNewRating(rating.index) class="fas fa-star"></i>
+      <i *ngIf="rating.status == 'ratingInactive'" (click)=calculateNewRating(rating.index) class="far fa-star"></i>
+    </span>
+  </div>
+  <div *ngIf="userGaveRating == true">
+    <span *ngFor="let rating of ratingsForDocumentDetail">
+      <i *ngIf="rating.status == 'ratingActive'" class="fas fa-star ratingOfRatings"></i>
+      <i *ngIf="rating.status == 'ratingInactive'" class="far fa-star ratingOfRatings"></i>
+    </span>
+  </div>
+
+  <h5>
+    Comments
+  </h5>
+  <div *ngFor="let comment of specificDocument.comments" class="list-group list-group-comments">
+    <a class="list-group-item list-group-item-action flex-column align-items-start comment">
+      <div class="d-flex w-100 justify-content-between">
+        <small>{{ comment.user }}</small>
+      </div>
+      <p class="mb-1">{{ comment.content }}</p>
+    </a>
+  </div>
+  <a class="list-group-item list-group-item-action flex-column align-items-start comment">
+    <form>
+      <div class="form-group">
+        <label for="exampleInputEmail1">New comment</label>
+        <input #commentText type="textarea" class="form-control" id="exampleInputEmail1" aria-describedby="newComment" placeholder="Enter your feedback here">
+      </div>
+      <button type="button" (click)=addComment(commentText.value) class="btn btn-primary btn-info">Submit</button>
+    </form>
+  </a>
+</div>
