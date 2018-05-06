@@ -1,10 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SCHOOLS } from '../mock-data/mock-data';
-import { DocumentBrowserService } from "./document-browser.service";
 import { DOCUMENTS } from '../mock-data/mock-data';
-import { Observable } from 'rxjs/Observable';
-
-
 
 @Component({
   selector: 'app-document-browser',
@@ -20,9 +16,7 @@ export class DocumentBrowserComponent implements OnInit {
   currentSearchCriteria: string = '';
   sortReverse: boolean = false;
 
-  constructor(
-    private documentBrowserService: DocumentBrowserService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
   }
@@ -46,7 +40,6 @@ export class DocumentBrowserComponent implements OnInit {
   {
     this.documents = DOCUMENTS;
     this.changeSortingCriteria('title');
-    console.log(this.documentBrowserService.getDocuments());
   }
 }
 
