@@ -1,5 +1,5 @@
 FROM openjdk:8-jre-alpine
-COPY ./docker/gutenshare-web-1.0.0-SNAPSHOT.jar /usr/src/gutenshare-web/
+COPY gutenshare.jar /usr/src/gutenshare-web/
 WORKDIR /usr/src/gutenshare-web
 EXPOSE 4443
-CMD ["java", "-jar", "gutenshare-web-1.0.0-SNAPSHOT.jar"]
+CMD ["java", "-jar", "-Dspring.profiles.active=local", "gutenshare.jar"]
