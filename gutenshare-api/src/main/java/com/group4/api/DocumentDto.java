@@ -1,11 +1,13 @@
 package com.group4.api;
 
-import java.io.InputStream;
+import com.group4.core.User;
+
 import java.util.List;
 import java.util.Optional;
 
 public class DocumentDto {
 
+    private String id;
     private String title;
     private String documentType;
     private Optional<String> school;
@@ -14,9 +16,10 @@ public class DocumentDto {
     private String fileType;
     private Optional<List<String>> tags;
     private Optional<String> description;
-    private InputStream documentStream;
+    private User user;
 
     public DocumentDto(
+            String id,
             String title,
             String documentType,
             Optional<String> school,
@@ -25,8 +28,9 @@ public class DocumentDto {
             String fileType,
             Optional<List<String>> tags,
             Optional<String> description,
-            InputStream documentStream
+            User user
     ) {
+        this.id = id;
         this.title = title;
         this.documentType = documentType;
         this.school = school;
@@ -35,7 +39,11 @@ public class DocumentDto {
         this.fileType = fileType;
         this.tags = tags;
         this.description = description;
-        this.documentStream = documentStream;
+        this.user = user;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -70,7 +78,7 @@ public class DocumentDto {
         return description;
     }
 
-    public InputStream getDocumentStream() {
-        return documentStream;
+    public String getUser() {
+        return user.getUsername();
     }
 }

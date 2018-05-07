@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "T_DOCUMENT")
@@ -45,6 +46,10 @@ public class Document {
     @Column(name = "upload_date", nullable = false)
     private LocalDateTime uploadDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "username")
+    private User user;
+
     private transient InputStream inputStream;
 
     @ManyToMany(cascade = {
@@ -75,6 +80,11 @@ public class Document {
         this.tags = documentBuilder.tags;
         this.description = documentBuilder.description;
         this.inputStream = documentBuilder.inputStream;
+        this.user = documentBuilder.user;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getTitle() {
@@ -105,13 +115,29 @@ public class Document {
         return course;
     }
 
+    public List<Tag> getTags() {
+        return tags;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public LocalDateTime getUploadDate() {
+        return uploadDate;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void storeFile(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
         this.pathToFile = documentStoreRepositoryInterface.storeDocument(
                 this, this.inputStream).toString();
+    }
+
+    public byte[] getContent(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
+        return documentStoreRepositoryInterface.getDocument(this);
     }
 
     public String createFilename() {
@@ -127,7 +153,9 @@ public class Document {
         private String fileType;
         private List<Tag> tags;
         private String description;
+        private Set<Comment> comments;
         private InputStream inputStream;
+        private User user;
 
         public DocumentBuilder setTitle(String title) {
             this.title = title;
@@ -171,6 +199,11 @@ public class Document {
 
         public DocumentBuilder setInputStream(InputStream inputStream) {
             this.inputStream = inputStream;
+            return this;
+        }
+
+        public DocumentBuilder setUser(User user) {
+            this.user = user;
             return this;
         }
 

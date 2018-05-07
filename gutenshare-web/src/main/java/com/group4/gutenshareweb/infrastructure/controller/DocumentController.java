@@ -1,13 +1,13 @@
 package com.group4.gutenshareweb.infrastructure.controller;
 
-import com.group4.api.DocumentDto;
+import com.group4.api.CommentAndRateService;
+import com.group4.api.CreateDocumentDto;
+import com.group4.api.DeliverDocumentDto;
 import com.group4.api.DocumentService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -19,9 +19,11 @@ import java.util.Optional;
 public class DocumentController {
 
     private final DocumentService documentService;
+    private final CommentAndRateService commentAndRateService;
 
-    public DocumentController(DocumentService documentService) {
+    public DocumentController(DocumentService documentService, CommentAndRateService commentAndRateService) {
         this.documentService = documentService;
+        this.commentAndRateService = commentAndRateService;
     }
 
     @PostMapping
@@ -33,22 +35,47 @@ public class DocumentController {
             @RequestParam("course") Optional<String> course,
             @RequestParam("tags") Optional<List<String>> tags,
             @RequestParam("description") Optional<String> description,
-            @RequestParam("document") MultipartFile document
+            @RequestParam("document") MultipartFile document,
+            @RequestParam("user") String username
     ) throws IOException {
-
         String fileType = FilenameUtils.getExtension(document.getOriginalFilename());
-        DocumentDto documentDto = new DocumentDto(
-                title,
+        documentService.storeNewDocument(title,
                 documentType,
                 school,
                 department,
                 course,
-                fileType,
                 tags,
                 description,
-                document.getInputStream()
-        );
-        documentService.storeNewDocument(documentDto);
+                document.getInputStream(),
+                username,
+                fileType);
         return HttpStatus.CREATED;
+    }
+
+    @GetMapping(value = "/{documentId}")
+    public ResponseEntity<DeliverDocumentDto> getDocumentById(@PathVariable String documentId) {
+        Optional<DeliverDocumentDto> deliverableDocument = documentService.getDocumentById(documentId);
+        return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping(value = "/comment")
+    public ResponseEntity<DeliverDocumentDto> addComment(@RequestParam("documentid") String documentId,
+                                                         @RequestParam("comment") String comment,
+                                                         @RequestParam("user") String username) {
+        Optional<DeliverDocumentDto> deliverableDocument = commentAndRateService.addComment(documentId, comment,
+                username);
+        return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping(value = "/rating")
+    public ResponseEntity<DeliverDocumentDto> addReview(@RequestParam("documentid") String documentId,
+                                                        @RequestParam("rating") Integer rating,
+                                                        @RequestParam("user") String username) {
+        Optional<DeliverDocumentDto> deliverableDocument = commentAndRateService.addRating(documentId, rating,
+                username);
+        return deliverableDocument.map(document -> new ResponseEntity<>(document, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

@@ -37,8 +37,7 @@ public class School {
         if (this == o) return true;
         if (!(o instanceof School)) return false;
         School school = (School) o;
-        return Objects.equals(schoolId, school.schoolId) &&
-                Objects.equals(getName(), school.getName());
+        return Objects.equals(getName(), school.getName());
     }
 
     @Override
@@ -58,6 +57,11 @@ public class School {
         public School build() {
             return new School(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
 

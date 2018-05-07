@@ -33,7 +33,13 @@ public class FilesystemDocumentStorageRepository implements DocumentStoreReposit
 
     @Override
     public byte[] getDocument(Document document) {
-        return new byte[0];
+        byte[] file = new byte[0];
+        try {
+            file = Files.readAllBytes(buildFilePath(this.contentPath, document.getPathToFile().toString()));
+        } catch (IOException e) {
+            //TODO add logging
+        }
+        return file;
     }
 
     private static Path buildFilePath(Path basePath, String file) {

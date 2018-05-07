@@ -58,5 +58,10 @@ public class Department {
             return new Department(this);
         }
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
 

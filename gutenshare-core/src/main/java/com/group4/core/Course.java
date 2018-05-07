@@ -46,6 +46,11 @@ public class Course {
         return Objects.hash(courseId, getName());
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
     public static class CourseBuilder {
         private String name;
 

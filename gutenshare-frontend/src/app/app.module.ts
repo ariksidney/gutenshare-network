@@ -21,7 +21,7 @@ import { ExtractCoursesPipe } from "./pipes/extract-courses.pipe";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { DocumentBrowserComponent } from './document-browser/document-browser.component';
-
+import {DocumentDetailComponent} from "./document-detail/document-detail.component";
 
 @NgModule({
   declarations: [
@@ -36,7 +36,8 @@ import { DocumentBrowserComponent } from './document-browser/document-browser.co
     SignupComponent,
     ProfileComponent,
     SettingsComponent,
-    DocumentBrowserComponent
+    DocumentBrowserComponent,
+    DocumentDetailComponent
   ],
   imports: [
     BrowserModule,
