@@ -1,17 +1,17 @@
 <div class="jumbotron">
   <div class="container">
-    <h1 class="display-3">Browse the archives.</h1>
+    <h1 class="display-3">browse the archives.</h1>
   </div>
 </div>
 
 <div class="container">
   <div class="row">
     <div class="col-md-4">
-      <form>
+      <form (submit)="getDocuments()">
         <div class="form-group">
           <label for="">Institution</label>
-          <select multiple class="form-control" id="">
-            <option *ngFor="let school of schools">
+          <select class="form-control" id="" multiple>
+            <option *ngFor="let school of schools" (click)="addSchool(school.name)">
               {{ school.name }}
             </option>
           </select>
@@ -22,8 +22,8 @@
       <form>
         <div class="form-group">
           <label for="">Department</label>
-          <select multiple class="form-control" id="">
-            <option *ngFor="let department of schools | extractDepartments">
+          <select class="form-control" id="" multiple>
+            <option *ngFor="let department of schools | extractDepartments" (click)="addDepartement(department)">
               {{ department }}
             </option>
           </select>
@@ -34,17 +34,17 @@
       <form>
         <div class="form-group">
           <label for="">Course</label>
-          <select multiple class="form-control" id="">
-            <option *ngFor="let course of schools | extractCourses">
+          <select class="form-control" id="" multiple>
+            <option *ngFor="let course of schools | extractCourses" (click)="addCourse(course)">
               {{ course }}
             </option>
           </select>
         </div>
-      </form>
-    </div>
+        <div class="col-md-12">
+          <button type="button" class="btn btn-block btn-info btn-get-documents" (click)="getDocuments()">Get Documents</button>
+        </div>
 
-    <div class="col-md-12">
-      <button type="button" class="btn btn-block btn-info btn-get-documents" (click)="getDocuments()">Get Documents</button>
+      </form>
     </div>
 
     <table class="table">

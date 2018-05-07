@@ -22,6 +22,7 @@ import { ExtractCoursesPipe } from "./pipes/extract-courses.pipe";
 import { AppRoutingModule } from "./app-routing.module";
 import { DocumentBrowserComponent } from './document-browser/document-browser.component';
 import {DocumentDetailComponent} from "./document-detail/document-detail.component";
+import {DocumentBrowserService} from "./document-browser/document-browser.service";
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import {DocumentDetailComponent} from "./document-detail/document-detail.compone
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [ UserService, DocumentService ],
+  providers: [ UserService, DocumentService, DocumentBrowserService ],
   bootstrap: [ AppComponent ]
 })
 
