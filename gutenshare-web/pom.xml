@@ -79,20 +79,17 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
-<<<<<<< HEAD
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
 		</dependency>
 
 
-=======
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>2.9.0</version>
         </dependency>
->>>>>>> dffb8be8e7d5303a9b6e846a02e21029da3afec4
     </dependencies>
 
     <build>

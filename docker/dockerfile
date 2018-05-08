@@ -2,5 +2,5 @@ FROM openjdk:8-jre-alpine
 COPY gutenshare.jar /usr/src/gutenshare-web/
 WORKDIR /usr/tmp/gutenshare
 WORKDIR /usr/src/gutenshare-web
-EXPOSE 4443
+EXPOSE 8080
 CMD ["java", "-jar", "-Dspring.profiles.active=local", "gutenshare.jar"]
