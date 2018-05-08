@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 @Validated
 class FilesystemStorageProperties {
 
-    @NotNull
     private FileSystemResource basePath;
 
     public FileSystemResource getBasePath() {

@@ -4,6 +4,7 @@ package com.group4.gutenshareweb.infrastructure.storage;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.io.IOException;
 
@@ -17,6 +18,7 @@ public class FilesystemStorageConfig {
         this.filesystemStorageProperties = contentRepoProperties;
     }
 
+    @Profile("local")
     @Bean
     public FilesystemDocumentStorageRepository documentContentRepository() throws IOException {
         return new FilesystemDocumentStorageRepository(this.filesystemStorageProperties.getBasePath());
