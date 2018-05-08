@@ -1,0 +1,19 @@
+version: '3.0'
+
+services:
+  gutenshare-backend:
+    image: llmaksregistry.azurecr.io/gutenshare:V0.5
+    hostname: gutenshare-backend
+    container_name: gutenshare-backend
+    ports:
+      - 28080:8080
+
+# usage: [sudo] docker-compose up [-d]
+# mssql server will be running on 'localhost:1433'
+# log into container: [sudo] docker exec -it db /bin/bash
+# db user: 'sa'
+# change pw to whatever, needs:
+# - uppercase
+# - lowercase
+# - digit
+# - 8 < characters
