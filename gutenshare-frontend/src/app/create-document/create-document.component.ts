@@ -88,8 +88,9 @@ export class CreateDocumentComponent implements OnInit {
     let payload = new FormData();
 
     payload.append('title', post.name);
-    payload.append('documenttype', post.type.toLowerCase());
+    payload.append('documenttype', post.type.toUpperCase());
     payload.append('document', post.file);
+    payload.append('user', 'rudi');
 
     let prunedTags: string[] = this.pruneArray(post.tags);
     if (prunedTags.length > 0) {
