@@ -13,9 +13,5 @@ export class AppComponent {
 
   searchInput = '';
 
-  constructor(private apiService:ApiService) {}
-
-  search(q: string) {
-    this.apiService.searchDocuments(q).then(response => console.log(response));
-  }
+  constructor(){}
 }

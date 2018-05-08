@@ -24,6 +24,8 @@ import { DocumentBrowserComponent } from './document-browser/document-browser.co
 import {DocumentDetailComponent} from "./document-detail/document-detail.component";
 import {DocumentBrowserService} from "./document-browser/document-browser.service";
 import {ApiService} from "./api/api.service";
+import {DocumentsResultComponent} from "./documents-result/documents-result.component";
+import {DocumentSearchComponent} from "./document-search/document-search.component";
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import {ApiService} from "./api/api.service";
     ProfileComponent,
     SettingsComponent,
     DocumentBrowserComponent,
-    DocumentDetailComponent
+    DocumentDetailComponent,
+    DocumentsResultComponent,
+    DocumentSearchComponent
   ],
   imports: [
     BrowserModule,

@@ -35,6 +35,7 @@ const appRoutes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'settings', component: SettingsComponent },
   { path: 'browse', component: DocumentBrowserComponent },
+  { path: 'browse/:query', component: DocumentBrowserComponent },
   { path: 'detail/:id', component: DocumentDetailComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: HomeComponent }

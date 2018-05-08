@@ -1,7 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {ApiService} from "../api/api.service";
 import {ActivatedRoute} from "@angular/router";
-
+import {DocumentReview} from "./document-rating";
+import {DocumentComment} from "./document-comment";
 
 @Component({
   selector: 'app-document-detail',
@@ -17,6 +18,26 @@ export class DocumentDetailComponent implements OnInit {
   constructor(private apiService: ApiService, private route: ActivatedRoute) {
   }
 
+  ngOnInit() {
+    this.apiService.getDocumentDetails(this.route.snapshot.params.id)
+      .then(response => {
+        this.specificDocument = response;
+        this.defineRatingForDocumentDetail(this.specificDocument.rating);
+        // this.getDownloadLink(this.specificDocument.documentAsBytes);
+      });
+  }
+
+  // getDownloadLink(documentAsBytes: Uint8Array){
+  //   var reader = new FileReader();
+  //
+  //   reader.readAsDataURL(new Blob([documentAsBytes], {type:'application/pdf'}));
+  //
+  //   reader.onload = function(e) {
+  //     window.open(decodeURIComponent(reader.result), '_self', '', false);
+  //   }
+  //
+  // }
+  
   defineRatingForDocumentDetail(rating: number) {
     for (var i = 1; i <= rating; i++) {
       this.ratingsForDocumentDetail[i - 1] = {
@@ -26,7 +47,6 @@ export class DocumentDetailComponent implements OnInit {
     }
 
     for (var i = 5; i > (rating); i--) {
-      console.log("i: " + i);
       this.ratingsForDocumentDetail[i - 1] = {
         "status": "ratingInactive",
         "index": i
@@ -34,28 +54,42 @@ export class DocumentDetailComponent implements OnInit {
     }
   };
 
-  ngOnInit() {
-    this.apiService.getDocumentDetails(this.route.snapshot.params.id)
-      .then(response => {
-        this.specificDocument = response;
-        this.defineRatingForDocumentDetail(this.specificDocument.rating);
-      });
-  }
-
   addComment(commentText: string) {
-    this.specificDocument.comments.push(
+    let documentComment = new DocumentComment();
+
+    documentComment.documentid = this.specificDocument.id;
+    documentComment.user = 'rudi';
+    documentComment.content = commentText;
+
+    this.apiService.postComment(documentComment).then(data =>
       {
-        "user": "Arik",
-        "content": commentText
+        this.apiService.getDocumentDetails(this.route.snapshot.params.id)
+          .then(response => {
+            this.specificDocument = response;
+          });
       }
     );
   }
 
-  calculateNewRating(newRating: number) {
-    this.defineRatingForDocumentDetail(newRating);
-    this.userGaveRating = true;
-  }
+  addRating(newRating: number) {
 
+    let documentReview = new DocumentReview;
+
+    documentReview.documentid = this.specificDocument.id;
+    documentReview.user = 'rudi';
+    documentReview.rating = newRating;
+
+    this.apiService.postRating(documentReview).then(data =>
+      {
+        this.apiService.getDocumentDetails(this.route.snapshot.params.id)
+          .then(response => {
+            this.specificDocument = response;
+            this.defineRatingForDocumentDetail(this.specificDocument.rating);
+            this.userGaveRating = true;
+          });
+      }
+    );
+  }
 }
 
 

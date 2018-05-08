@@ -11,13 +11,15 @@ const httpOptions = {
   })
 };
 
+const baseUrl = "http://api.gutenshare.network:28080";
+
 @Injectable()
 export class DocumentService {
 
   constructor(private http: HttpClient) { }
 
   addDocument (payload : FormData) {
-    return this.http.post<FormData>("/api/document", payload)
+    return this.http.post<FormData>(baseUrl + "/api/document", payload)
       .pipe(
         catchError(this.handleError)
       );

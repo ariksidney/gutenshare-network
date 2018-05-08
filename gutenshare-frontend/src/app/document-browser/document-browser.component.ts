@@ -4,6 +4,7 @@ import { DOCUMENTS } from '../mock-data/mock-data';
 import { DocumentBrowserService } from "./document-browser.service";
 import { DocumentBrowser } from "./document-browser";
 import {ApiService} from "../api/api.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-document-browser',
@@ -21,23 +22,17 @@ export class DocumentBrowserComponent implements OnInit {
 
   browsedDocuments = new DocumentBrowser();
 
-  constructor(private apiService:ApiService) { }
-
-  ngOnInit() {
+  constructor(private apiService:ApiService, private route: ActivatedRoute, private router: Router) {
+    router.events.subscribe(e => this.checkIfQueryIsDefined());
   }
 
-  changeSortingCriteria(sortCriteria: string): void {
-    this.sortReverse = this.currentSearchCriteria == sortCriteria && !this.sortReverse;
+  ngOnInit() {}
 
-    this.currentSearchCriteria = sortCriteria;
-
-      if (!this.sortReverse) {
-        this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? -1 : 1));
-      }
-      else {
-        this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? 1 : -1));
-      }
-
+  checkIfQueryIsDefined() {
+    let query = this.route.snapshot.params.query;
+    if (query != undefined) {
+      this.apiService.searchDocuments(query).then(response => this.documents = (response));
+    }
   }
 
   addSchool(school: string) {
@@ -56,7 +51,8 @@ export class DocumentBrowserComponent implements OnInit {
     this.apiService.getDocuments(this.browsedDocuments).then(
       response => this.documents = response
     );
-    this.changeSortingCriteria('title');
+
+    this.router.navigateByUrl('/browse');
   }
 }
 

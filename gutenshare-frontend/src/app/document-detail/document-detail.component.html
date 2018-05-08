@@ -44,8 +44,8 @@
   <h5>Rating</h5>
   <div *ngIf="userGaveRating == false">
     <span *ngFor="let rating of ratingsForDocumentDetail">
-      <i *ngIf="rating.status == 'ratingActive'" (click)=calculateNewRating(rating.index) class="fas fa-star"></i>
-      <i *ngIf="rating.status == 'ratingInactive'" (click)=calculateNewRating(rating.index) class="far fa-star"></i>
+      <i *ngIf="rating.status == 'ratingActive'" (click)="addRating(rating.index)" class="fas fa-star"></i>
+      <i *ngIf="rating.status == 'ratingInactive'" (click)="addRating(rating.index)" class="far fa-star"></i>
     </span>
   </div>
   <div *ngIf="userGaveRating == true">
@@ -76,3 +76,7 @@
     </form>
   </a>
 </div>
+
+<a download="data_bjbj" xd-href="data">
+  <button ng-disabled="!data">Download</button>
+</a>
