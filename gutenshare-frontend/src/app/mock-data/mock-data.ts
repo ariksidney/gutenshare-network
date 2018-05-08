@@ -1,17 +1,17 @@
 export const SCHOOLS: any[] = [
   {
-    'name': 'zhaw',
+    'name': 'ZHAW',
     'departments': [
       {
-        'name': 'School of Engineering',
+        'name': 'School of engineering',
         'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
       },
       {
-        'name': 'School of Economics',
+        'name': 'School of economics',
         'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
       },
       {
-        'name': 'School of Law',
+        'name': 'School of law',
         'courses': ['nmit1', 'psit3', 'ctit1', 'dab2', 'wing1', 'swen1']
       }
     ]

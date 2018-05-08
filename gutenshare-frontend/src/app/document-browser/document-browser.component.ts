@@ -3,6 +3,7 @@ import { SCHOOLS } from '../mock-data/mock-data';
 import { DOCUMENTS } from '../mock-data/mock-data';
 import { DocumentBrowserService } from "./document-browser.service";
 import { DocumentBrowser } from "./document-browser";
+import {ApiService} from "../api/api.service";
 
 @Component({
   selector: 'app-document-browser',
@@ -20,7 +21,7 @@ export class DocumentBrowserComponent implements OnInit {
 
   browsedDocuments = new DocumentBrowser();
 
-  constructor(private documentBrowserService: DocumentBrowserService) { }
+  constructor(private apiService:ApiService) { }
 
   ngOnInit() {
   }
@@ -30,24 +31,13 @@ export class DocumentBrowserComponent implements OnInit {
 
     this.currentSearchCriteria = sortCriteria;
 
-    if (sortCriteria == "rating") {
-      if (!this.sortReverse)
-      {
-        this.documents.sort((a,b) => 0 - (a[sortCriteria] > b[sortCriteria] ? -1 : 1));
-      }
-      else
-      {
-        this.documents.sort((a,b) => 0 - (a[sortCriteria] > b[sortCriteria] ? 1 : -1));
-      }
-    }
-    else {
       if (!this.sortReverse) {
         this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? -1 : 1));
       }
       else {
         this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? 1 : -1));
       }
-    }
+
   }
 
   addSchool(school: string) {
@@ -62,10 +52,10 @@ export class DocumentBrowserComponent implements OnInit {
     this.browsedDocuments.course = course;
   }
 
-  getDocuments()
-  {
-    var blub = this.documentBrowserService.getDocuments(this.browsedDocuments);
-    this.documents = DOCUMENTS;
+  getDocuments() {
+    this.apiService.getDocuments(this.browsedDocuments).then(
+      response => this.documents = response
+    );
     this.changeSortingCriteria('title');
   }
 }

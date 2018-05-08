@@ -62,7 +62,7 @@
             <i class="fas fa-arrow-alt-circle-up" *ngIf="sortReverse == true"></i>
           </span>
         </th>
-        <th scope="col" (click)="changeSortingCriteria('rating')">Rating
+        <th scope="col" (click)="changeSortingCriteria('rating')">Uploaded by
           <span *ngIf="currentSearchCriteria == 'rating' && documents.length > 0">
             <i class="fas fa-arrow-alt-circle-down"  *ngIf="sortReverse == false"></i>
             <i class="fas fa-arrow-alt-circle-up" *ngIf="sortReverse == true"></i>
@@ -82,7 +82,7 @@
       <tr *ngFor="let document of documents">
         <td>{{ document.title }}</td>
         <td>{{ document.documentType }}</td>
-        <td>{{ document.rating }}</td>
+        <td>{{ document.user }}</td>
         <td>{{ document.fileType }}</td>
         <td>
           <a class="button" routerLink="/detail/{{ document.id }}" class="btn btn-info btn-get-documents">

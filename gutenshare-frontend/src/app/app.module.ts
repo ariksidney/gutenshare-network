@@ -23,6 +23,7 @@ import { AppRoutingModule } from "./app-routing.module";
 import { DocumentBrowserComponent } from './document-browser/document-browser.component';
 import {DocumentDetailComponent} from "./document-detail/document-detail.component";
 import {DocumentBrowserService} from "./document-browser/document-browser.service";
+import {ApiService} from "./api/api.service";
 
 @NgModule({
   declarations: [
@@ -47,7 +48,7 @@ import {DocumentBrowserService} from "./document-browser/document-browser.servic
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [ UserService, DocumentService, DocumentBrowserService ],
+  providers: [ UserService, DocumentService, DocumentBrowserService, ApiService],
   bootstrap: [ AppComponent ]
 })
 

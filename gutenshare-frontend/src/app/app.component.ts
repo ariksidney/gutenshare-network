@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {DocumentBrowserService} from "./document-browser/document-browser.service";
+import {ApiService} from "./api/api.service";
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,9 @@ export class AppComponent {
 
   searchInput = '';
 
-  constructor(private documentBrowserService: DocumentBrowserService) {}
+  constructor(private apiService:ApiService) {}
 
   search(q: string) {
-    console.log(q);
-    var blub = this.documentBrowserService.searchDocuments(q);
+    this.apiService.searchDocuments(q).then(response => console.log(response));
   }
 }

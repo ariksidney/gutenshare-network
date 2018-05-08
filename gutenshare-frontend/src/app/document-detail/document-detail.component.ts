@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
-import { SPECIFICDOCUMENT } from '../mock-data/mock-data';
+import {ApiService} from "../api/api.service";
+import {ActivatedRoute} from "@angular/router";
 
 
 @Component({
@@ -9,21 +10,24 @@ import { SPECIFICDOCUMENT } from '../mock-data/mock-data';
 })
 
 export class DocumentDetailComponent implements OnInit {
-  specificDocument: any = SPECIFICDOCUMENT;
+  specificDocument;
   ratingsForDocumentDetail: any[5] = [];
   userGaveRating: boolean = false;
 
+  constructor(private apiService: ApiService, private route: ActivatedRoute) {
+  }
+
   defineRatingForDocumentDetail(rating: number) {
     for (var i = 1; i <= rating; i++) {
-      this.ratingsForDocumentDetail[i-1] = {
+      this.ratingsForDocumentDetail[i - 1] = {
         "status": "ratingActive",
         "index": i
       };
     }
 
     for (var i = 5; i > (rating); i--) {
-      console.log("i: "+ i);
-      this.ratingsForDocumentDetail[i-1] = {
+      console.log("i: " + i);
+      this.ratingsForDocumentDetail[i - 1] = {
         "status": "ratingInactive",
         "index": i
       };
@@ -31,11 +35,14 @@ export class DocumentDetailComponent implements OnInit {
   };
 
   ngOnInit() {
-    this.defineRatingForDocumentDetail(this.specificDocument.rating);
+    this.apiService.getDocumentDetails(this.route.snapshot.params.id)
+      .then(response => {
+        this.specificDocument = response;
+        this.defineRatingForDocumentDetail(this.specificDocument.rating);
+      });
   }
 
-  addComment(commentText: string)
-  {
+  addComment(commentText: string) {
     this.specificDocument.comments.push(
       {
         "user": "Arik",
