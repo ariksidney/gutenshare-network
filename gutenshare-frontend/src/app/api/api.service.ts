@@ -31,16 +31,16 @@ export class ApiService {
   getDocuments(browseCategories: BrowseCategories): Promise<any> {
     let httpParams = new HttpParams();
 
-    if (browseCategories.school != '') {
-      httpParams = httpParams.set('school', browseCategories.school);
+    if (browseCategories.school.length > 0) {
+      httpParams = httpParams.set('school', browseCategories.school[0]);
     }
 
-    if (browseCategories.departement != '') {
-      httpParams = httpParams.set('departement', browseCategories.departement);
+    if (browseCategories.departement.length > 0) {
+      httpParams = httpParams.set('departement', browseCategories.departement[0]);
     }
 
-    if (browseCategories.course != '') {
-      httpParams = httpParams.set('course', browseCategories.course);
+    if (browseCategories.course.length > 0) {
+      httpParams = httpParams.set('course', browseCategories.course[0]);
     }
 
     return this.http.get(baseUrl + "/api/browse",
@@ -69,9 +69,7 @@ export class ApiService {
       ).toPromise();
   }
 
-
   addDocument (payload : FormData) {
-    console.log("blub");
     return this.http.post<FormData>(baseUrl + "/api/document", payload)
       .pipe(
         catchError(this.handleError)

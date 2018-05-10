@@ -15,10 +15,6 @@ export class DocumentBrowserComponent implements OnInit {
   browseCategories = new BrowseCategories;
   matchingDocuments: any[] = [];
 
-  activeSchool: string = '';
-  activeDepartement: string = '';
-  activeCourse: string = '';
-
   constructor(private apiService:ApiService, private route: ActivatedRoute, private router: Router) {
     router.events.subscribe(e => { this.checkIfQueryIsDefined(), this.fetchCategories()});
   }
@@ -41,25 +37,16 @@ export class DocumentBrowserComponent implements OnInit {
     }
   }
 
-  addSchool(school: string) {
-    this.browseCategories.school = school;
-  }
-
-  addDepartement(departement: string) {
-    this.browseCategories.departement = departement;
-  }
-
-  addCourse(course: string) {
-    this.activeSchool = course;
-    this.browseCategories.course = course;
-  }
-
   getDocuments() {
-    this.apiService.getDocuments(this.browseCategories).then(
-      response => {this.matchingDocuments = response}
-    );
+      this.apiService.getDocuments(this.browseCategories)
+        .then(
+          response => {
+            this.matchingDocuments = response;
+            this.browseCategories = new BrowseCategories;
+          }
+        );
 
-    this.router.navigateByUrl('/browse');
+      this.router.navigateByUrl('/browse');
   }
 }
 

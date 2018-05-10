@@ -9,9 +9,9 @@
     <div class="col-md-4">
       <form (submit)="getDocuments()">
         <div class="form-group">
-          <label for="">Institution</label>
-          <select id="form-schools" class="form-control" multiple>
-            <option *ngFor="let school of predefinedCategories.schools" (click)="addSchool(school.name)">
+          <label for="form-schools">Institution</label>
+          <select [(ngModel)]="browseCategories.school" id="form-schools" name="school" class="form-control" multiple>
+            <option *ngFor="let school of predefinedCategories.schools">
               {{ school.name }}
             </option>
           </select>
@@ -21,9 +21,9 @@
     <div class="col-md-4">
       <form>
         <div class="form-group">
-          <label for="">Department</label>
-          <select id="form-departements" class="form-control" multiple>
-            <option *ngFor="let department of predefinedCategories.departments" (click)="addDepartement(department.name)">
+          <label for="form-departements">Department</label>
+          <select [(ngModel)]="browseCategories.departement" id="form-departements" name="departement" class="form-control" multiple>
+            <option *ngFor="let department of predefinedCategories.departments">
               {{ department.name }}
             </option>
           </select>
@@ -33,9 +33,9 @@
     <div class="col-md-4">
       <form>
         <div class="form-group">
-          <label for="">Course</label>
-          <select id="form-courses" class="form-control" multiple>
-            <option *ngFor="let course of predefinedCategories.courses" (click)="addCourse(course.name)">
+          <label for="form-courses">Course</label>
+          <select [(ngModel)]="browseCategories.course" id="form-courses" name="course" class="form-control" multiple>
+            <option *ngFor="let course of predefinedCategories.courses">
               {{ course.name }}
             </option>
           </select>
