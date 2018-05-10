@@ -85,7 +85,7 @@
       <label class="col-sm-2 col-form-label">School</label>
       <div class="col-sm-5">
         <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
-        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
+        <input *ngIf="!activeSchool || !activeDepartment || !activeCourse" [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
                placeholder="Search">
         <div *ngIf="activeSchool" class="document_course_line">
           <label class="col-sm-3 col-form-label">Institution</label>
