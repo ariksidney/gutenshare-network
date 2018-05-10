@@ -15,6 +15,10 @@ export class DocumentBrowserComponent implements OnInit {
   browseCategories = new BrowseCategories;
   matchingDocuments: any[] = [];
 
+  activeSchool: string = '';
+  activeDepartement: string = '';
+  activeCourse: string = '';
+
   constructor(private apiService:ApiService, private route: ActivatedRoute, private router: Router) {
     router.events.subscribe(e => { this.checkIfQueryIsDefined(), this.fetchCategories()});
   }
@@ -46,6 +50,7 @@ export class DocumentBrowserComponent implements OnInit {
   }
 
   addCourse(course: string) {
+    this.activeSchool = course;
     this.browseCategories.course = course;
   }
 
