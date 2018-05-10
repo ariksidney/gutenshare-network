@@ -24,6 +24,8 @@ export class CreateDocumentComponent implements OnInit {
   requiredAlert:string = "* This field is required";
   descriptionAlert:string = "* 5 to 500 characters required";
 
+  isDocumentAddedSuccessfully = false;
+
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService
@@ -32,14 +34,13 @@ export class CreateDocumentComponent implements OnInit {
     this.fetchCategories();
   }
 
+  ngOnInit(){}
+
   fetchCategories() {
     this.apiService.getCategories()
       .then(response => {
         this.predefinedCategories = response;
       });
-  }
-
-  ngOnInit() {
   }
 
   pickSchool(school: any): void {
@@ -125,6 +126,8 @@ export class CreateDocumentComponent implements OnInit {
         this.apiService.addDocument(payload).subscribe(
           resp => console.log(resp),
         );
+
+        this.isDocumentAddedSuccessfully = true;
       }
   }
 

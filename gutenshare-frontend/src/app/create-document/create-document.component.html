@@ -9,156 +9,166 @@
 </div>
 
 <div class="container">
-<form [formGroup]="createDocumentForm" (ngSubmit)="postDocument(createDocumentForm.value)">
-
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">File</label>
-    <div class="col-sm-10">
-      <div class="custom-file">
-        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fileName" type="file"
-               class="custom-file-input" id="file_upload_input" (change)="setFile($event)">
-        <label class="custom-file-label" for="file_upload_input">{{fileName}}</label>
-      </div>
+  <div *ngIf="isDocumentAddedSuccessfully">
+    <div class="alert alert-info" role="alert">
+      Your document has successfully been added!
     </div>
+    <h3>What to do next?</h3>
+    <a href="/browse">Browse other documents</a>
+    <br>
+    <a href="/upload">Upload a new file</a>
   </div>
 
-  <div class="form-group row">
-    <label for="document_name_input" class="col-sm-2 col-form-label">Name</label>
-    <div class="col-sm-10">
-      <input formControlName="name" type="text" class="form-control" id="document_name_input"
-             placeholder="Numerik Zusammenfassung">
-      <p class="text-warning" *ngIf="!createDocumentForm.controls['name'].valid
-      && showErrorMessages == true">{{ requiredAlert }}</p>
-    </div>
-  </div>
+  <form *ngIf="!isDocumentAddedSuccessfully" [formGroup]="createDocumentForm" (ngSubmit)="postDocument(createDocumentForm.value)">
 
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Type</label>
-    <div class="col-sm-10">
-      <div class='form-check form-check-inline'
-           *ngFor="let docType of documentTypes, let n = index">
-        <label class="btn btn-outline-secondary" [ngClass]="{'btn-outline-secondary': docType!=documentType,
-        'btn-secondary': docType===documentType}" [for]='"documenttype_radio_"+docType'>
-          <input
-            (click)="setDocumentType(n)"
-            class='form-check-input hidden'
-            name='type'
-            formControlName="type"
-            type='radio'
-            [id]='"documenttype_radio_"+docType'
-            [value]="docType"
-            autocomplete="off"
-          />
-          {{docType}}
-        </label>
-      </div>
-      <p class="text-warning" *ngIf="!createDocumentForm.controls['type'].valid
-      && showErrorMessages == true">{{ requiredAlert }}</p>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Tags</label>
-    <div formArrayName="tags" class="col-sm-10">
-      <div class="form-inline document_tag_line" *ngFor="let tag of createDocumentForm.get('tags').controls;
-      let i = index; let isLast = last;">
-        <input [formControlName]="i" type="text" class="col-sm-9 form-control" [placeholder]='"Tag " + (i+1)'>
-        <button (click)="removeTag(i)" type="button" [disabled]="i==0"
-                class="col-sm-1 btn btn-outline-secondary">-</button>
-        <button *ngIf="isLast" (click)="addTag()"
-                type="button" class="col-sm-1 btn btn-outline-secondary">+</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">School</label>
-    <div class="col-sm-5">
-      <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
-      <input [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
-             placeholder="Search">
-      <div *ngIf="activeSchool" class="document_course_line">
-        <label class="col-sm-3 col-form-label">Institution</label>
-        <div class="col-sm-9" class="btn-group" role="group">
-          <input [value]="activeSchool.name" type="button" class="btn btn-outline-secondary">
-          <button (click)="resetSchool()" type="button" class="btn btn-outline-secondary">x</button>
-        </div>
-      </div>
-
-      <div *ngIf="activeDepartment" class="document_course_line">
-        <label class="col-sm-3 col-form-label">Department</label>
-        <div class="col-sm-9" class="btn-group" role="group">
-          <button type="button" class="btn btn-outline-secondary">{{activeDepartment.name}}</button>
-          <button (click)="resetDepartment()" type="button" class="btn btn-outline-secondary">x</button>
-        </div>
-      </div>
-
-      <div *ngIf="activeSchool && activeDepartment && !activeCourse" class="document_course_line">
-        <label class="document_course_line col-sm-12 col-form-label">Create Course</label>
-        <div class="document_course_line">
-          <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id=""
-                 placeholder="Haftpflichtrecht">
-          <button (click)="pickCourse(newCourse.value)" type="button"
-                  class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
-        </div>
-      </div>
-
-      <div *ngIf="activeCourse" class="document_course_line">
-        <label class="col-sm-3 col-form-label">Course</label>
-        <div class="col-sm-9" class="btn-group" role="group">
-          <button type="button" class="btn btn-outline-secondary">{{activeCourse.name}}</button>
-          <button (click)="resetCourse()" type="button" class="btn btn-outline-secondary">x</button>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">File</label>
+      <div class="col-sm-10">
+        <div class="custom-file">
+          <input [ngModelOptions]="{standalone: true}" [(ngModel)]="fileName" type="file"
+                 class="custom-file-input" id="file_upload_input" (change)="setFile($event)">
+          <label class="custom-file-label" for="file_upload_input">{{fileName}}</label>
         </div>
       </div>
     </div>
 
-    <!--todo: mouseOver css class solution not ver pretty-->
-    <div class="col-sm-5">
-      <ul *ngIf="!activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let school of predefinedCategories.schools | textFilter: 'name' : filterTextInput"
-            (mouseover)="mOver=school" (mouseout)="mOver=null"
-            [ngClass]="{'list-group-item-secondary': mOver==school}"
-            (click)="pickSchool(school)"
-            class="list-group-item">
-          {{school.name}}
-        </li>
-      </ul>
-      <ul *ngIf="activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let department of predefinedCategories.departments | textFilter: 'name' : filterTextInput"
-            (mouseover)="mOver=department" (mouseout)="mOver=null"
-            [ngClass]="{'list-group-item-secondary': mOver==department}"
-            (click)="pickDepartment(department)"
-            class="list-group-item">
-          {{department.name}}
-        </li>
-      </ul>
-      <ul *ngIf="activeSchool && activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let course of predefinedCategories.courses | textFilter: null : filterTextInput"
-            (mouseover)="mOver=course" (mouseout)="mOver=null"
-            [ngClass]="{'list-group-item-secondary': mOver==course}"
-            (click)="pickCourse(course)"
-            class="list-group-item">
-          {{course.name}}
-        </li>
-      </ul>
+    <div class="form-group row">
+      <label for="document_name_input" class="col-sm-2 col-form-label">Name</label>
+      <div class="col-sm-10">
+        <input formControlName="name" type="text" class="form-control" id="document_name_input"
+               placeholder="Numerik Zusammenfassung">
+        <p class="text-warning" *ngIf="!createDocumentForm.controls['name'].valid
+        && showErrorMessages == true">{{ requiredAlert }}</p>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label" for="document_description_input">Description</label>
-    <div class="col-sm-10">
-      <textarea formControlName="description" class="form-control" id="document_description_input"
-                rows="3" placeholder="Describe your upload"></textarea>
-      <p class="text-warning" *ngIf="!createDocumentForm.controls['description'].valid && showErrorMessages == true">
-        {{ descriptionAlert }}</p>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Type</label>
+      <div class="col-sm-10">
+        <div class='form-check form-check-inline'
+             *ngFor="let docType of documentTypes, let n = index">
+          <label class="btn btn-outline-secondary" [ngClass]="{'btn-outline-secondary': docType!=documentType,
+          'btn-info': docType===documentType}" [for]='"documenttype_radio_"+docType'>
+            <input
+              (click)="setDocumentType(n)"
+              class='form-check-input hidden'
+              name='type'
+              formControlName="type"
+              type='radio'
+              [id]='"documenttype_radio_"+docType'
+              [value]="docType"
+              autocomplete="off"
+            />
+            {{docType}}
+          </label>
+        </div>
+        <p class="text-warning" *ngIf="!createDocumentForm.controls['type'].valid
+        && showErrorMessages == true">{{ requiredAlert }}</p>
+      </div>
     </div>
-  </div>
 
-  <div class="form-group row">
-    <div class="col-sm-10 offset-sm-2">
-      <button type="submit" class="btn btn-secondary" [ngClass]="{
-      'btn-valid': createDocumentForm.valid}">Submit</button>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Tags</label>
+      <div formArrayName="tags" class="col-sm-10">
+        <div class="form-inline document_tag_line" *ngFor="let tag of createDocumentForm.get('tags').controls;
+        let i = index; let isLast = last;">
+          <input [formControlName]="i" type="text" class="col-sm-9 form-control" [placeholder]='"Tag " + (i+1)'>
+          <button (click)="removeTag(i)" type="button" [disabled]="i==0"
+                  class="col-sm-1 btn btn-outline-secondary">-</button>
+          <button *ngIf="isLast" (click)="addTag()"
+                  type="button" class="col-sm-1 btn btn-outline-secondary">+</button>
+        </div>
+      </div>
     </div>
-  </div>
-</form>
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">School</label>
+      <div class="col-sm-5">
+        <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
+        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
+               placeholder="Search">
+        <div *ngIf="activeSchool" class="document_course_line">
+          <label class="col-sm-3 col-form-label">Institution</label>
+          <div class="col-sm-9" class="btn-group" role="group">
+            <input [value]="activeSchool.name" type="button" class="btn btn-outline-secondary">
+            <button (click)="resetSchool()" type="button" class="btn btn-outline-secondary">x</button>
+          </div>
+        </div>
+
+        <div *ngIf="activeDepartment" class="document_course_line">
+          <label class="col-sm-3 col-form-label">Department</label>
+          <div class="col-sm-9" class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-secondary">{{activeDepartment.name}}</button>
+            <button (click)="resetDepartment()" type="button" class="btn btn-outline-secondary">x</button>
+          </div>
+        </div>
+
+        <div *ngIf="activeSchool && activeDepartment && !activeCourse" class="document_course_line">
+          <label class="document_course_line col-sm-12 col-form-label">Create Course</label>
+          <div class="document_course_line">
+            <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id=""
+                   placeholder="Haftpflichtrecht">
+            <button (click)="pickCourse(newCourse.value)" type="button"
+                    class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
+          </div>
+        </div>
+
+        <div *ngIf="activeCourse" class="document_course_line">
+          <label class="col-sm-3 col-form-label">Course</label>
+          <div class="col-sm-9" class="btn-group" role="group">
+            <button type="button" class="btn btn-outline-secondary">{{activeCourse.name}}</button>
+            <button (click)="resetCourse()" type="button" class="btn btn-outline-secondary">x</button>
+          </div>
+        </div>
+      </div>
+
+      <!--todo: mouseOver css class solution not ver pretty-->
+      <div class="col-sm-5">
+        <ul *ngIf="!activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
+          <li *ngFor="let school of predefinedCategories.schools | textFilter: 'name' : filterTextInput"
+              (mouseover)="mOver=school" (mouseout)="mOver=null"
+              [ngClass]="{'list-group-item-secondary': mOver==school}"
+              (click)="pickSchool(school)"
+              class="list-group-item">
+            {{school.name}}
+          </li>
+        </ul>
+        <ul *ngIf="activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
+          <li *ngFor="let department of predefinedCategories.departments | textFilter: 'name' : filterTextInput"
+              (mouseover)="mOver=department" (mouseout)="mOver=null"
+              [ngClass]="{'list-group-item-secondary': mOver==department}"
+              (click)="pickDepartment(department)"
+              class="list-group-item">
+            {{department.name}}
+          </li>
+        </ul>
+        <ul *ngIf="activeSchool && activeDepartment && !activeCourse" class="list-group list-scroll">
+          <li *ngFor="let course of predefinedCategories.courses | textFilter: null : filterTextInput"
+              (mouseover)="mOver=course" (mouseout)="mOver=null"
+              [ngClass]="{'list-group-item-secondary': mOver==course}"
+              (click)="pickCourse(course)"
+              class="list-group-item">
+            {{course.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label" for="document_description_input">Description</label>
+      <div class="col-sm-10">
+        <textarea formControlName="description" class="form-control" id="document_description_input"
+                  rows="3" placeholder="Describe your upload"></textarea>
+        <p class="text-warning" *ngIf="!createDocumentForm.controls['description'].valid && showErrorMessages == true">
+          {{ descriptionAlert }}</p>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-10 offset-sm-2">
+        <button type="submit" class="btn btn-secondary" [ngClass]="{
+        'btn-valid': createDocumentForm.valid}">Submit</button>
+      </div>
+    </div>
+  </form>
 </div>
