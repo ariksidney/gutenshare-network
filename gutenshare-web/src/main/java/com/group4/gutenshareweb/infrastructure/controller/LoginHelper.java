@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -16,9 +17,11 @@ import java.util.List;
 public class LoginHelper implements UserDetailsService {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
-    public LoginHelper(UserService userService) {
+    public LoginHelper(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -40,7 +43,8 @@ public class LoginHelper implements UserDetailsService {
         return userService.getAllUsers();
     }
 
-    public void save(String username, String password, String firstname, String lastname, String mail) {
-        userService.save(username, password, firstname, lastname, mail);
+    public void save(UserDto userDto) {
+        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userService.save(userDto);
     }
 }

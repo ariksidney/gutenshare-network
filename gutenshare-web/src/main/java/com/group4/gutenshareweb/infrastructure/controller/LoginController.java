@@ -1,15 +1,13 @@
 package com.group4.gutenshareweb.infrastructure.controller;
 
+import com.group4.api.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/Login")
+@RequestMapping("/login")
 public class LoginController {
 
     @Autowired
@@ -20,11 +18,9 @@ public class LoginController {
         return loginHelper.findAll();
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
-    public void create(@RequestBody String username, @RequestBody String password, @RequestBody String firstname,
-                       @RequestBody String lastname, @RequestBody String mail) {
-
-        loginHelper.save(username, password, firstname, lastname, mail);
+    @PostMapping(value = "/register")
+    public void create(@RequestBody UserDto user) {
+        loginHelper.save(user);
     }
 
 }

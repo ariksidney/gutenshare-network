@@ -31,9 +31,9 @@ public class UserService {
         return toUserDto(userRepositoryInterface.findByUsername(username));
     }
 
-    public void save(String username, String password, String firstname, String lastname, String mail) {
-        User user = new User.UserBuilder().setUsername(username).setPassword(password).setSurname(firstname).setName
-                (lastname).setMail(mail).build();
+    public void save(UserDto userDto) {
+        User user = new User.UserBuilder().setUsername(userDto.getUsername()).setPassword(userDto.getPassword())
+                .setSurname(userDto.getFirstname()).setName(userDto.getLastname()).setMail(userDto.getMail()).build();
         userRepositoryInterface.save(user);
     }
 
