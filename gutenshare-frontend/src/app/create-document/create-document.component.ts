@@ -136,10 +136,10 @@ export class CreateDocumentComponent implements OnInit {
       name : [null, Validators.required],
       type : [null, Validators.required],
       file : [null, Validators.required],
-      school: [null],
-      department: [null],
+      school: [null, Validators.required],
+      department: [null, Validators.required],
       // todo: max course length if you set it yourself?
-      course: [null],
+      course: [null, Validators.required],
       description : [null, Validators.maxLength(500)],
       tags : this.fb.array([new FormControl()])
     });
