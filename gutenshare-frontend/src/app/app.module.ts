@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { JwtModule } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { UserComponent } from "./user/user.component";
@@ -21,9 +22,14 @@ import { ExtractCoursesPipe } from "./pipes/extract-courses.pipe";
 import { AppRoutingModule } from "./app-routing.module";
 import { DocumentBrowserComponent } from './document-browser/document-browser.component';
 import { DocumentDetailComponent } from "./document-detail/document-detail.component";
+import {AuthService} from "./login/auth.service";
+import { Interceptor } from './app.interceptor';
+import {SessionStorage} from "./login/session.storage";
+import { DocumentDetailComponent } from "./document-detail/document-detail.component";
 import { ApiService } from "./api/api.service";
 import { DocumentsResultComponent } from "./documents-result/documents-result.component";
 import { DocumentSearchComponent } from "./document-search/document-search.component";
+
 
 @NgModule({
   declarations: [
@@ -50,8 +56,18 @@ import { DocumentSearchComponent } from "./document-search/document-search.compo
     ReactiveFormsModule,
     AppRoutingModule
   ],
-
-  providers: [ UserService, ApiService],
+  providers: [
+    ApiService,
+    UserService,
+    DocumentService,
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    },
+    SessionStorage
+  ],
   bootstrap: [ AppComponent ]
 })
 
