@@ -1,5 +1,7 @@
 package com.group4.gutenshareweb.infrastructure.controller;
 
+import com.group4.api.CategoryDto;
+import com.group4.api.CategoryService;
 import com.group4.api.DocumentDto;
 import com.group4.api.DocumentService;
 import org.springframework.http.HttpStatus;
@@ -14,9 +16,11 @@ import java.util.Optional;
 public class SearchController {
 
     private final DocumentService documentService;
+    private final CategoryService categoryService;
 
-    public SearchController(DocumentService documentService) {
+    public SearchController(DocumentService documentService, CategoryService categoryService) {
         this.documentService = documentService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping(value = "/search")
@@ -35,5 +39,16 @@ public class SearchController {
                 .orElse(null), course.orElse(null));
         return results.map(result -> new ResponseEntity<>(result, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
+    }
+
+    @GetMapping(value = "/categories")
+    public @ResponseBody ResponseEntity<CategoryDto> getCategories() {
+        CategoryDto categoryDto = categoryService.getAllCategories();
+        if (categoryDto.getCourses().isEmpty() || categoryDto.getDepartments().isEmpty() || categoryDto.getSchools()
+                .isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } else {
+            return new ResponseEntity<>(categoryDto, HttpStatus.OK);
+        }
     }
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,12 +21,24 @@ public class UserService {
         this.userRepositoryInterface = userRepositoryInterface;
     }
 
-    public List<User> getAllUsers() {
-        return userRepositoryInterface.findAll();
+    public List<UserDto> getAllUsers() {
+        List<UserDto> userDtos = new ArrayList<>();
+        userRepositoryInterface.findAll().forEach(user -> userDtos.add(toUserDto(user)));
+        return userDtos;
     }
 
-    public User getUserByUsername(String username) {
-        return userRepositoryInterface.findByUsername(username);
+    public UserDto getUserByUsername(String username) {
+        return toUserDto(userRepositoryInterface.findByUsername(username));
     }
 
+    public void save(UserDto userDto) {
+        User user = new User.UserBuilder().setUsername(userDto.getUsername()).setPassword(userDto.getPassword())
+                .setSurname(userDto.getFirstname()).setName(userDto.getLastname()).setMail(userDto.getMail()).build();
+        userRepositoryInterface.save(user);
+    }
+
+    private UserDto toUserDto(User user) {
+        return new UserDto(user.getUsername(), user.getPassword(), user.getName(), user.getSurname(), user
+                .getMail());
+    }
 }
