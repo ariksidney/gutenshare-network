@@ -1,13 +1,12 @@
 export class Document {
 
   name: string;
-  type: string;
-  tags: string[];
-  description: string;
-  storageUrl: string;
+  document: File;
+  documenttype: string;
   school: string;
-  department: string;
+  departement: string;
   course: string;
-  file: File;
+  description: string;
+  tags: string[];
 
 }

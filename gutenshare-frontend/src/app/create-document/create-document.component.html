@@ -28,7 +28,7 @@
       <input formControlName="name" type="text" class="form-control" id="document_name_input"
              placeholder="Numerik Zusammenfassung">
       <p class="text-warning" *ngIf="!createDocumentForm.controls['name'].valid
-      && createDocumentForm.controls['name'].touched">{{ requiredAlert }}</p>
+      && submitButtonIsPressed == true">{{ requiredAlert }}</p>
     </div>
   </div>
 
@@ -52,6 +52,8 @@
           {{docType}}
         </label>
       </div>
+      <p class="text-warning" *ngIf="!createDocumentForm.controls['type'].valid
+      && submitButtonIsPressed == true">{{ requiredAlert }}</p>
     </div>
   </div>
 
@@ -74,7 +76,7 @@
     <div class="col-sm-5">
       <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
       <input [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
-             placeholder="ZHAW, UZH, ETHZ">
+             placeholder="Search">
       <div *ngIf="activeSchool" class="document_course_line">
         <label class="col-sm-3 col-form-label">Institution</label>
         <div class="col-sm-9" class="btn-group" role="group">
@@ -104,7 +106,7 @@
       <div *ngIf="activeCourse" class="document_course_line">
         <label class="col-sm-3 col-form-label">Course</label>
         <div class="col-sm-9" class="btn-group" role="group">
-          <button type="button" class="btn btn-outline-secondary">{{activeCourse}}</button>
+          <button type="button" class="btn btn-outline-secondary">{{activeCourse.name}}</button>
           <button (click)="resetCourse()" type="button" class="btn btn-outline-secondary">x</button>
         </div>
       </div>
@@ -113,7 +115,7 @@
     <!--todo: mouseOver css class solution not ver pretty-->
     <div class="col-sm-5">
       <ul *ngIf="!activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let school of schools | textFilter: 'name' : filterTextInput"
+        <li *ngFor="let school of predefinedCategories.schools | textFilter: 'name' : filterTextInput"
             (mouseover)="mOver=school" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==school}"
             (click)="pickSchool(school)"
@@ -122,7 +124,7 @@
         </li>
       </ul>
       <ul *ngIf="activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let department of activeSchool.departments | textFilter: 'name' : filterTextInput"
+        <li *ngFor="let department of predefinedCategories.departments | textFilter: 'name' : filterTextInput"
             (mouseover)="mOver=department" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==department}"
             (click)="pickDepartment(department)"
@@ -131,12 +133,12 @@
         </li>
       </ul>
       <ul *ngIf="activeSchool && activeDepartment && !activeCourse" class="list-group list-scroll">
-        <li *ngFor="let course of activeDepartment.courses | textFilter: null : filterTextInput"
+        <li *ngFor="let course of predefinedCategories.courses | textFilter: null : filterTextInput"
             (mouseover)="mOver=course" (mouseout)="mOver=null"
             [ngClass]="{'list-group-item-secondary': mOver==course}"
             (click)="pickCourse(course)"
             class="list-group-item">
-          {{course}}
+          {{course.name}}
         </li>
       </ul>
     </div>
@@ -147,15 +149,15 @@
     <div class="col-sm-10">
       <textarea formControlName="description" class="form-control" id="document_description_input"
                 rows="3" placeholder="Describe your upload"></textarea>
-      <p class="text-warning" *ngIf="!createDocumentForm.controls['description'].valid
-      && createDocumentForm.controls['description'].touched">{{ descriptionAlert }}</p>
+      <p class="text-warning" *ngIf="!createDocumentForm.controls['description'].valid && submitButtonIsPressed == true">
+        {{ descriptionAlert }}</p>
     </div>
   </div>
 
   <div class="form-group row">
     <div class="col-sm-10 offset-sm-2">
-      <button type="submit" class="btn" [ngClass]="{'btn-outline-secondary': createDocumentForm.valid,
-      'btn-outline-error': !createDocumentForm.valid}" [disabled]="!createDocumentForm.valid">Submit</button>
+      <button type="submit" class="btn btn-secondary" [ngClass]="{
+      'btn-outline-error': !createDocumentForm.valid}">Submit</button>
     </div>
   </div>
 </form>

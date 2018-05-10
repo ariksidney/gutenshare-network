@@ -9,8 +9,7 @@
 
   <p> by {{ specificDocument.user }}, {{ specificDocument.uploadDate }} </p>
 
-  <h5>Download </h5>
-  <a href="#"> {{specificDocument.downloadLink }}</a>
+  <button type="button" class="btn btn-info btn-download">Download</button>
 
   <h5>More details</h5>
 
@@ -25,7 +24,7 @@
     </tr>
     <tr>
       <th scope="col">Departement: </th>
-      <td scope="col">{{ specificDocument.department }}</td>
+      <td scope="col">{{ specificDocument.departement }}</td>
     </tr>
     <tr>
       <th scope="col">Course: </th>
@@ -76,7 +75,3 @@
     </form>
   </a>
 </div>
-
-<a download="data_bjbj" xd-href="data">
-  <button ng-disabled="!data">Download</button>
-</a>

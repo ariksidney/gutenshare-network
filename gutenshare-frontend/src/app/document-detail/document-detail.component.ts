@@ -1,8 +1,9 @@
 import {Component, OnInit} from "@angular/core";
 import {ApiService} from "../api/api.service";
 import {ActivatedRoute} from "@angular/router";
-import {DocumentReview} from "./document-rating";
+import {DocumentRating} from "./document-rating";
 import {DocumentComment} from "./document-comment";
+import {DocumentDetail} from "./document-detail";
 
 @Component({
   selector: 'app-document-detail',
@@ -11,7 +12,8 @@ import {DocumentComment} from "./document-comment";
 })
 
 export class DocumentDetailComponent implements OnInit {
-  specificDocument;
+  response;
+  specificDocument = new DocumentDetail();
   ratingsForDocumentDetail: any[5] = [];
   userGaveRating: boolean = false;
 
@@ -21,42 +23,19 @@ export class DocumentDetailComponent implements OnInit {
   ngOnInit() {
     this.apiService.getDocumentDetails(this.route.snapshot.params.id)
       .then(response => {
-        this.specificDocument = response;
+        this.response = response;
+
+        this.mapResponseToSpecificDocument(response);
+
+
+        console.log(response);
+
         this.defineRatingForDocumentDetail(this.specificDocument.rating);
-        // this.getDownloadLink(this.specificDocument.documentAsBytes);
       });
   }
 
-  // getDownloadLink(documentAsBytes: Uint8Array){
-  //   var reader = new FileReader();
-  //
-  //   reader.readAsDataURL(new Blob([documentAsBytes], {type:'application/pdf'}));
-  //
-  //   reader.onload = function(e) {
-  //     window.open(decodeURIComponent(reader.result), '_self', '', false);
-  //   }
-  //
-  // }
-  
-  defineRatingForDocumentDetail(rating: number) {
-    for (var i = 1; i <= rating; i++) {
-      this.ratingsForDocumentDetail[i - 1] = {
-        "status": "ratingActive",
-        "index": i
-      };
-    }
-
-    for (var i = 5; i > (rating); i--) {
-      this.ratingsForDocumentDetail[i - 1] = {
-        "status": "ratingInactive",
-        "index": i
-      };
-    }
-  };
-
   addComment(commentText: string) {
     let documentComment = new DocumentComment();
-
     documentComment.documentid = this.specificDocument.id;
     documentComment.user = 'rudi';
     documentComment.content = commentText;
@@ -65,15 +44,14 @@ export class DocumentDetailComponent implements OnInit {
       {
         this.apiService.getDocumentDetails(this.route.snapshot.params.id)
           .then(response => {
-            this.specificDocument = response;
+            this.mapResponseToSpecificDocument(response);
           });
       }
     );
   }
 
   addRating(newRating: number) {
-
-    let documentReview = new DocumentReview;
+    let documentReview = new DocumentRating;
 
     documentReview.documentid = this.specificDocument.id;
     documentReview.user = 'rudi';
@@ -83,12 +61,47 @@ export class DocumentDetailComponent implements OnInit {
       {
         this.apiService.getDocumentDetails(this.route.snapshot.params.id)
           .then(response => {
-            this.specificDocument = response;
+            this.mapResponseToSpecificDocument(response);
             this.defineRatingForDocumentDetail(this.specificDocument.rating);
             this.userGaveRating = true;
           });
+
       }
     );
+  }
+
+  private mapResponseToSpecificDocument(response: any){
+    this.specificDocument.id = this.response.id;
+    this.specificDocument.title = this.response.title;
+    this.specificDocument.user = this.response.user;
+    this.specificDocument.uploadDate = this.refactorDate(this.response.uploadDate);
+    this.specificDocument.description = this.response.description;
+    this.specificDocument.school = this.response.school;
+    this.specificDocument.departement = this.response.department;
+    this.specificDocument.course = this.response.course;
+    this.specificDocument.tags = this.response.tags;
+    this.specificDocument.rating = this.response.rating;
+    this.specificDocument.comments = this.response.comments;
+  }
+
+  private defineRatingForDocumentDetail(rating: number) {
+    for (let i = 1; i <= rating; i++) {
+      this.ratingsForDocumentDetail[i - 1] = {
+        "status": "ratingActive",
+        "index": i
+      };
+    }
+
+    for (let i = 5; i > (rating); i--) {
+      this.ratingsForDocumentDetail[i - 1] = {
+        "status": "ratingInactive",
+        "index": i
+      };
+    }
+  };
+
+  private refactorDate(date: string[]): string {
+    return this.specificDocument.uploadDate = `${date[2]}.${date[1]}.${date[0]}`
   }
 }
 

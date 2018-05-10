@@ -10,8 +10,8 @@
       <form (submit)="getDocuments()">
         <div class="form-group">
           <label for="">Institution</label>
-          <select class="form-control" id="" multiple>
-            <option *ngFor="let school of schools" (click)="addSchool(school.name)">
+          <select id="form-schools" class="form-control" multiple>
+            <option *ngFor="let school of predefinedCategories.schools" (click)="addSchool(school.name)">
               {{ school.name }}
             </option>
           </select>
@@ -22,9 +22,9 @@
       <form>
         <div class="form-group">
           <label for="">Department</label>
-          <select class="form-control" id="" multiple>
-            <option *ngFor="let department of schools | extractDepartments" (click)="addDepartement(department)">
-              {{ department }}
+          <select id="form-departements" class="form-control" multiple>
+            <option *ngFor="let department of predefinedCategories.departments" (click)="addDepartement(department.name)">
+              {{ department.name }}
             </option>
           </select>
         </div>
@@ -34,18 +34,18 @@
       <form>
         <div class="form-group">
           <label for="">Course</label>
-          <select class="form-control" id="" multiple>
-            <option *ngFor="let course of schools | extractCourses" (click)="addCourse(course)">
-              {{ course }}
+          <select id="form-courses" class="form-control" multiple>
+            <option *ngFor="let course of predefinedCategories.courses" (click)="addCourse(course.name)">
+              {{ course.name }}
             </option>
           </select>
         </div>
-        <div class="col-md-12">
-          <button type="button" class="btn btn-block btn-info btn-get-documents" (click)="getDocuments()">Get Documents</button>
-        </div>
       </form>
+    </div>
+    <div class="col-md-12">
+      <button type="button" class="btn btn-block btn-info btn-get-documents" (click)="getDocuments()">Get Documents</button>
     </div>
   </div>
 
-  <app-documents-result [documents]="documents"></app-documents-result>
+  <app-documents-result [documents]="matchingDocuments"></app-documents-result>
 </div>

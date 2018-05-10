@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SCHOOLS } from '../mock-data/mock-data';
-import { DOCUMENTS } from '../mock-data/mock-data';
-import { DocumentBrowserService } from "./document-browser.service";
-import { DocumentBrowser } from "./document-browser";
-import {ApiService} from "../api/api.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import { BrowseCategories } from "./browse-categories";
+import { ApiService } from "../api/api.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-document-browser',
@@ -14,42 +11,47 @@ import {ActivatedRoute, Router} from "@angular/router";
 
 export class DocumentBrowserComponent implements OnInit {
 
-  schools: any[] = SCHOOLS;
-
-  documents: any[] = [];
-  currentSearchCriteria: string = '';
-  sortReverse: boolean = false;
-
-  browsedDocuments = new DocumentBrowser();
+  predefinedCategories: any = [];
+  browseCategories = new BrowseCategories;
+  matchingDocuments: any[] = [];
 
   constructor(private apiService:ApiService, private route: ActivatedRoute, private router: Router) {
-    router.events.subscribe(e => this.checkIfQueryIsDefined());
+    router.events.subscribe(e => { this.checkIfQueryIsDefined(), this.fetchCategories()});
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+
+  fetchCategories() {
+    this.apiService.getCategories()
+      .then(response => {
+        this.predefinedCategories = response;
+      });
+  }
 
   checkIfQueryIsDefined() {
     let query = this.route.snapshot.params.query;
+
     if (query != undefined) {
-      this.apiService.searchDocuments(query).then(response => this.documents = (response));
+      this.apiService.searchDocuments(query).then(response => this.matchingDocuments = (response));
     }
   }
 
   addSchool(school: string) {
-    this.browsedDocuments.school = school;
+    this.browseCategories.school = school;
   }
 
   addDepartement(departement: string) {
-    this.browsedDocuments.departement = departement;
+    this.browseCategories.departement = departement;
   }
 
   addCourse(course: string) {
-    this.browsedDocuments.course = course;
+    this.browseCategories.course = course;
   }
 
   getDocuments() {
-    this.apiService.getDocuments(this.browsedDocuments).then(
-      response => this.documents = response
+    this.apiService.getDocuments(this.browseCategories).then(
+      response => {this.matchingDocuments = response}
     );
 
     this.router.navigateByUrl('/browse');
