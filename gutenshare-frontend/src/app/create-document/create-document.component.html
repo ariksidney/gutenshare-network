@@ -29,6 +29,8 @@
                  class="custom-file-input" id="file_upload_input" (change)="setFile($event)">
           <label class="custom-file-label" for="file_upload_input">{{fileName}}</label>
         </div>
+        <p class="text-warning" *ngIf="!createDocumentForm.controls['file'].valid
+        && showErrorMessages == true">{{ requiredAlert }}</p>
       </div>
     </div>
 
@@ -94,6 +96,8 @@
             <button (click)="resetSchool()" type="button" class="btn btn-outline-secondary">x</button>
           </div>
         </div>
+        <p class="text-warning" *ngIf="!createDocumentForm.controls['school'].valid
+        && showErrorMessages == true">{{ requiredSchoolAlert }}</p>
 
         <div *ngIf="activeDepartment" class="document_course_line">
           <label class="col-sm-3 col-form-label">Department</label>
@@ -102,6 +106,8 @@
             <button (click)="resetDepartment()" type="button" class="btn btn-outline-secondary">x</button>
           </div>
         </div>
+        <p class="text-warning" *ngIf="!createDocumentForm.controls['department'].valid
+        && showErrorMessages == true">{{ requiredDepartementAlert }}</p>
 
         <div *ngIf="activeSchool && activeDepartment && !activeCourse" class="document_course_line">
           <label class="document_course_line col-sm-12 col-form-label">Create Course</label>
@@ -120,6 +126,8 @@
             <button (click)="resetCourse()" type="button" class="btn btn-outline-secondary">x</button>
           </div>
         </div>
+        <p class="text-warning" *ngIf="!createDocumentForm.controls['course'].valid
+        && showErrorMessages == true">{{ requiredCourseAlert }}</p>
       </div>
 
       <!--todo: mouseOver css class solution not ver pretty-->

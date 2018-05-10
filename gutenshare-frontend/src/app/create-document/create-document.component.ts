@@ -22,6 +22,9 @@ export class CreateDocumentComponent implements OnInit {
 
   showErrorMessages = false;
   requiredAlert:string = "* This field is required";
+  requiredSchoolAlert:string = "* School is required";
+  requiredDepartementAlert:string = "* Departement is required";
+  requiredCourseAlert:string = "* Course is required";
   descriptionAlert:string = "* 5 to 500 characters required";
 
   isDocumentAddedSuccessfully = false;
