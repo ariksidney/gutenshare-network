@@ -12,7 +12,6 @@ import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
 import { SettingsComponent } from './settings/settings.component';
 
-import { DocumentService } from './create-document/document.service'
 import { UserService } from './user/user.service';
 
 import { TextfilterPipe } from './pipes/textfilter.pipe';
@@ -21,7 +20,10 @@ import { ExtractCoursesPipe } from "./pipes/extract-courses.pipe";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { DocumentBrowserComponent } from './document-browser/document-browser.component';
-import {DocumentDetailComponent} from "./document-detail/document-detail.component";
+import { DocumentDetailComponent } from "./document-detail/document-detail.component";
+import { ApiService } from "./api/api.service";
+import { DocumentsResultComponent } from "./documents-result/documents-result.component";
+import { DocumentSearchComponent } from "./document-search/document-search.component";
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import {DocumentDetailComponent} from "./document-detail/document-detail.compone
     ProfileComponent,
     SettingsComponent,
     DocumentBrowserComponent,
-    DocumentDetailComponent
+    DocumentDetailComponent,
+    DocumentsResultComponent,
+    DocumentSearchComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,8 @@ import {DocumentDetailComponent} from "./document-detail/document-detail.compone
     ReactiveFormsModule,
     AppRoutingModule
   ],
-  providers: [ UserService, DocumentService ],
+
+  providers: [ UserService, ApiService],
   bootstrap: [ AppComponent ]
 })
 

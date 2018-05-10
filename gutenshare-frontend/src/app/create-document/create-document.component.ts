@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DocumentService } from "./document.service";
-import { SCHOOLS, DOCUMENT_TYPES } from '../mock-data/mock-data';
-
+import { DOCUMENT_TYPES } from '../mock-data/mock-data';
+import {ApiService} from "../api/api.service";
 
 @Component({
   selector: 'app-create-document',
@@ -11,9 +10,7 @@ import { SCHOOLS, DOCUMENT_TYPES } from '../mock-data/mock-data';
 })
 
 export class CreateDocumentComponent implements OnInit {
-
-
-  schools: any[] = SCHOOLS;
+  predefinedCategories: any = [] ;
   documentTypes: string[] = DOCUMENT_TYPES;
   createDocumentForm: FormGroup;
   documentType: string;
@@ -23,17 +20,27 @@ export class CreateDocumentComponent implements OnInit {
   filterTextInput: string = '';
   fileName: string = 'Choose file...';
 
-  requiredAlert:string = "This field is required";
-  descriptionAlert:string = "5 to 500 characters required";
+  showErrorMessages = false;
+  requiredAlert:string = "* This field is required";
+  descriptionAlert:string = "* 5 to 500 characters required";
+
+  isDocumentAddedSuccessfully = false;
 
   constructor(
     private fb: FormBuilder,
-    private documentService: DocumentService
+    private apiService: ApiService
   ) {
     this.initializeForm();
+    this.fetchCategories();
   }
 
-  ngOnInit() {
+  ngOnInit(){}
+
+  fetchCategories() {
+    this.apiService.getCategories()
+      .then(response => {
+        this.predefinedCategories = response;
+      });
   }
 
   pickSchool(school: any): void {
@@ -51,7 +58,7 @@ export class CreateDocumentComponent implements OnInit {
   pickCourse(course: any): void {
     this.activeCourse = course;
     // todo: what if course too long?
-    this.createDocumentForm.get('course').setValue(course);
+    this.createDocumentForm.get('course').setValue(course.name);
     this.filterTextInput = '';
   }
 
@@ -85,36 +92,43 @@ export class CreateDocumentComponent implements OnInit {
   }
 
   postDocument(post): void {
-    let payload = new FormData();
+      if (!this.createDocumentForm.valid) {
+        this.showErrorMessages = true;
+      }
+      else {
+        let payload = new FormData();
 
-    payload.append('title', post.name);
-    payload.append('documenttype', post.type.toUpperCase());
-    payload.append('document', post.file);
-    payload.append('user', 'rudi');
+        payload.append('title', post.name);
+        payload.append('documenttype', post.type.toUpperCase());
+        payload.append('document', post.file);
+        payload.append('user', 'rudi');
 
-    let prunedTags: string[] = this.pruneArray(post.tags);
-    if (prunedTags.length > 0) {
-      prunedTags.forEach(tag => {
-        payload.append('tags', tag);
-      });
-    }
+        let prunedTags: string[] = this.pruneArray(post.tags);
+        if (prunedTags.length > 0) {
+          prunedTags.forEach(tag => {
+            payload.append('tags', tag);
+          });
+        }
 
-    if (post.description) {
-      payload.append('description', post.description);
-    }
-    if (post.school) {
-      payload.append('school', post.school);
-    }
-    if (post.department) {
-      payload.append('department', post.department);
-    }
-    if (post.course) {
-      payload.append('course', post.course);
-    }
+        if (post.description) {
+          payload.append('description', post.description);
+        }
+        if (post.school) {
+          payload.append('school', post.school);
+        }
+        if (post.department) {
+          payload.append('department', post.department);
+        }
+        if (post.course) {
+          payload.append('course', post.course);
+        }
 
-    this.documentService.addDocument(payload).subscribe(
-      resp => console.log(resp),
-    );
+        this.apiService.addDocument(payload).subscribe(
+          resp => console.log(resp),
+        );
+
+        this.isDocumentAddedSuccessfully = true;
+      }
   }
 
   initializeForm():void {

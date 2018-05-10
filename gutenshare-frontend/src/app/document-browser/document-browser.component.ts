@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { SCHOOLS } from '../mock-data/mock-data';
-import { DOCUMENTS } from '../mock-data/mock-data';
+import { BrowseCategories } from "./browse-categories";
+import { ApiService } from "../api/api.service";
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-document-browser',
@@ -10,46 +11,42 @@ import { DOCUMENTS } from '../mock-data/mock-data';
 
 export class DocumentBrowserComponent implements OnInit {
 
-  schools: any[] = SCHOOLS;
+  predefinedCategories: any = [];
+  browseCategories = new BrowseCategories;
+  matchingDocuments: any[] = [];
 
-  documents: any[] = [];
-  currentSearchCriteria: string = '';
-  sortReverse: boolean = false;
-
-  constructor() { }
+  constructor(private apiService:ApiService, private route: ActivatedRoute, private router: Router) {
+    router.events.subscribe(e => { this.checkIfQueryIsDefined(), this.fetchCategories()});
+  }
 
   ngOnInit() {
   }
 
-  changeSortingCriteria(sortCriteria: string): void {
-    this.sortReverse = this.currentSearchCriteria == sortCriteria && !this.sortReverse;
+  fetchCategories() {
+    this.apiService.getCategories()
+      .then(response => {
+        this.predefinedCategories = response;
+      });
+  }
 
-    this.currentSearchCriteria = sortCriteria;
+  checkIfQueryIsDefined() {
+    let query = this.route.snapshot.params.query;
 
-    if (sortCriteria == "rating") {
-      if (!this.sortReverse)
-      {
-        this.documents.sort((a,b) => 0 - (a[sortCriteria] > b[sortCriteria] ? -1 : 1));
-      }
-      else
-      {
-        this.documents.sort((a,b) => 0 - (a[sortCriteria] > b[sortCriteria] ? 1 : -1));
-      }
-    }
-    else {
-      if (!this.sortReverse) {
-        this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? -1 : 1));
-      }
-      else {
-        this.documents.sort((a, b) => 0 - (a[sortCriteria].toLowerCase() > b[sortCriteria].toLowerCase() ? 1 : -1));
-      }
+    if (query != undefined) {
+      this.apiService.searchDocuments(query).then(response => this.matchingDocuments = (response));
     }
   }
 
-  getDocuments()
-  {
-    this.documents = DOCUMENTS;
-    this.changeSortingCriteria('title');
+  getDocuments() {
+      this.apiService.getDocuments(this.browseCategories)
+        .then(
+          response => {
+            this.matchingDocuments = response;
+            this.browseCategories = new BrowseCategories;
+          }
+        );
+
+      this.router.navigateByUrl('/browse');
   }
 }
 
