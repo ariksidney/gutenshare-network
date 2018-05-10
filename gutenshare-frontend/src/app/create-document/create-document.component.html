@@ -28,7 +28,7 @@
       <input formControlName="name" type="text" class="form-control" id="document_name_input"
              placeholder="Numerik Zusammenfassung">
       <p class="text-warning" *ngIf="!createDocumentForm.controls['name'].valid
-      && submitButtonIsPressed == true">{{ requiredAlert }}</p>
+      && showErrorMessages == true">{{ requiredAlert }}</p>
     </div>
   </div>
 
@@ -53,7 +53,7 @@
         </label>
       </div>
       <p class="text-warning" *ngIf="!createDocumentForm.controls['type'].valid
-      && submitButtonIsPressed == true">{{ requiredAlert }}</p>
+      && showErrorMessages == true">{{ requiredAlert }}</p>
     </div>
   </div>
 
@@ -149,7 +149,7 @@
     <div class="col-sm-10">
       <textarea formControlName="description" class="form-control" id="document_description_input"
                 rows="3" placeholder="Describe your upload"></textarea>
-      <p class="text-warning" *ngIf="!createDocumentForm.controls['description'].valid && submitButtonIsPressed == true">
+      <p class="text-warning" *ngIf="!createDocumentForm.controls['description'].valid && showErrorMessages == true">
         {{ descriptionAlert }}</p>
     </div>
   </div>
@@ -157,7 +157,7 @@
   <div class="form-group row">
     <div class="col-sm-10 offset-sm-2">
       <button type="submit" class="btn btn-secondary" [ngClass]="{
-      'btn-outline-error': !createDocumentForm.valid}">Submit</button>
+      'btn-valid': createDocumentForm.valid}">Submit</button>
     </div>
   </div>
 </form>
