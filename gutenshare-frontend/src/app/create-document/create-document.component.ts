@@ -116,6 +116,9 @@ export class CreateDocumentComponent implements OnInit {
         if (post.description) {
           payload.append('description', post.description);
         }
+        if (!post.description) {
+          payload.append('description', ' ');
+        }
         if (post.school) {
           payload.append('school', post.school);
         }
