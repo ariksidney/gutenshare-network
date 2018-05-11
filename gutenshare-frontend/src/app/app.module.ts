@@ -21,7 +21,6 @@ import { ExtractCoursesPipe } from "./pipes/extract-courses.pipe";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { DocumentBrowserComponent } from './document-browser/document-browser.component';
-import { DocumentDetailComponent } from "./document-detail/document-detail.component";
 import {AuthService} from "./login/auth.service";
 import { Interceptor } from './app.interceptor';
 import {SessionStorage} from "./login/session.storage";
@@ -59,7 +58,6 @@ import { DocumentSearchComponent } from "./document-search/document-search.compo
   providers: [
     ApiService,
     UserService,
-    DocumentService,
     AuthService,
     {
       provide: HTTP_INTERCEPTORS,
