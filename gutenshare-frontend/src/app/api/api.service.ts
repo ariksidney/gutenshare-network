@@ -59,13 +59,13 @@ export class ApiService {
 
   postComment(documentComment: DocumentComment) {
     return this.http.post<FormData>(
-      `${baseUrl}/api/document/comment?documentid=${documentComment.documentid}&user=rudi&comment=${documentComment.content}`, ''
+      `${baseUrl}/api/document/comment?documentid=${documentComment.documentid}&user=${documentComment.user}&comment=${documentComment.content}`, ''
     ).toPromise();
   }
 
   postRating(documentReview: DocumentRating) {
     return this.http.post<FormData>(
-      `${baseUrl}/api/document/rating?documentid=${documentReview.documentid}&user=rudi&rating=${documentReview.rating}`, ''
+      `${baseUrl}/api/document/rating?documentid=${documentReview.documentid}&user=${documentReview.user}&rating=${documentReview.rating}`, ''
       ).toPromise();
   }
 

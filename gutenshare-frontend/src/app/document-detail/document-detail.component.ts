@@ -34,7 +34,7 @@ export class DocumentDetailComponent implements OnInit {
   addComment(commentText: string) {
     let documentComment = new DocumentComment();
     documentComment.documentid = this.specificDocument.id;
-    documentComment.user = 'rudi';
+    documentComment.user = sessionStorage.getItem('username');
     documentComment.content = commentText;
 
     this.apiService.postComment(documentComment).then(data => {
@@ -50,7 +50,7 @@ export class DocumentDetailComponent implements OnInit {
     let documentReview = new DocumentRating;
 
     documentReview.documentid = this.specificDocument.id;
-    documentReview.user = 'rudi';
+    documentReview.user = sessionStorage.getItem("username");
     documentReview.rating = newRating;
 
     this.apiService.postRating(documentReview).then(data => {
