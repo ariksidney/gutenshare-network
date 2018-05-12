@@ -6,8 +6,7 @@ import {DocumentComment} from "../document-detail/document-comment";
 import {catchError} from "rxjs/operators";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
-const baseUrl = "http://api.gutenshare.network:28080";
-// const baseUrl = "http://localhost:4200";
+const baseUrl = "http://localhost:4200";
 
 const httpOptions = {
   headers: new HttpHeaders({
