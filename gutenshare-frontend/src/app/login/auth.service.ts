@@ -4,8 +4,12 @@ import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError} from "rxjs/operators";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
+
+const baseUrl = "http://api.gutenshare.network:28080";
+
 @Injectable()
 export class AuthService {
+
 
   constructor(private http: HttpClient) { }
 
@@ -15,7 +19,7 @@ export class AuthService {
     payload.append('password', password);
     payload.append('grant_type', 'password');
     // return this.http.post('/toilet/post', payload)
-    return this.http.post('/oauth/token', payload)
+    return this.http.post(baseUrl + '/oauth/token', payload)
       .pipe(
         catchError(this.handleError)
       );
@@ -23,7 +27,7 @@ export class AuthService {
 
   signUpUser(payload): Observable<any> {
     // return this.http.post('/toilet/post', payload)
-    return this.http.post('/login/register', payload)
+    return this.http.post(baseUrl + '/login/register', payload)
       .pipe(
         catchError(this.handleError)
       );
