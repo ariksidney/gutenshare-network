@@ -14,9 +14,9 @@
       Your document has successfully been added!
     </div>
     <h3>What to do next?</h3>
-    <a href="/browse">Browse other documents</a>
+    <a routerLink="/browse">Browse other documents</a>
     <br>
-    <a href="/upload">Upload a new file</a>
+    <a routerLink="/upload" (click)="resetForm()">Upload a new file</a>
   </div>
 
   <form *ngIf="!isDocumentAddedSuccessfully" [formGroup]="createDocumentForm" (ngSubmit)="postDocument(createDocumentForm.value)">

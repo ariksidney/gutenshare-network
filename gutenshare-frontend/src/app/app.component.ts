@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ApiService} from "./api/api.service";
 import {SessionStorage} from "./login/session.storage";
+import {TransferService} from "./transfer.service";
+import {AuthService} from "./login/auth.service";
 
 @Component({
   selector: 'app-root',
@@ -8,23 +10,30 @@ import {SessionStorage} from "./login/session.storage";
   styleUrls: ['./app.component.scss']
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
   title: string = 'gutenshare network';
   username: string;
+  isLoggedIn: boolean = false;
 
-  constructor(private session: SessionStorage) {
-    this.username = window.sessionStorage.getItem('username');
+  constructor(private session: SessionStorage,
+              private transfer: TransferService,
+              private auth: AuthService) {
+    this.transfer.userEmitted$.subscribe(
+      username => {
+        this.username = username;
+        this.isLoggedIn = true;
+      });
+  }
+
+  ngOnInit() {
+    this.isLoggedIn = this.auth.isLoggedIn();
   }
 
   logout() {
     this.session.logout();
+    this.username = null;
+    this.isLoggedIn = false;
   }
-
-  onUserLogin(username: string) {
-    this.username = username;
-    console.log('propagiert...');
-  }
-
 
 }

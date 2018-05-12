@@ -24,12 +24,9 @@ export class Interceptor implements HttpInterceptor {
     if (!this.session.hasToken()) {
       authReq = req.clone({ headers: req.headers.set(
           AUTH_HEADER_KEY, 'Basic ' + btoa(`${GUTENSHARE_AUTH_USER}:${GUTENSHARE_AUTH_SECRET}`))});
-      console.log('token not set');
     } else {
       authReq = req.clone({ headers: req.headers.set(AUTH_HEADER_KEY, 'Bearer ' + this.session.getToken())});
-      console.log('token set');
     }
-    console.log(authReq);
     return next.handle(authReq).do(
       (err: any) => {
         if (err instanceof HttpErrorResponse) {

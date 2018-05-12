@@ -1,70 +1,52 @@
 <h2>Sign Up</h2>
 
+<div *ngIf="signUpSuccessful">
+  <div class="alert alert-info" role="alert">
+    Your registration was successful. <a routerLink="/home/login">Login</a>
+  </div>
+</div>
+
 <form [formGroup]="signUpForm" (ngSubmit)="signUpUser(signUpForm.value)">
   <div class="form-group row">
     <label for="input_first_name" class="col-sm-3 col-form-label">First Name</label>
     <div class="col-sm-9">
-      <input formControlName="firstname" type="text" class="form-control" id="input_first_name" placeholder="Email">
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-9 offset-sm-3">
-      <p class="text-warning" *ngIf="!signUpForm.controls['firstname'].valid && showMissingInfoAlert">{{ signUpFailedAlert }}</p>
+      <input formControlName="firstname" type="text" class="form-control" id="input_first_name" placeholder="Rudi">
+      <p class="text-warning" *ngIf="!signUpForm.controls['firstname'].valid && showMissingInfoAlert">{{ missingFieldAlert }}</p>
     </div>
   </div>
   <div class="form-group row">
     <label for="input_last_name" class="col-sm-3 col-form-label">Last Name</label>
     <div class="col-sm-9">
-      <input formControlName="lastname" type="text" class="form-control" id="input_last_name" placeholder="Email">
-    </div>
-  </div>
-  <div class="form-group row" *ngIf="!signUpForm.controls['lastname'].valid && showMissingInfoAlert">
-    <div class="col-sm-9 offset-sm-3">
-      <p class="text-warning">{{ signUpFailedAlert }}</p>
+      <input formControlName="lastname" type="text" class="form-control" id="input_last_name" placeholder="Rüssel">
+      <p class="text-warning" *ngIf="!signUpForm.controls['lastname'].valid && showMissingInfoAlert">{{ missingFieldAlert }}</p>
     </div>
   </div>
   <div class="form-group row">
     <label for="input_username" class="col-sm-3 col-form-label">Username</label>
     <div class="col-sm-9">
-      <input formControlName="username" type="text" class="form-control" id="input_username" placeholder="Email">
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-9 offset-sm-3">
-      <p class="text-warning" *ngIf="!signUpForm.controls['username'].valid && showMissingInfoAlert">{{ signUpFailedAlert }}</p>
+      <input formControlName="username" type="text" class="form-control" id="input_username" placeholder="rudi">
+      <p class="text-warning" *ngIf="!signUpForm.controls['username'].valid && showMissingInfoAlert">{{ missingFieldAlert }}</p>
     </div>
   </div>
   <div class="form-group row">
     <label for="input_email" class="col-sm-3 col-form-label">Email</label>
     <div class="col-sm-9">
-      <input formControlName="mail" type="email" class="form-control" id="input_email" placeholder="Email">
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-9 offset-sm-3">
-      <p class="text-warning" *ngIf="!signUpForm.controls['mail'].valid && showMissingInfoAlert">{{ signUpFailedAlert }}</p>
+      <input formControlName="mail" type="email" class="form-control" id="input_email" placeholder="rudi@ruessel.oink">
+      <p class="text-warning" *ngIf="!signUpForm.controls['mail'].valid && showMissingInfoAlert">{{ missingFieldAlert }}</p>
     </div>
   </div>
   <div class="form-group row">
     <label for="input_password" class="col-sm-3 col-form-label">Password</label>
     <div class="col-sm-9">
       <input formControlName="password" type="password" class="form-control" id="input_password" placeholder="Password">
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-9 offset-sm-3">
-      <p class="text-warning" *ngIf="!signUpForm.controls['password'].valid && showMissingInfoAlert">{{ signUpFailedAlert }}</p>
+      <p class="text-warning" *ngIf="!signUpForm.controls['password'].valid && showMissingInfoAlert">{{ missingFieldAlert }}</p>
     </div>
   </div>
   <div class="form-group row">
     <label for="input_password_repeat" class="col-sm-3 col-form-label">Repeat</label>
     <div class="col-sm-9">
       <input formControlName="passwordRepeat" type="password" class="form-control" id="input_password_repeat" placeholder="Password">
-    </div>
-  </div>
-  <div class="form-group row">
-    <div class="col-sm-9 offset-sm-3">
-      <p class="text-warning" *ngIf="!signUpForm.controls['passwordRepeat'].valid && showMissingInfoAlert">{{ signUpFailedAlert }}</p>
+      <p class="text-warning" *ngIf="!signUpForm.controls['passwordRepeat'].valid && showMissingInfoAlert">{{ missingFieldAlert }}</p>
     </div>
   </div>
   <div class="form-group row">
@@ -79,7 +61,7 @@
   </div>
   <div class="form-group row">
     <div class="col-sm-9 offset-sm-3">
-      <button type="submit" class="btn btn-outline-secondary" [ngClass]="{'btn-valid': createDocumentForm.valid}">Sign Up</button>
+      <button type="submit" class="btn btn-outline-secondary" [ngClass]="{'btn-valid': signUpForm.valid}">Sign Up</button>
     </div>
   </div>
 </form>

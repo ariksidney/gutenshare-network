@@ -151,6 +151,13 @@ export class CreateDocumentComponent implements OnInit {
     });
   }
 
+  resetForm(): void {
+    this.createDocumentForm = null;
+    this.initializeForm();
+    this.isDocumentAddedSuccessfully = false;
+    console.log(this.createDocumentForm);
+  }
+
   addTag(): void {
     (this.createDocumentForm.get('tags') as FormArray).push(new FormControl());
   }

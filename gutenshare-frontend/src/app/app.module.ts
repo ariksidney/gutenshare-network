@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { JwtModule } from '@auth0/angular-jwt';
+import { JwtModule, JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
 
 import { AppComponent } from './app.component';
 import { UserComponent } from "./user/user.component";
@@ -28,6 +28,7 @@ import { DocumentDetailComponent } from "./document-detail/document-detail.compo
 import { ApiService } from "./api/api.service";
 import { DocumentsResultComponent } from "./documents-result/documents-result.component";
 import { DocumentSearchComponent } from "./document-search/document-search.component";
+import {TransferService} from "./transfer.service";
 
 
 @NgModule({
@@ -53,7 +54,17 @@ import { DocumentSearchComponent } from "./document-search/document-search.compo
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    // JwtModule.forRoot({
+    //   config: {
+    //     tokenGetter: () => {
+    //       return JSON.parse(sessionStorage.getItem('AuthToken'));
+    //     },
+    //     // whitelistedDomains: ['localhost:4200'],
+    //     // blacklistedRoutes: ['localhost:4200/api/'],
+    //     skipWhenExpired: true
+    //   }
+    // })
   ],
   providers: [
     ApiService,
@@ -64,7 +75,9 @@ import { DocumentSearchComponent } from "./document-search/document-search.compo
       useClass: Interceptor,
       multi: true
     },
-    SessionStorage
+    SessionStorage,
+    TransferService,
+    // JwtHelperService
   ],
   bootstrap: [ AppComponent ]
 })
