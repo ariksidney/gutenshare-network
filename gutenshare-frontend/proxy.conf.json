@@ -5,6 +5,18 @@
     "logLevel": "debug",
     "changeOrigin": false
   },
+  "/oauth/*": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": false
+  },
+  "/login/*": {
+    "target": "http://localhost:8080",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": false
+  },
   "/toilet/*": {
     "target": "http://ptsv2.com/t/nax0l-1521393896",
     "secure": false,

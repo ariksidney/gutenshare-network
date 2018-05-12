@@ -1,16 +1,21 @@
 <h2>Log In</h2>
 
-<form>
+<form [formGroup]="loginForm" (ngSubmit)="loginUser(loginForm.value)">
   <div class="form-group row">
-    <label for="inputEmail3" class="col-sm-3 col-form-label">Email</label>
+    <label class="col-sm-3 col-form-label">Username</label>
     <div class="col-sm-9">
-      <input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+      <input formControlName="username" type="text" class="form-control" placeholder="Rudi">
     </div>
   </div>
   <div class="form-group row">
-    <label for="inputPassword3" class="col-sm-3 col-form-label">Password</label>
+    <label class="col-sm-3 col-form-label">Password</label>
     <div class="col-sm-9">
-      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+      <input formControlName="password" type="password" class="form-control">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-sm-9 offset-sm-3">
+      <p class="text-warning" *ngIf="loginFailed">{{ loginFailedAlert }}</p>
     </div>
   </div>
   <div class="form-group row">
@@ -18,4 +23,5 @@
       <button type="submit" class="btn btn-outline-secondary">Log In</button>
     </div>
   </div>
+  <p>password: {{ loginForm.get('password').value }}</p>
 </form>

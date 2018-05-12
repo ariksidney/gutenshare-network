@@ -7,6 +7,7 @@ import {catchError} from "rxjs/operators";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 
 const baseUrl = "http://api.gutenshare.network:28080";
+// const baseUrl = "http://localhost:4200";
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -50,7 +51,7 @@ export class ApiService {
   }
 
   getCategories() {
-    return this.http.get(baseUrl+"/api/categories").toPromise();
+    return this.http.get(baseUrl + "/api/categories").toPromise();
   }
 
   getDocumentDetails(id: string) {

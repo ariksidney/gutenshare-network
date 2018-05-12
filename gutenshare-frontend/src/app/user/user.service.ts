@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 import { User } from "./user";
 import { ErrorObservable } from "rxjs/observable/ErrorObservable";
@@ -31,5 +31,8 @@ export class UserService {
     return new ErrorObservable(
       'Something bad happened; please try again later.');
   };
+
+
+
 
 }
