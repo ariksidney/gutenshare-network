@@ -17,8 +17,11 @@ export class SignupComponent implements OnInit {
   }
 
   signUpForm: FormGroup;
-  signUpFailedAlert: string = 'something went wrong';
-  signUpFailed = false;
+  signUpFailedAlert: string = 'This username is already taken';
+  signUpFailed: boolean = false;
+  passwordMismatchAlert: string = 'Passwords are not matching';
+  passwordMismatch: boolean = false;
+  showMissingInfoAlert = false;
 
   ngOnInit() {
   }
@@ -51,17 +54,24 @@ export class SignupComponent implements OnInit {
   // }
 
   signUpUser(post) {
-    if (post.password == post.passwordRepeat) {
-      delete post.passwordRepeat;
-      this.auth.signUpUser(post).subscribe(
-        data => {
-          console.log(data);
-        },
-        error => {
-          console.log(error);
-        });
+    if (!this.signUpForm.valid) {
+      this.showMissingInfoAlert = true;
     } else {
-      // throw error
+      this.showMissingInfoAlert = false;
+      if (post.password == post.passwordRepeat) {
+        this.passwordMismatch = false;
+        delete post.passwordRepeat;
+        this.auth.signUpUser(post).subscribe(
+          data => {
+            this.signUpFailed = false;
+          },
+          error => {
+            this.signUpFailed = true;
+          });
+      } else {
+        this.passwordMismatch = true;
+      }
+
     }
   }
 
