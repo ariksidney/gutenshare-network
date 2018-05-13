@@ -5,8 +5,8 @@ import {DocumentRating} from "../document-detail/document-rating";
 import {DocumentComment} from "../document-detail/document-comment";
 import {catchError} from "rxjs/operators";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
+import {SessionStorage} from "../login/session.storage";
 
-const baseUrl = "http://api.gutenshare.network:28080";
 // const baseUrl = "http://localhost:4200";
 
 const httpOptions = {
@@ -18,7 +18,8 @@ const httpOptions = {
 @Injectable()
 export class ApiService {
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private session: SessionStorage) {
   }
 
   searchDocuments(q: string): Promise<any> {
@@ -59,19 +60,23 @@ export class ApiService {
   }
 
   postComment(documentComment: DocumentComment) {
+    let user = this.session.getUser();
     return this.http.post<FormData>(
-      `${baseUrl}/api/document/comment?documentid=${documentComment.documentid}&user=rudi&comment=${documentComment.content}`, ''
+      `${baseUrl}/api/document/comment?documentid=${documentComment.documentid}&user=${user}&comment=${documentComment.content}`, ''
     ).toPromise();
   }
 
   postRating(documentReview: DocumentRating) {
+    let user = this.session.getUser();
     return this.http.post<FormData>(
-      `${baseUrl}/api/document/rating?documentid=${documentReview.documentid}&user=rudi&rating=${documentReview.rating}`, ''
+      `${baseUrl}/api/document/rating?documentid=${documentReview.documentid}&user=${user}&rating=${documentReview.rating}`, ''
       ).toPromise();
   }
 
   addDocument (payload : FormData) {
+    payload.append('user', this.session.getUser());
     return this.http.post<FormData>(baseUrl + "/api/document", payload)
+    // return this.http.post<FormData>('/toilet/post', payload)
       .pipe(
         catchError(this.handleError)
       );

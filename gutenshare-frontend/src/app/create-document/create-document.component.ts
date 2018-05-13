@@ -16,7 +16,7 @@ export class CreateDocumentComponent implements OnInit {
   documentType: string;
   activeSchool: any = null;
   activeDepartment: any = null;
-  activeCourse: string = null;
+  activeCourse: any = null;
   filterTextInput: string = '';
   fileName: string = 'Choose file...';
 
@@ -104,7 +104,6 @@ export class CreateDocumentComponent implements OnInit {
         payload.append('title', post.name);
         payload.append('documenttype', post.type.toUpperCase());
         payload.append('document', post.file);
-        payload.append('user', sessionStorage.getItem('username'));
 
         let prunedTags: string[] = this.pruneArray(post.tags);
         if (prunedTags.length > 0) {

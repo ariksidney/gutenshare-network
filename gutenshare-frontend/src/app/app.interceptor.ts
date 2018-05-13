@@ -7,9 +7,6 @@ import {SessionStorage} from './login/session.storage';
 import 'rxjs/add/operator/do';
 
 // todo: set keys below
-const AUTH_HEADER_KEY: string = '';
-const GUTENSHARE_AUTH_USER: string = '';
-const GUTENSHARE_AUTH_SECRET: string = '';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -32,7 +29,10 @@ export class Interceptor implements HttpInterceptor {
         if (err instanceof HttpErrorResponse) {
 
           if (err.status === 401) {
-            this.router.navigate(['user']); // todo: reroute where?
+            this.router.navigate(['/home/login']);
+          }
+          if (err.status === 409) {
+            this.router.navigate(['/home/signup']);
           }
         }
       }

@@ -14,6 +14,7 @@ import {AuthService} from "./login/auth.service";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'registration', redirectTo: '/home/signup', pathMatch: 'full' },
   {
     path: 'home',
     component: HomeComponent,
