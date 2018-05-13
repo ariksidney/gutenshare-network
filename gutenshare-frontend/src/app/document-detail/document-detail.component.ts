@@ -69,7 +69,7 @@ export class DocumentDetailComponent implements OnInit {
     this.specificDocument.id = response.id;
     this.specificDocument.title = response.title;
     this.specificDocument.user = response.user;
-    this.specificDocument.uploadDate = this.refactorDate(this.response.uploadDate);
+    this.specificDocument.uploadDate = this.refactorDate(response.uploadDate);
     this.specificDocument.description = response.description;
     this.specificDocument.school = response.school;
     this.specificDocument.departement = response.department;
@@ -108,8 +108,16 @@ export class DocumentDetailComponent implements OnInit {
     }
   };
 
-  private refactorDate(date: string[]): string {
-    return this.specificDocument.uploadDate = `${date[2]}.${date[1]}.${date[0]}`
+  private refactorDate(inputDate: string): string {
+    let dateSplit = inputDate.split('T');
+    let date = dateSplit[0].split('-');
+    let time = dateSplit[1].split(':');
+    let year = date[0];
+    let month = date[1];
+    let day = date[2];
+    let hour = time[0];
+    let minute = time[1];
+    return this.specificDocument.uploadDate = `${day}.${month}.${year} - ${hour}:${minute}`
   }
 
   public downloadFile(): void {
