@@ -1,36 +1,35 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {environment} from '../../environments/environment';
 
-
-const TOKEN_KEY = 'AuthToken';
-const USERNAME = 'username';
 
 @Injectable()
 export class SessionStorage {
 
-  constructor() { }
+  constructor() {
+  }
 
   logout() {
-    window.sessionStorage.clear();
+    sessionStorage.clear();
   }
 
   public saveToken(token: string) {
-    window.sessionStorage.removeItem(TOKEN_KEY);
-    window.sessionStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+    sessionStorage.removeItem(environment.ssTokenKey);
+    sessionStorage.setItem(environment.ssTokenKey, JSON.stringify(token));
   }
 
   public getToken(): string {
-    return JSON.parse(window.sessionStorage.getItem(TOKEN_KEY))['access_token'];
+    return JSON.parse(sessionStorage.getItem(environment.ssTokenKey))['access_token'];
   }
 
   public hasToken(): boolean {
-    if (window.sessionStorage.getItem(TOKEN_KEY)) {
+    if (sessionStorage.getItem(environment.ssTokenKey)) {
       return true;
     }
     return false;
   }
 
   public getUser(): string {
-    return window.sessionStorage.getItem(USERNAME);
+    return sessionStorage.getItem(environment.ssUsername);
   }
 
 }

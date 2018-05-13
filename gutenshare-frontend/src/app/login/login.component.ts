@@ -5,11 +5,13 @@ import {SessionStorage} from "./session.storage";
 import {Router} from "@angular/router";
 import {TransferService} from "../transfer.service";
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
+
 export class LoginComponent implements OnInit {
 
   constructor(
@@ -31,10 +33,10 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  initializeForm():void {
+  initializeForm(): void {
     this.loginForm = this.fb.group({
-      username : [null, Validators.required],
-      password : [null, Validators.required],
+      username: [null, Validators.required],
+      password: [null, Validators.required],
     });
   }
 

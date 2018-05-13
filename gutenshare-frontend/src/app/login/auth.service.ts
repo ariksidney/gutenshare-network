@@ -5,9 +5,8 @@ import {catchError} from "rxjs/operators";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {CanActivate, Router} from "@angular/router";
+import {environment} from "../../environments/environment";
 
-
-const baseUrl = "http://api.gutenshare.network:28080";
 
 @Injectable()
 export class AuthService implements CanActivate {
@@ -44,14 +43,14 @@ export class AuthService implements CanActivate {
     payload.append('username', username);
     payload.append('password', password);
     payload.append('grant_type', 'password');
-    return this.http.post(baseUrl + '/oauth/token', payload)
+    return this.http.post(environment.baseUrl + '/oauth/token', payload)
       .pipe(
         catchError(this.handleError)
       );
   }
 
   signUpUser(payload): Observable<any> {
-    return this.http.post(baseUrl + '/login/register', payload)
+    return this.http.post(environment.baseUrl + '/login/register', payload)
       .pipe(
         catchError(this.handleError)
       );

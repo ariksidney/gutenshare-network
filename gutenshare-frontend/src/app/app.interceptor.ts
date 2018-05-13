@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import {HttpInterceptor, HttpRequest, HttpHandler, HttpSentEvent, HttpHeaderResponse, HttpProgressEvent,
-  HttpResponse, HttpUserEvent, HttpErrorResponse} from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import { Router } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {HttpErrorResponse, HttpHandler, HttpInterceptor, HttpRequest, HttpUserEvent} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
+import {Router} from '@angular/router';
 import {SessionStorage} from './login/session.storage';
 import 'rxjs/add/operator/do';
+import {environment} from "../environments/environment";
 
 
 @Injectable()
@@ -14,14 +14,15 @@ export class Interceptor implements HttpInterceptor {
               private router: Router) {
   }
 
-  // intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpUserEvent<any>> {
     let authReq = req;
     if (!this.session.hasToken()) {
-      authReq = req.clone({ headers: req.headers.set(
-          AUTH_HEADER_KEY, 'Basic ' + btoa(`${GUTENSHARE_AUTH_USER}:${GUTENSHARE_AUTH_SECRET}`))});
+      authReq = req.clone({
+        headers: req.headers.set(
+          'Authorization', 'Basic ' + btoa(`${environment.basicAuthUser}:${environment.basicAuthSecret}`))
+      });
     } else {
-      authReq = req.clone({ headers: req.headers.set(AUTH_HEADER_KEY, 'Bearer ' + this.session.getToken())});
+      authReq = req.clone({headers: req.headers.set('Authorization', 'Bearer ' + this.session.getToken())});
     }
     return next.handle(authReq).do(
       (err: any) => {

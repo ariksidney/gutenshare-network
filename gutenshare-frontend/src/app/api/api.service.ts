@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
 import {BrowseCategories} from "../document-browser/browse-categories";
 import {DocumentRating} from "../document-detail/document-rating";
 import {DocumentComment} from "../document-detail/document-comment";
@@ -7,16 +7,8 @@ import {catchError} from "rxjs/operators";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {SessionStorage} from "../login/session.storage";
 import {Observable} from "rxjs/Observable";
-import {Response} from "@angular/http";
+import {environment} from "../../environments/environment";
 
-const baseUrl = "http://api.gutenshare.network:28080";
-// const baseUrl = "http://localhost:4200";
-
-const httpOptions = {
-  headers: new HttpHeaders({
-    'Content-Type': 'application/x-www-form-urlencoded'
-  })
-};
 
 @Injectable()
 export class ApiService {
@@ -27,7 +19,7 @@ export class ApiService {
 
   searchDocuments(q: string): Promise<any> {
     let params = new HttpParams().set('query', q);
-    return this.http.get(baseUrl + "/api/search",
+    return this.http.get(environment.baseUrl + "/api/search",
       {
         params: params, responseType: 'json'
       }).toPromise();
@@ -48,7 +40,7 @@ export class ApiService {
       httpParams = httpParams.set('course', browseCategories.course[0]);
     }
 
-    return this.http.get<any>(baseUrl + "/api/browse",
+    return this.http.get<any>(environment.baseUrl + "/api/browse",
       {
         params: httpParams,
         observe: 'response' as 'body'
@@ -56,30 +48,30 @@ export class ApiService {
   }
 
   getCategories() {
-    return this.http.get(baseUrl + "/api/categories").toPromise();
+    return this.http.get(environment.baseUrl + "/api/categories").toPromise();
   }
 
   getDocumentDetails(id: string) {
-    return this.http.get(baseUrl + "/api/document/" + id).toPromise();
+    return this.http.get(environment.baseUrl + "/api/document/" + id).toPromise();
   }
 
   postComment(documentComment: DocumentComment) {
     let user = this.session.getUser();
     return this.http.post<FormData>(
-      `${baseUrl}/api/document/comment?documentid=${documentComment.documentid}&user=${user}&comment=${documentComment.content}`, ''
+      `${environment.baseUrl}/api/document/comment?documentid=${documentComment.documentid}&user=${user}&comment=${documentComment.content}`, ''
     ).toPromise();
   }
 
   postRating(documentReview: DocumentRating) {
     let user = this.session.getUser();
     return this.http.post<FormData>(
-      `${baseUrl}/api/document/rating?documentid=${documentReview.documentid}&user=${user}&rating=${documentReview.rating}`, ''
-      ).toPromise();
+      `${environment.baseUrl}/api/document/rating?documentid=${documentReview.documentid}&user=${user}&rating=${documentReview.rating}`, ''
+    ).toPromise();
   }
 
-  addDocument(payload : FormData) {
+  addDocument(payload: FormData) {
     payload.append('user', this.session.getUser());
-    return this.http.post<FormData>(baseUrl + "/api/document", payload)
+    return this.http.post<FormData>(environment.baseUrl + "/api/document", payload)
       .pipe(
         catchError(this.handleError)
       );

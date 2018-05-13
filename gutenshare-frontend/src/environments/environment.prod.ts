@@ -1,3 +1,13 @@
 export const environment = {
-  production: true
+
+  // global
+  basicAuthUser: '',
+  basicAuthSecret: '',
+  ssTokenKey: '',
+  ssUsername: '',
+
+  // environment specific
+  production: true,
+  baseUrl: ''
+
 };
