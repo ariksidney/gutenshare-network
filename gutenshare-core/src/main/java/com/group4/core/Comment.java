@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 
 /**
  * Class representation of a Comment for a Document. A comment must belong
- * to an existing document and an existing user. It shall have a numeric
- * value between 1 and 5.
+ * to an existing document and an existing user.
  *
  * @author Arik Sidney Guggenheim
  * @version 1.0

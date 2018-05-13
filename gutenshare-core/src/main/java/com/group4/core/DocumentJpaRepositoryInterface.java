@@ -35,11 +35,12 @@ public interface DocumentJpaRepositoryInterface extends JpaRepository<Document, 
     List<Document> findAllBySearchQuery(@Param("q") String query);
 
     /**
-     *Finds all documents which
-     * @param school
-     * @param department
-     * @param course
-     * @return
+     *Finds all documents beloning to school, deparment, course or any combination of it (like just school and course)
+     *
+     * @param school The name of a school
+     * @param department The name of a department
+     * @param course The name of a course
+     * @return List of documents found by the query
      */
     @Query("select c from Document c join c.department d join c.school s join c.course t where " +
             "((:department is null) or (:department is not null and d.name = :department)) and " +

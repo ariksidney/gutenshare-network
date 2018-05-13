@@ -5,6 +5,12 @@ import com.google.common.base.Preconditions;
 import javax.persistence.*;
 import java.util.List;
 
+/**
+ * This class represents a single Tag. Multiple tags can be given to a document to make it better searchable.
+ *
+ * @author Arik Sidney Guggenheim
+ * @version 1.0
+ */
 @Entity
 @Table(name = "T_TAG")
 public class Tag {
@@ -16,10 +22,18 @@ public class Tag {
     @ManyToMany(mappedBy = "tags")
     private List<Document> documents;
 
+    /**
+     * Empty constructor needed for JPA
+     */
     protected Tag() {
         // For JPA
     }
 
+    /**
+     * Constructor to create an instance of Tag based on a TagBuilder.
+     *
+     * @param builder Instance of TagBuilder
+     */
     Tag(TagBuilder builder) {
         this.name = Preconditions.checkNotNull(builder.name);
     }
