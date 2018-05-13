@@ -1,11 +1,13 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {BrowseCategories} from "../document-browser/browse-categories";
 import {DocumentRating} from "../document-detail/document-rating";
 import {DocumentComment} from "../document-detail/document-comment";
 import {catchError} from "rxjs/operators";
 import {ErrorObservable} from "rxjs/observable/ErrorObservable";
 import {SessionStorage} from "../login/session.storage";
+import {Observable} from "rxjs/Observable";
+import {Response} from "@angular/http";
 
 const baseUrl = "http://api.gutenshare.network:28080";
 // const baseUrl = "http://localhost:4200";
@@ -31,7 +33,7 @@ export class ApiService {
       }).toPromise();
   }
 
-  getDocuments(browseCategories: BrowseCategories): Promise<any> {
+  getDocuments(browseCategories: BrowseCategories): Observable<any> {
     let httpParams = new HttpParams();
 
     if (browseCategories.school.length > 0) {
@@ -46,10 +48,11 @@ export class ApiService {
       httpParams = httpParams.set('course', browseCategories.course[0]);
     }
 
-    return this.http.get(baseUrl + "/api/browse",
+    return this.http.get<any>(baseUrl + "/api/browse",
       {
-        params: httpParams
-      }).toPromise();
+        params: httpParams,
+        observe: 'response' as 'body'
+      });
   }
 
   getCategories() {
@@ -100,3 +103,4 @@ export class ApiService {
       'Something bad happened. handleError was called.');
   };
 }
+
