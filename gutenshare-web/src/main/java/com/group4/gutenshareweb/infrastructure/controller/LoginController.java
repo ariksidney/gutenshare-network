@@ -2,6 +2,8 @@ package com.group4.gutenshareweb.infrastructure.controller;
 
 import com.group4.api.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,8 +21,13 @@ public class LoginController {
     }
 
     @PostMapping(value = "/register")
-    public void create(@RequestBody UserDto user) {
-        loginHelper.save(user);
+    public ResponseEntity create(@RequestBody UserDto user) {
+        try {
+            loginHelper.save(user);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
     }
 
 }

@@ -43,7 +43,7 @@ public class LoginHelper implements UserDetailsService {
         return userService.getAllUsers();
     }
 
-    public void save(UserDto userDto) {
+    public void save(UserDto userDto) throws IllegalArgumentException {
         userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userService.save(userDto);
     }

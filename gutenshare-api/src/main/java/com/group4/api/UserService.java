@@ -31,7 +31,10 @@ public class UserService {
         return toUserDto(userRepositoryInterface.findByUsername(username));
     }
 
-    public void save(UserDto userDto) {
+    public void save(UserDto userDto) throws IllegalArgumentException {
+        if (userRepositoryInterface.findByUsername(userDto.getUsername()) != null) {
+            throw new IllegalArgumentException("Username already used");
+        }
         User user = new User.UserBuilder().setUsername(userDto.getUsername()).setPassword(userDto.getPassword())
                 .setSurname(userDto.getFirstname()).setName(userDto.getLastname()).setMail(userDto.getMail()).build();
         userRepositoryInterface.save(user);
