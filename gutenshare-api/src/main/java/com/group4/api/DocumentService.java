@@ -45,7 +45,28 @@ public class DocumentService {
         this.userRepositoryInterface = userRepositoryInterface;
     }
 
-    public void storeNewDocument(CreateDocumentDto documentDto) {
+public void storeNewDocument(String title, String documentType, Optional<String> school,
+                                                         Optional<String> department, Optional<String> course,
+                                                         Optional<List<String>> tags, Optional<String>
+                                                                 description, InputStream documentIs, String username,
+                                                         String fileType) {
+        User user = userRepositoryInterface.findByUsername(username);
+        if (user == null) {
+            throw new IllegalArgumentException("username does not exist");
+        }
+        CreateDocumentDto documentDto = new CreateDocumentDto(
+                "",
+                title,
+                documentType,
+                school,
+                department,
+                course,
+                fileType,
+                tags,
+                description,
+                documentIs,
+                user
+        );
         Document document = new Document.DocumentBuilder()
                 .setTitle(documentDto.getTitle())
                 .setDocumentType(checkDocumentType(documentDto.getDocumentType()))
@@ -56,6 +77,7 @@ public class DocumentService {
                 .setInputStream(documentDto.getInputStream())
                 .setTags(getTags(documentDto))
                 .setDescription(getDescription(documentDto))
+                .setUser(user)
                 .build();
         document.storeFile(this.documentStoreRepositoryInterface);
         this.documentJpaRepositoryInterface.save(document);
@@ -200,41 +222,5 @@ public class DocumentService {
                 .getAsDouble()));
     }
 
-    public void storeNewDocument(String title, String documentType, Optional<String> school,
-                                                         Optional<String> department, Optional<String> course,
-                                                         Optional<List<String>> tags, Optional<String>
-                                                                 description, InputStream documentIs, String username,
-                                                         String fileType) {
-        User user = userRepositoryInterface.findByUsername(username);
-        if (user == null) {
-            throw new IllegalArgumentException("username does not exist");
-        }
-        CreateDocumentDto documentDto = new CreateDocumentDto(
-                "",
-                title,
-                documentType,
-                school,
-                department,
-                course,
-                fileType,
-                tags,
-                description,
-                documentIs,
-                user
-        );
-        Document document = new Document.DocumentBuilder()
-                .setTitle(documentDto.getTitle())
-                .setDocumentType(checkDocumentType(documentDto.getDocumentType()))
-                .setSchool(getSchool(documentDto))
-                .setCourse(getCourse(documentDto))
-                .setDepartment(getDepartment(documentDto))
-                .setFileType(documentDto.getFileType())
-                .setInputStream(documentDto.getInputStream())
-                .setTags(getTags(documentDto))
-                .setDescription(getDescription(documentDto))
-                .setUser(user)
-                .build();
-        document.storeFile(this.documentStoreRepositoryInterface);
-        this.documentJpaRepositoryInterface.save(document);
-    }
+
 }
