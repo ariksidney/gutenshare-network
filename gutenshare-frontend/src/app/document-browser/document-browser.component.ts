@@ -14,6 +14,7 @@ export class DocumentBrowserComponent implements OnInit {
   predefinedCategories: any = [];
   browseCategories = new BrowseCategories;
   matchingDocuments: any[] = [];
+  noResults = false;
 
   constructor(private apiService:ApiService, private route: ActivatedRoute, private router: Router) {
     router.events.subscribe(e => { this.checkIfQueryIsDefined(), this.fetchCategories()});
@@ -38,13 +39,19 @@ export class DocumentBrowserComponent implements OnInit {
   }
 
   getDocuments() {
+    this.noResults = false;
       this.apiService.getDocuments(this.browseCategories)
-        .then(
+        .subscribe(
           response => {
-            this.matchingDocuments = response;
+            this.matchingDocuments = response.body;
             this.browseCategories = new BrowseCategories;
-          }
-        );
+            if (response.status == 204) {
+              this.noResults = true;
+            }
+          },
+          error => {
+            this.noResults = true;
+          });
 
       this.router.navigateByUrl('/browse');
   }

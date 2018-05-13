@@ -47,5 +47,10 @@
     </div>
   </div>
 
-  <app-documents-result [documents]="matchingDocuments"></app-documents-result>
+  <app-documents-result *ngIf="!noResults" [documents]="matchingDocuments"></app-documents-result>
+  <div *ngIf="noResults" class="row justify-content-md-center">
+    <div class="alert alert-warning" role="alert">
+      Sorry - no documents matching the search were found.
+    </div>
+  </div>
 </div>
