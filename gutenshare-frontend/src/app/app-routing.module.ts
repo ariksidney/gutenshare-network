@@ -9,13 +9,21 @@ import { ProfileComponent } from "./profile/profile.component";
 import { SettingsComponent } from "./settings/settings.component";
 import { DocumentBrowserComponent } from "./document-browser/document-browser.component";
 import {DocumentDetailComponent} from "./document-detail/document-detail.component";
+import {AuthService} from "./login/auth.service";
 
 
 const appRoutes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'registration', redirectTo: '/home/signup', pathMatch: 'full' },
   {
     path: 'home',
     component: HomeComponent,
     children: [
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+      },
       {
         path: 'login',
         component: LoginComponent
@@ -23,22 +31,32 @@ const appRoutes: Routes = [
       {
         path: 'signup',
         component: SignupComponent
-      },
-      {
-        path: '',
-        redirectTo: 'login',
-        pathMatch: 'full'
-      },
+      }
     ]
   },
-  { path: 'upload', component: CreateDocumentComponent },
+  {
+    path: 'upload',
+    component: CreateDocumentComponent,
+    canActivate: [ AuthService ]
+  },
   { path: 'profile', component: ProfileComponent },
   { path: 'settings', component: SettingsComponent },
-  { path: 'browse', component: DocumentBrowserComponent },
-  { path: 'browse/:query', component: DocumentBrowserComponent },
-  { path: 'detail/:id', component: DocumentDetailComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
-  { path: '**', component: HomeComponent }
+  {
+    path: 'browse',
+    component: DocumentBrowserComponent,
+    canActivate: [ AuthService ]
+  },
+  {
+    path: 'browse/:query',
+    component: DocumentBrowserComponent,
+    canActivate: [ AuthService ]
+  },
+  {
+    path: 'detail/:id',
+    component: DocumentDetailComponent,
+    canActivate: [ AuthService ]
+  },
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

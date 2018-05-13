@@ -16,7 +16,7 @@ export class CreateDocumentComponent implements OnInit {
   documentType: string;
   activeSchool: any = null;
   activeDepartment: any = null;
-  activeCourse: string = null;
+  activeCourse: any = null;
   filterTextInput: string = '';
   fileName: string = 'Choose file...';
 
@@ -60,7 +60,6 @@ export class CreateDocumentComponent implements OnInit {
 
   pickCourse(course: any): void {
     this.activeCourse = course;
-    // todo: what if course too long?
     this.createDocumentForm.get('course').setValue(course.name);
     this.filterTextInput = '';
   }
@@ -104,7 +103,6 @@ export class CreateDocumentComponent implements OnInit {
         payload.append('title', post.name);
         payload.append('documenttype', post.type.toUpperCase());
         payload.append('document', post.file);
-        payload.append('user', sessionStorage.getItem('username'));
 
         let prunedTags: string[] = this.pruneArray(post.tags);
         if (prunedTags.length > 0) {
@@ -130,7 +128,6 @@ export class CreateDocumentComponent implements OnInit {
         }
 
         this.apiService.addDocument(payload).subscribe(
-          resp => console.log(resp),
         );
 
         this.isDocumentAddedSuccessfully = true;
@@ -144,11 +141,16 @@ export class CreateDocumentComponent implements OnInit {
       file : [null, Validators.required],
       school: [null, Validators.required],
       department: [null, Validators.required],
-      // todo: max course length if you set it yourself?
       course: [null, Validators.required],
       description : [null, Validators.maxLength(500)],
       tags : this.fb.array([new FormControl()])
     });
+  }
+
+  resetForm(): void {
+    this.createDocumentForm = null;
+    this.initializeForm();
+    this.isDocumentAddedSuccessfully = false;
   }
 
   addTag(): void {

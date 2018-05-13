@@ -39,8 +39,6 @@ footer {
   font-family: serif;
 }
 
-// todo: style dropdown as list
-// makes dropdown menu active on hover rather than click
 @media (min-width: 979px) {
   ul.navbar-nav li.dropdown:hover > div.dropdown-menu {
     display: block;

@@ -6,10 +6,6 @@ import { Router } from '@angular/router';
 import {SessionStorage} from './login/session.storage';
 import 'rxjs/add/operator/do';
 
-// todo: set keys below
-const AUTH_HEADER_KEY: string = '';
-const GUTENSHARE_AUTH_USER: string = '';
-const GUTENSHARE_AUTH_SECRET: string = '';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
@@ -24,18 +20,18 @@ export class Interceptor implements HttpInterceptor {
     if (!this.session.hasToken()) {
       authReq = req.clone({ headers: req.headers.set(
           AUTH_HEADER_KEY, 'Basic ' + btoa(`${GUTENSHARE_AUTH_USER}:${GUTENSHARE_AUTH_SECRET}`))});
-      console.log('token not set');
     } else {
       authReq = req.clone({ headers: req.headers.set(AUTH_HEADER_KEY, 'Bearer ' + this.session.getToken())});
-      console.log('token set');
     }
-    console.log(authReq);
     return next.handle(authReq).do(
       (err: any) => {
         if (err instanceof HttpErrorResponse) {
 
           if (err.status === 401) {
-            this.router.navigate(['user']); // todo: reroute where?
+            this.router.navigate(['/home/login']);
+          }
+          if (err.status === 409) {
+            this.router.navigate(['/home/signup']);
           }
         }
       }

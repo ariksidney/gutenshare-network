@@ -25,7 +25,6 @@ public class FilesystemDocumentStorageRepository implements DocumentStoreReposit
         try {
             Files.copy(inputStream, fileToCreate, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
-            //TODO add logging
             e.printStackTrace();
         }
         return this.contentPath.relativize(fileToCreate);
@@ -37,7 +36,6 @@ public class FilesystemDocumentStorageRepository implements DocumentStoreReposit
         try {
             file = Files.readAllBytes(buildFilePath(this.contentPath, document.getPathToFile().toString()));
         } catch (IOException e) {
-            //TODO add logging
         }
         return file;
     }

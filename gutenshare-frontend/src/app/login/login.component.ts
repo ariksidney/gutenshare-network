@@ -2,6 +2,8 @@ import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {AuthService} from "./auth.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {SessionStorage} from "./session.storage";
+import {Router} from "@angular/router";
+import {TransferService} from "../transfer.service";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private auth: AuthService,
     private session: SessionStorage,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private transfer: TransferService
   ) {
     this.initializeForm();
   }
@@ -40,7 +44,8 @@ export class LoginComponent implements OnInit {
         this.loginFailed = false;
         window.sessionStorage.setItem('username', post.username);
         this.session.saveToken(data);
-        this.onUserLogin.emit(post.username);
+        this.transfer.emitUsername(post.username);
+        this.router.navigate(['browse']);
       },
       error => {
         console.log(error);

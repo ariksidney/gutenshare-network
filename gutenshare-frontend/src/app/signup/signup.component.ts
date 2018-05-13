@@ -22,6 +22,8 @@ export class SignupComponent implements OnInit {
   passwordMismatchAlert: string = 'Passwords are not matching';
   passwordMismatch: boolean = false;
   showMissingInfoAlert = false;
+  missingFieldAlert: string = '* This field is required';
+  signUpSuccessful: boolean = false;
 
   ngOnInit() {
   }
@@ -37,23 +39,8 @@ export class SignupComponent implements OnInit {
     });
   }
 
-  // loginUser(post) {
-  //   this.auth.authenticateUser(post.username, post.password).subscribe(
-  //     data => {
-  //       this.loginFailed = false;
-  //       window.sessionStorage.setItem('username', post.username);
-  //       this.session.saveToken(data);
-  //       this.onUserLogin.emit(post.username);
-  //     },
-  //     error => {
-  //       console.log(error);
-  //       this.loginFailed = true;
-  //       window.sessionStorage.removeItem('username');
-  //       this.onUserLogin.emit(null);
-  //     });
-  // }
-
   signUpUser(post) {
+    this.signUpSuccessful = false;
     if (!this.signUpForm.valid) {
       this.showMissingInfoAlert = true;
     } else {
@@ -64,6 +51,7 @@ export class SignupComponent implements OnInit {
         this.auth.signUpUser(post).subscribe(
           data => {
             this.signUpFailed = false;
+            this.signUpSuccessful = true;
           },
           error => {
             this.signUpFailed = true;
@@ -71,7 +59,6 @@ export class SignupComponent implements OnInit {
       } else {
         this.passwordMismatch = true;
       }
-
     }
   }
 

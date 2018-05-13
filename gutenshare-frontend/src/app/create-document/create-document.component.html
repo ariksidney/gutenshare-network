@@ -14,9 +14,9 @@
       Your document has successfully been added!
     </div>
     <h3>What to do next?</h3>
-    <a href="/browse">Browse other documents</a>
+    <a routerLink="/browse">Browse other documents</a>
     <br>
-    <a href="/upload">Upload a new file</a>
+    <a routerLink="/upload" (click)="resetForm()">Upload a new file</a>
   </div>
 
   <form *ngIf="!isDocumentAddedSuccessfully" [formGroup]="createDocumentForm" (ngSubmit)="postDocument(createDocumentForm.value)">
@@ -86,7 +86,6 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">School</label>
       <div class="col-sm-5">
-        <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
         <input *ngIf="!activeSchool || !activeDepartment || !activeCourse" [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
                placeholder="Search">
         <div *ngIf="activeSchool" class="document_course_line">
@@ -114,7 +113,7 @@
           <div class="document_course_line">
             <input #newCourse (value)="tempCourse" class="block-inline col-sm-9 form-control" id=""
                    placeholder="Haftpflichtrecht">
-            <button (click)="pickCourse(newCourse.value)" type="button"
+            <button (click)="pickCourse({'name':newCourse.value})" type="button"
                     class="block-inline no-align col-sm-2 btn btn-outline-secondary">+</button>
           </div>
         </div>
@@ -130,7 +129,6 @@
         && showErrorMessages == true">{{ requiredCourseAlert }}</p>
       </div>
 
-      <!--todo: mouseOver css class solution not ver pretty-->
       <div class="col-sm-5">
         <ul *ngIf="!activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
           <li *ngFor="let school of predefinedCategories.schools | textFilter: 'name' : filterTextInput"
