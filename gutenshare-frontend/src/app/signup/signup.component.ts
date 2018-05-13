@@ -40,17 +40,17 @@ export class SignupComponent implements OnInit {
   }
 
   signUpUser(post) {
+    this.showMissingInfoAlert = false;
     this.signUpSuccessful = false;
+    this.signUpFailed = false;
+    this.passwordMismatch = false;
     if (!this.signUpForm.valid) {
       this.showMissingInfoAlert = true;
     } else {
-      this.showMissingInfoAlert = false;
       if (post.password == post.passwordRepeat) {
-        this.passwordMismatch = false;
         delete post.passwordRepeat;
         this.auth.signUpUser(post).subscribe(
           data => {
-            this.signUpFailed = false;
             this.signUpSuccessful = true;
           },
           error => {

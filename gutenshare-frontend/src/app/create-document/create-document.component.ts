@@ -147,12 +147,6 @@ export class CreateDocumentComponent implements OnInit {
     });
   }
 
-  resetForm(): void {
-    this.createDocumentForm = null;
-    this.initializeForm();
-    this.isDocumentAddedSuccessfully = false;
-  }
-
   addTag(): void {
     (this.createDocumentForm.get('tags') as FormArray).push(new FormControl());
   }
@@ -180,6 +174,15 @@ export class CreateDocumentComponent implements OnInit {
         return tag;
       }
     });
+  }
+
+  resetForm() {
+    this.createDocumentForm = null;
+    this.initializeForm();
+    this.isDocumentAddedSuccessfully = false;
+    this.resetSchool();
+    this.fileName = 'Choose file...';
+    this.documentType = null;
   }
 
 }
