@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import {SessionStorage} from './login/session.storage';
 import 'rxjs/add/operator/do';
 
-// todo: set keys below
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {

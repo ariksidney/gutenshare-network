@@ -60,7 +60,6 @@ export class CreateDocumentComponent implements OnInit {
 
   pickCourse(course: any): void {
     this.activeCourse = course;
-    // todo: what if course too long?
     this.createDocumentForm.get('course').setValue(course.name);
     this.filterTextInput = '';
   }
@@ -129,7 +128,6 @@ export class CreateDocumentComponent implements OnInit {
         }
 
         this.apiService.addDocument(payload).subscribe(
-          resp => console.log(resp),
         );
 
         this.isDocumentAddedSuccessfully = true;
@@ -143,7 +141,6 @@ export class CreateDocumentComponent implements OnInit {
       file : [null, Validators.required],
       school: [null, Validators.required],
       department: [null, Validators.required],
-      // todo: max course length if you set it yourself?
       course: [null, Validators.required],
       description : [null, Validators.maxLength(500)],
       tags : this.fb.array([new FormControl()])
@@ -154,7 +151,6 @@ export class CreateDocumentComponent implements OnInit {
     this.createDocumentForm = null;
     this.initializeForm();
     this.isDocumentAddedSuccessfully = false;
-    console.log(this.createDocumentForm);
   }
 
   addTag(): void {

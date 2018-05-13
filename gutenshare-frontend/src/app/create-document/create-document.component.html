@@ -86,7 +86,6 @@
     <div class="form-group row">
       <label class="col-sm-2 col-form-label">School</label>
       <div class="col-sm-5">
-        <!--todo: onkeyup=0 is needed to trigger an event, so others poll the new value of the variable-->
         <input *ngIf="!activeSchool || !activeDepartment || !activeCourse" [ngModelOptions]="{standalone: true}" [(ngModel)]="filterTextInput" (keyup)="0" class="form-control"
                placeholder="Search">
         <div *ngIf="activeSchool" class="document_course_line">
@@ -130,7 +129,6 @@
         && showErrorMessages == true">{{ requiredCourseAlert }}</p>
       </div>
 
-      <!--todo: mouseOver css class solution not ver pretty-->
       <div class="col-sm-5">
         <ul *ngIf="!activeSchool && !activeDepartment && !activeCourse" class="list-group list-scroll">
           <li *ngFor="let school of predefinedCategories.schools | textFilter: 'name' : filterTextInput"

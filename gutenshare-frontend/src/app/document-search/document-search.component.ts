@@ -15,8 +15,6 @@ export class DocumentSearchComponent implements OnInit {
   ngOnInit(){}
 
   search(q: string) {
-
-    this.apiService.searchDocuments(q).then(response => console.log(response));
     this.router.navigateByUrl('/browse/' + q);
   }
 }

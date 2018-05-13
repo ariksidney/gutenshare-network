@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(post) {
-    console.log(this.auth.isLoggedIn());
     this.auth.authenticateUser(post.username, post.password).subscribe(
       data => {
         this.loginFailed = false;

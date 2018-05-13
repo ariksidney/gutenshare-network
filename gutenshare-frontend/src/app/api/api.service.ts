@@ -73,10 +73,9 @@ export class ApiService {
       ).toPromise();
   }
 
-  addDocument (payload : FormData) {
+  addDocument(payload : FormData) {
     payload.append('user', this.session.getUser());
     return this.http.post<FormData>(baseUrl + "/api/document", payload)
-    // return this.http.post<FormData>('/toilet/post', payload)
       .pipe(
         catchError(this.handleError)
       );
