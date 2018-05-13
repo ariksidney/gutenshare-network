@@ -7,6 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * This class represents a User of the gutenshare network. A user can upload and download documents aswell as commenting
+ * and rating them.
+ *
+ * @author Arik Sidney Guggenheim
+ * @version 1.0
+ */
 @Entity
 @Table(name = "T_USER")
 public class User {
@@ -27,10 +34,18 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
+    /**
+     * Empty constructor needed for JPA
+     */
     public User() {
         // FOR JPA
     }
 
+    /**
+     * Constructor to create an instance of a User based on a UserBuilder.
+     *
+     * @param builder Instance of UserBuilder
+     */
     public User(UserBuilder builder) {
         this.username = Preconditions.checkNotNull(builder.username);
         this.name = Preconditions.checkNotNull(builder.name);

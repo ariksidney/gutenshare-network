@@ -5,6 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Class representation of a Review for a Document. A review must belong
+ * to an existing document and an existing user. It shall have a numeric
+ * value between 1 and 5.
+ *
+ * @author Arik Sidney Guggenheim
+ * @version 1.0
+ */
 @Entity
 @Table(name = "T_RATING")
 public class Rating {
@@ -28,10 +36,18 @@ public class Rating {
     @Column(name = "rating_date")
     private LocalDateTime ratingDate;
 
+    /**
+     * Empty constructor needed for JPA
+     */
     public Rating() {
         // For JPA
     }
 
+    /**
+     * Constructor to create an instance of Comment based on a RatingBuilder.
+     *
+     * @param ratingBuilder Instance of RatingBuilder
+     */
     public Rating(RatingBuilder ratingBuilder) {
         this.id = IdGenerator.timeBasedUUID().toString();
         this.rating = checkValidRating(ratingBuilder.rating);

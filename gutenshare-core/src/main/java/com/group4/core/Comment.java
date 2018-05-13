@@ -5,6 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+/**
+ * Class representation of a Comment for a Document. A comment must belong
+ * to an existing document and an existing user.
+ *
+ * @author Arik Sidney Guggenheim
+ * @version 1.0
+ */
+
 @Entity
 @Table(name = "T_COMMENT")
 public class Comment {
@@ -28,10 +36,16 @@ public class Comment {
     @Column(name = "comment_date")
     private LocalDateTime commentDate;
 
+    /**
+     * Empty constructor needed for JPA
+     */
     public Comment() {
-        // for JPA
     }
 
+    /**
+     * Constructor to create an instance of Comment based on a CommentBuilder.
+     * @param commentBuilder Instance of CommentBuilder
+     */
     public Comment(CommentBuilder commentBuilder) {
         this.id = IdGenerator.timeBasedUUID().toString();
         this.comment = commentBuilder.comment;
@@ -56,6 +70,12 @@ public class Comment {
         return document;
     }
 
+    /**
+     * Implementation of builder pattern to create an instance of a Comment.
+     *
+     * @author Arik Sidney Guggenheim
+     * @version 1.0
+     */
     public static class CommentBuilder {
         private String comment;
         private User user;

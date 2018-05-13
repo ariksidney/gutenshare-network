@@ -10,6 +10,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Represents a document which is uploaded by a registered user of the gutenshare network.
+ *
+ * @author Arik Sidney Guggenheim
+ * @version 1.0
+ */
+
 @Entity
 @Table(name = "T_DOCUMENT")
 public class Document {
@@ -64,10 +71,18 @@ public class Document {
     @Column(name = "description", nullable = true)
     private String description;
 
+    /**
+     * Empty constructor needed for JPA
+     */
     protected Document() {
         // For JPA
     }
 
+    /**
+     * Constructor to create an instance of Document based on a DocumentBuilder.
+     *
+     * @param documentBuilder Instance of DocumentBuilder
+     */
     Document(DocumentBuilder documentBuilder) {
         this.id = IdGenerator.timeBasedUUID().toString();
         this.title = Preconditions.checkNotNull(documentBuilder.title);
@@ -131,19 +146,45 @@ public class Document {
         return user;
     }
 
+    /**
+     * This method stores the document which it is called on. The method doesn't care where the file is stored,
+     * because the implementation of the storage is given as an imput parameter.
+     *
+     * @param documentStoreRepositoryInterface Implementation of the documentStoreRepositoryInterface to decide where to
+     *                                         store the document.
+     */
     public void storeFile(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
         this.pathToFile = documentStoreRepositoryInterface.storeDocument(
                 this, this.inputStream).toString();
     }
 
+    /**
+     * Gets the document from the selected storage source and returns it as a byte array.
+     *
+     * @param documentStoreRepositoryInterface Implementation of the documentStoreRepositoryInterface to decide where
+     *                                         to get the document from.
+     * @return document as byte array
+     */
     public byte[] getContent(DocumentStoreRepositoryInterface documentStoreRepositoryInterface) {
         return documentStoreRepositoryInterface.getDocument(this);
     }
 
+    /**
+     * Creates an unique filename based on the document id. It is necessary to do this in the case that files with the
+     * same names are uploaded.
+     *
+     * @return String with the generated filename
+     */
     public String createFilename() {
         return String.format(String.format("%s.%s", this.id.substring(0, 8), this.fileType));
     }
 
+    /**
+     * Implementation of builder pattern to create an instance of a Document.
+     *
+     * @author Arik Sidney Guggenheim
+     * @version 1.0
+     */
     public static class DocumentBuilder {
         private String title;
         private DocumentType documentType;
