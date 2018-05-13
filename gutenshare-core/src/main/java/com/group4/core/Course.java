@@ -8,6 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Objects;
 
+/**
+ * This class represents a real world course from a school.
+ *
+ * @author Arik Sidney Guggenheim
+ * @version 1.0
+ */
+
 @Entity
 @Table(name = "T_Course")
 public class Course {
@@ -19,10 +26,19 @@ public class Course {
     @Column(name = "name")
     private String name;
 
+
+    /**
+     * Empty constructor needed for JPA
+     */
     Course() {
-        // For JPA
     }
 
+
+    /**
+     * Constructor to create an instance of Course based on a CourseBuilder.
+     *
+     * @param builder Instance of CourseBuilder
+     */
     Course(CourseBuilder builder) {
         this.courseId = IdGenerator.timeBasedUUID().toString();
         this.name = Preconditions.checkNotNull(builder.name);
@@ -32,6 +48,12 @@ public class Course {
         return name;
     }
 
+    /**
+     * Generated equals method, based on course name
+     *
+     * @param o instance of Course
+     * @return if courses are equals
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -40,17 +62,33 @@ public class Course {
         return Objects.equals(getName(), course.getName());
     }
 
+    /**
+     * Generated hashCode method, generates hash based on courseId
+     *
+     * @return hash as int
+     */
     @Override
     public int hashCode() {
 
         return Objects.hash(courseId, getName());
     }
 
+    /**
+     * ToString implemantation which just returns the course name
+     *
+     * @return course as string
+     */
     @Override
     public String toString() {
         return name;
     }
 
+    /**
+     * Implementation of builder pattern to create an instance of a course.
+     *
+     * @author Arik Sidney Guggenheim
+     * @version 1.0
+     */
     public static class CourseBuilder {
         private String name;
 
