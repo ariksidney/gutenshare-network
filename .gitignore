@@ -8,6 +8,7 @@
 # Kaspar's ignore:
 .directory
 tmp/**/*
+/**/application*.properties
 
 # User-specific stuff:
 .idea
