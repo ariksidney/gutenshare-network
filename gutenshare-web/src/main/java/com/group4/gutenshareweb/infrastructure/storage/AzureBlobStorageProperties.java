@@ -4,7 +4,7 @@ package com.group4.gutenshareweb.infrastructure.storage;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-@ConfigurationProperties(value = "azure-blob")
+@ConfigurationProperties(value = "azure")
 @Validated
 public class AzureBlobStorageProperties {
 
