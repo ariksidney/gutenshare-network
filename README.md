@@ -8,3 +8,11 @@
 
 (npm install)
 npm start
+
+### What is it?
+
+Gutenshare network is/was a school project for PSIT3 at ZHAW. It was built as a prototype and is not optimized in different terms (like speed, logging, etc)
+
+A really nice user manual (built by @louisleon90) can be found in the project-administration.
+
+Coded with help of @louisleon90, Aleks, Alicia and Kaspar :-)
