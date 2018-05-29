@@ -15,4 +15,3 @@ Gutenshare network is/was a school project for PSIT3 at ZHAW. It was built as a 
 
 A really nice user manual (built by @louisleon90) can be found in the project-administration.
 
-Coded with help of @louisleon90, Aleks, Alicia and Kaspar :-)
